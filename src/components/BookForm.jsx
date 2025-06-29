@@ -11,7 +11,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     notes: '',
     tags: []
   })
-  
+
   useEffect(() => {
     if (editingBook) {
       setFormData({
@@ -26,7 +26,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       })
     }
   }, [editingBook])
-  
+
   const [tagInput, setTagInput] = useState('')
 
   const handleChange = (e) => {
@@ -187,10 +187,10 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={handleAddTag}
-            placeholder="Type a tag and press Enter (e.g., favorite, summer read, made me cry)"
+            placeholder="Type a tag and press Enter (e.g., favorite, summer read)"
           />
-          <button 
-            type="button" 
+          <button
+            type="button"
             onClick={handleAddTag}
             className="add-tag-btn"
           >
@@ -202,8 +202,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             {formData.tags.map((tag, index) => (
               <span key={index} className="tag">
                 {tag}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={() => removeTag(tag)}
                   className="remove-tag"
                 >

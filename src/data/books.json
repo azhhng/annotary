@@ -21,6 +21,39 @@
       "rating": 5,
       "notes": "Excellent framework for building good habits. The 1% better concept is game-changing.",
       "tags": ["favorite", "life-changing", "productivity"]
+    },
+    {
+      "id": 3,
+      "title": "The Seven Husbands of Evelyn Hugo",
+      "author": "Taylor Jenkins Reid",
+      "genre": "Historical Fiction",
+      "dateStarted": "2024-03-05",
+      "dateFinished": "2024-03-12",
+      "rating": 4,
+      "notes": "Captivating story with complex characters. Made me think about fame and love.",
+      "tags": ["page turner", "emotional", "lgbtq+"]
+    },
+    {
+      "id": 4,
+      "title": "Dune",
+      "author": "Frank Herbert",
+      "genre": "Science Fiction",
+      "dateStarted": "2024-04-20",
+      "dateFinished": "",
+      "rating": 3.5,
+      "notes": "Incredible world-building but quite dense. Taking my time with this one.",
+      "tags": ["sci-fi", "epic", "challenging"]
+    },
+    {
+      "id": 5,
+      "title": "Beach Read",
+      "author": "Emily Henry",
+      "genre": "Romance",
+      "dateStarted": "2024-05-10",
+      "dateFinished": "2024-05-13",
+      "rating": 4.5,
+      "notes": "Perfect summer read! Witty dialogue and great chemistry between characters.",
+      "tags": ["summer read", "feel good", "romance", "funny"]
     }
   ]
 }

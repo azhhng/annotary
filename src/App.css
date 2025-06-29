@@ -23,19 +23,34 @@ body {
 
 .app-header {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  gap: 1rem;
 }
 
 .app-header h1 {
   margin: 0;
   color: white;
-  font-size: 2rem;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+
+.books-container {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
 }
 
 .add-book-btn {
@@ -50,6 +65,66 @@ body {
 }
 
 .add-book-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.filters {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+}
+
+.filters h4 {
+  margin: 0 0 1rem 0;
+  color: white;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-group label {
+  color: white;
+  font-size: 0.875rem;
+}
+
+.filter-group select {
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 0.875rem;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.clear-filters-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  margin-top: 0.5rem;
+}
+
+.clear-filters-btn:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
 }
@@ -72,6 +147,8 @@ body {
 .form-section h2 {
   margin: 0 0 1.5rem 0;
   color: white;
+  font-size: 1.1rem;
+  font-weight: normal;
 }
 
 .book-form {
@@ -172,7 +249,8 @@ body {
 .books-section h2 {
   color: white;
   margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
+  font-weight: normal;
   text-align: center;
 }
 
@@ -181,6 +259,7 @@ body {
   flex-direction: column;
   gap: 2rem;
   align-items: center;
+  flex: 1;
 }
 
 .book-card {
@@ -203,7 +282,8 @@ body {
 .book-card h3 {
   margin: 0 0 1rem 0;
   color: white;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: normal;
 }
 
 .book-card p {
@@ -293,7 +373,14 @@ body {
   flex: 1;
 }
 
-.edit-btn {
+.book-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.edit-btn,
+.delete-btn {
   background: rgba(255, 255, 255, 0.1);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -302,7 +389,6 @@ body {
   cursor: pointer;
   font-size: 0.875rem;
   transition: all 0.2s;
-  margin-left: 1rem;
 }
 
 .edit-btn:hover {
@@ -310,9 +396,30 @@ body {
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.delete-btn:hover {
+  background: rgba(255, 100, 100, 0.3);
+  border-color: rgba(255, 100, 100, 0.5);
+}
+
 @media (max-width: 768px) {
   .app {
     padding: 1rem;
+  }
+  
+  .books-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .sidebar {
+    position: static;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .filters {
+    min-width: auto;
   }
   
   .form-row {
