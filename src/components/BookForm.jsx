@@ -115,39 +115,59 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
   return (
     <form onSubmit={handleSubmit} className="book-form">
-      <div className="form-group">
-        <label htmlFor="title">Title *</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="title">Title *</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="author">Author *</label>
+          <input
+            type="text"
+            id="author"
+            name="author"
+            value={formData.author}
+            onChange={handleChange}
+            required
+          />
+        </div>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="author">Author *</label>
-        <input
-          type="text"
-          id="author"
-          name="author"
-          value={formData.author}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="genre">Genre</label>
+          <input
+            type="text"
+            id="genre"
+            name="genre"
+            value={formData.genre}
+            onChange={handleChange}
+          />
+        </div>
 
-      <div className="form-group">
-        <label htmlFor="genre">Genre</label>
-        <input
-          type="text"
-          id="genre"
-          name="genre"
-          value={formData.genre}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="rating">Rating</label>
+          <select
+            id="rating"
+            name="rating"
+            value={formData.rating}
+            onChange={handleChange}
+          >
+            {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(num => (
+              <option key={num} value={num}>
+                {num} {num % 1 === 0 ? '⭐'.repeat(num) : '⭐'.repeat(Math.floor(num)) + '⭐️'}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="form-row">
@@ -172,22 +192,6 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             onChange={handleChange}
           />
         </div>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="rating">Rating</label>
-        <select
-          id="rating"
-          name="rating"
-          value={formData.rating}
-          onChange={handleChange}
-        >
-          {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(num => (
-            <option key={num} value={num}>
-              {num} {num % 1 === 0 ? '⭐'.repeat(num) : '⭐'.repeat(Math.floor(num)) + '⭐️'}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="form-group">
