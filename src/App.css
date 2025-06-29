@@ -68,11 +68,30 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.app-header h1 {
+.editable-title {
   margin: 0;
   color: var(--font-color);
   font-size: 1.2rem;
   font-weight: normal;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.editable-title:hover {
+  opacity: 0.8;
+}
+
+.editable-title-input {
+  margin: 0;
+  color: var(--font-color);
+  font-size: 1.2rem;
+  font-weight: normal;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  outline: none;
 }
 
 .books-container {

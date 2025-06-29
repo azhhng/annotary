@@ -4,13 +4,14 @@ import BookForm from './components/BookForm'
 import BookList from './components/BookList'
 import ColorPicker from './components/ColorPicker'
 import FilterSort from './components/FilterSort'
+import EditableTitle from './components/EditableTitle'
 import { useBooks } from './hooks/useBooks'
 import { useBookFilters } from './hooks/useBookFilters'
 import { useTheme } from './hooks/useTheme'
 
 function App() {
   const [showForm, setShowForm] = useState(false)
-  const { bgColors, setBgColors, fontColor, setFontColor } = useTheme()
+  const { bgColors, setBgColors, fontColor, setFontColor, journalTitle, setJournalTitle } = useTheme()
 
   const {
     books,
@@ -67,7 +68,7 @@ function App() {
       />
 
       <header className="app-header">
-        <h1>Alice's Reads</h1>
+        <EditableTitle title={journalTitle} onTitleChange={setJournalTitle} />
       </header>
 
       <main className="main-content">
