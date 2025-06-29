@@ -47,6 +47,7 @@ function App() {
   const handleEditBook = (book) => {
     startEditing(book)
     setShowForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleCancelEdit = () => {
