@@ -1,11 +1,26 @@
-function BookList({ books, onEditBook, onDeleteBook }) {
+import BookForm from './BookForm'
+
+function BookList({ books, onEditBook, onDeleteBook, editingBook, onUpdateBook, onCancelEdit }) {
   return (
     <div className="books-grid">
       {books.length === 0 ? (
         <p>No books match your filters.</p>
       ) : (
         books.map(book => (
-        <div key={book.id} className="book-card">
+          editingBook && editingBook.id === book.id ? (
+            <div key={book.id} className="book-card">
+              <div className="inline-edit-form">
+                <h3>Edit book</h3>
+                <BookForm
+                  onAddBook={() => {}} // not used in edit mode
+                  onUpdateBook={onUpdateBook}
+                  onCancel={onCancelEdit}
+                  editingBook={editingBook}
+                />
+              </div>
+            </div>
+          ) : (
+            <div key={book.id} className="book-card">
           <div className="book-header">
             <h3>{book.title}</h3>
             <div className="book-actions">
@@ -60,6 +75,7 @@ function BookList({ books, onEditBook, onDeleteBook }) {
             </div>
           )}
         </div>
+          )
         ))
       )}
     </div>

@@ -41,18 +41,14 @@ function App() {
 
   const handleUpdateBook = (updatedBook) => {
     updateBook(updatedBook)
-    setShowForm(false)
   }
 
   const handleEditBook = (book) => {
     startEditing(book)
-    setShowForm(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleCancelEdit = () => {
     cancelEditing()
-    setShowForm(false)
   }
 
   const handleOpenAddForm = () => {
@@ -75,14 +71,14 @@ function App() {
       </header>
 
       <main className="main-content">
-        {showForm && (
+        {showForm && !editingBook && (
           <div className="form-section">
-            <h2>{editingBook ? 'Edit book' : 'Add book'}</h2>
+            <h2>Add book</h2>
             <BookForm
               onAddBook={handleAddBook}
               onUpdateBook={handleUpdateBook}
-              onCancel={handleCancelEdit}
-              editingBook={editingBook}
+              onCancel={() => setShowForm(false)}
+              editingBook={null}
             />
           </div>
         )}
@@ -128,6 +124,9 @@ function App() {
                 books={sortedBooks}
                 onEditBook={handleEditBook}
                 onDeleteBook={deleteBook}
+                editingBook={editingBook}
+                onUpdateBook={handleUpdateBook}
+                onCancelEdit={handleCancelEdit}
               />
             )}
           </div>

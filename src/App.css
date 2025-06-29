@@ -491,6 +491,17 @@ body {
   margin-top: 0;
 }
 
+.inline-edit-form {
+  text-align: center;
+}
+
+.inline-edit-form h3 {
+  margin: 0 0 1.5rem 0;
+  color: var(--font-color);
+  font-size: 1.1rem;
+  font-weight: normal;
+}
+
 .notes-section {
   margin-top: 1.5rem;
 }
