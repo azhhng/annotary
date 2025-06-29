@@ -11,7 +11,7 @@ import { useTheme } from './hooks/useTheme'
 function App() {
   const [showForm, setShowForm] = useState(false)
   const { bgColors, setBgColors, fontColor, setFontColor } = useTheme()
-  
+
   const {
     books,
     editingBook,
@@ -55,15 +55,21 @@ function App() {
     setShowForm(false)
   }
 
+  const handleOpenAddForm = () => {
+    cancelEditing()
+    setShowForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className="app">
-      <ColorPicker 
-        bgColors={bgColors} 
+      <ColorPicker
+        bgColors={bgColors}
         setBgColors={setBgColors}
         fontColor={fontColor}
         setFontColor={setFontColor}
       />
-      
+
       <header className="app-header">
         <h1>Alice's Reads</h1>
       </header>
@@ -95,8 +101,7 @@ function App() {
                     } else if (showForm && editingBook) {
                       handleCancelEdit()
                     } else {
-                      cancelEditing()
-                      setShowForm(true)
+                      handleOpenAddForm()
                     }
                   }}
                 >
