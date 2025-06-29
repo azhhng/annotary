@@ -72,6 +72,19 @@ function FilterSort({
             </select>
           </div>
 
+          <div className="filter-group">
+            <label>Emoji</label>
+            <select
+              value={filters.emoji}
+              onChange={(e) => onFilterChange('emoji', e.target.value)}
+            >
+              <option value="">All emojis</option>
+              {filterOptions.emojis.map(emoji => (
+                <option key={emoji} value={emoji}>{emoji}</option>
+              ))}
+            </select>
+          </div>
+
           {hasActiveFilters && (
             <button className="clear-filters-btn" onClick={onClearFilters}>
               Clear filters

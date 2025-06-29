@@ -5,7 +5,8 @@ export function useBookFilters(books) {
     genre: '',
     rating: '',
     tag: '',
-    author: ''
+    author: '',
+    emoji: ''
   })
   const [sortBy, setSortBy] = useState('')
 
@@ -21,7 +22,8 @@ export function useBookFilters(books) {
       genre: '',
       rating: '',
       tag: '',
-      author: ''
+      author: '',
+      emoji: ''
     })
   }
 
@@ -33,7 +35,8 @@ export function useBookFilters(books) {
     genres: [...new Set(books.map(book => book.genre).filter(Boolean))],
     ratings: [...new Set(books.map(book => book.rating))].sort((a, b) => b - a),
     tags: [...new Set(books.flatMap(book => book.tags || []))],
-    authors: [...new Set(books.map(book => book.author).filter(Boolean))].sort()
+    authors: [...new Set(books.map(book => book.author).filter(Boolean))].sort(),
+    emojis: [...new Set(books.flatMap(book => book.emojis || []))]
   }), [books])
 
   const filteredBooks = useMemo(() => {
@@ -42,8 +45,9 @@ export function useBookFilters(books) {
       const ratingMatch = !filters.rating || book.rating === parseFloat(filters.rating)
       const tagMatch = !filters.tag || (book.tags && book.tags.includes(filters.tag))
       const authorMatch = !filters.author || book.author === filters.author
+      const emojiMatch = !filters.emoji || (book.emojis && book.emojis.includes(filters.emoji))
 
-      return genreMatch && ratingMatch && tagMatch && authorMatch
+      return genreMatch && ratingMatch && tagMatch && authorMatch && emojiMatch
     })
   }, [books, filters])
 
@@ -72,7 +76,7 @@ export function useBookFilters(books) {
     })
   }, [filteredBooks, sortBy])
 
-  const hasActiveFilters = filters.genre || filters.rating || filters.tag || filters.author
+  const hasActiveFilters = filters.genre || filters.rating || filters.tag || filters.author || filters.emoji
 
   return {
     filters,
