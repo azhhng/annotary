@@ -26,12 +26,24 @@ function BookList({ books, onEditBook, onDeleteBook }) {
           </div>
           <p><span className="property-label">Author</span><span className="property-content">{book.author}</span></p>
           <p><span className="property-label">Genre</span><span className="property-content">{book.genre}</span></p>
-          <p><span className="property-label">Rating</span><span className="property-content">{book.rating % 1 === 0 ? '⭐'.repeat(book.rating) : '⭐'.repeat(Math.floor(book.rating)) + '⭐️'} ({book.rating})</span></p>
+          <p><span className="property-label">Rating</span><span className="property-content">{book.rating}</span></p>
           {book.dateFinished && (
             <p><span className="property-label">Finished</span><span className="property-content">{book.dateFinished}</span></p>
           )}
           {book.notes && (
             <p><span className="property-label">Notes</span><span className="property-content">{book.notes}</span></p>
+          )}
+          {book.emojis && book.emojis.length > 0 && (
+            <div className="emoji-section">
+              <span className="property-label">Emojis</span>
+              <div className="book-emojis">
+                {book.emojis.map((emoji, index) => (
+                  <span key={index} className="emoji">
+                    {emoji}
+                  </span>
+                ))}
+              </div>
+            </div>
           )}
           {book.tags && book.tags.length > 0 && (
             <div className="book-tags">

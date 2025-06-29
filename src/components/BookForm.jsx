@@ -9,7 +9,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     dateFinished: '',
     rating: 1,
     notes: '',
-    tags: []
+    tags: [],
+    emojis: []
   })
 
   useEffect(() => {
@@ -22,12 +23,14 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         dateFinished: editingBook.dateFinished || '',
         rating: editingBook.rating || 1,
         notes: editingBook.notes || '',
-        tags: editingBook.tags || []
+        tags: editingBook.tags || [],
+        emojis: editingBook.emojis || []
       })
     }
   }, [editingBook])
 
   const [tagInput, setTagInput] = useState('')
+  const [emojiInput, setEmojiInput] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -54,6 +57,26 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     setFormData(prev => ({
       ...prev,
       tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }))
+  }
+
+  const handleAddEmoji = (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      e.preventDefault()
+      if (emojiInput.trim() && !formData.emojis.includes(emojiInput.trim()) && formData.emojis.length < 3) {
+        setFormData(prev => ({
+          ...prev,
+          emojis: [...prev.emojis, emojiInput.trim()]
+        }))
+        setEmojiInput('')
+      }
+    }
+  }
+
+  const removeEmoji = (emojiToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      emojis: prev.emojis.filter(emoji => emoji !== emojiToRemove)
     }))
   }
 
@@ -84,7 +107,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         dateFinished: '',
         rating: 1,
         notes: '',
-        tags: []
+        tags: [],
+        emojis: []
       })
     }
   }
@@ -212,6 +236,50 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               </span>
             ))}
           </div>
+        )}
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="emojis">Emojis (up to 3)</label>
+        <div className="tags-input-container">
+          <input
+            type="text"
+            id="emojis"
+            value={emojiInput}
+            onChange={(e) => setEmojiInput(e.target.value)}
+            onKeyDown={handleAddEmoji}
+            placeholder="Add an emoji and press Enter (e.g., 📚, 💕, 🌟)"
+            disabled={formData.emojis.length >= 3}
+          />
+          <button
+            type="button"
+            onClick={handleAddEmoji}
+            className="add-tag-btn"
+            disabled={formData.emojis.length >= 3}
+          >
+            Add
+          </button>
+        </div>
+        {formData.emojis.length > 0 && (
+          <div className="tags-display">
+            {formData.emojis.map((emoji, index) => (
+              <span key={index} className="tag">
+                {emoji}
+                <button
+                  type="button"
+                  onClick={() => removeEmoji(emoji)}
+                  className="remove-tag"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
+        {formData.emojis.length >= 3 && (
+          <p className="emoji-warning">
+            Maximum of 3 emojis reached
+          </p>
         )}
       </div>
 
