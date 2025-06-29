@@ -79,6 +79,7 @@ body {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
+  min-height: 600px;
 }
 
 .sidebar {
@@ -326,6 +327,8 @@ body {
   gap: 2rem;
   align-items: center;
   flex: 1;
+  min-height: 400px;
+  min-width: 522px;
 }
 
 .book-card {
@@ -472,11 +475,29 @@ body {
   border: 1px solid rgba(255, 107, 107, 0.3);
 }
 
+.tags-section {
+  margin-top: 0.5rem;
+}
+
+.tags-separator {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 1rem 0;
+}
+
 .book-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-top: 0;
+}
+
+.notes-section {
   margin-top: 1.5rem;
+}
+
+.notes-separator {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 1rem;
 }
 
 .book-header {
