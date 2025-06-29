@@ -28,7 +28,7 @@ function BookList({ books, onEditBook, onDeleteBook }) {
           <p><span className="property-label">Genre</span><span className="property-content">{book.genre}</span></p>
           <p><span className="property-label">Rating</span><span className="property-content">{book.rating}</span></p>
           {book.dateFinished && (
-            <p><span className="property-label">Finished</span><span className="property-content">{book.dateFinished}</span></p>
+            <p><span className="property-label">Finished</span><span className="property-content">{new Date(book.dateFinished).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span></p>
           )}
           {book.notes && (
             <p><span className="property-label">Notes</span><span className="property-content">{book.notes}</span></p>
