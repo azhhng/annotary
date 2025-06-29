@@ -3,7 +3,7 @@ import './App.css'
 import BookForm from './components/BookForm'
 import BookList from './components/BookList'
 import ColorPicker from './components/ColorPicker'
-import Filters from './components/Filters'
+import FilterSort from './components/FilterSort'
 import { useBooks } from './hooks/useBooks'
 import { useBookFilters } from './hooks/useBookFilters'
 import { useTheme } from './hooks/useTheme'
@@ -102,7 +102,7 @@ function App() {
                   {showForm ? 'Cancel' : 'Add book'}
                 </button>
 
-                <Filters
+                <FilterSort
                   filters={filters}
                   sortBy={sortBy}
                   filterOptions={filterOptions}
