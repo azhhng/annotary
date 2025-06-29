@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Filters({ 
+function FilterSort({ 
   filters, 
   sortBy, 
   filterOptions, 
@@ -41,7 +41,7 @@ function Filters({
             >
               <option value="">All ratings</option>
               {filterOptions.ratings.map(rating => (
-                <option key={rating} value={rating}>{rating} ⭐</option>
+                <option key={rating} value={rating}>{rating}</option>
               ))}
             </select>
           </div>
@@ -106,4 +106,4 @@ function Filters({
   )
 }
 
-export default Filters
+export default FilterSort
