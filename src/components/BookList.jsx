@@ -24,14 +24,14 @@ function BookList({ books, onEditBook, onDeleteBook }) {
               </button>
             </div>
           </div>
-          <p><strong>Author:</strong> {book.author}</p>
-          <p><strong>Genre:</strong> {book.genre}</p>
-          <p><strong>Rating:</strong> {book.rating % 1 === 0 ? '⭐'.repeat(book.rating) : '⭐'.repeat(Math.floor(book.rating)) + '⭐️'} ({book.rating})</p>
+          <p><span className="property-label">Author</span><span className="property-content">{book.author}</span></p>
+          <p><span className="property-label">Genre</span><span className="property-content">{book.genre}</span></p>
+          <p><span className="property-label">Rating</span><span className="property-content">{book.rating % 1 === 0 ? '⭐'.repeat(book.rating) : '⭐'.repeat(Math.floor(book.rating)) + '⭐️'} ({book.rating})</span></p>
           {book.dateFinished && (
-            <p><strong>Finished:</strong> {book.dateFinished}</p>
+            <p><span className="property-label">Finished</span><span className="property-content">{book.dateFinished}</span></p>
           )}
           {book.notes && (
-            <p><strong>Notes:</strong> {book.notes}</p>
+            <p><span className="property-label">Notes</span><span className="property-content">{book.notes}</span></p>
           )}
           {book.tags && book.tags.length > 0 && (
             <div className="book-tags">

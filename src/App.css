@@ -348,9 +348,16 @@ body {
 }
 
 .book-card p {
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.book-card p .property-content {
+  flex: 1;
 }
 
 .book-card strong {
@@ -415,11 +422,27 @@ body {
   color: rgba(255, 255, 255, 0.7);
 }
 
+.property-label {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: normal;
+  margin-right: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: top;
+  flex-shrink: 0;
+}
+
 .book-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 .book-header {
