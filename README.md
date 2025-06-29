@@ -1,12 +1,34 @@
-# React + Vite
+# 📚 Reading Journal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal reading journal app.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Add & Edit Books** - Track title, author, genre, start/finish dates, and personal notes
+- **Half-Star Ratings** - Rate books from 0.5 to 5 stars with half star support
+- **Custom Tags** - Add any tags you want
+- **Local Storage** - All data stored in a JSON file
 
-## Expanding the ESLint configuration
+## Data Storage
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Books are stored in `src/data/books.json`. We can manually edit this file or go through the website UI. Each book entry looks like:
+
+```json
+{
+  "id": 1,
+  "title": "Book Title",
+  "author": "Author Name",
+  "genre": "Fiction",
+  "dateStarted": "2024-01-15",
+  "dateFinished": "2024-01-22",
+  "rating": 4.5,
+  "notes": "Your thoughts about the book...",
+  "tags": ["favorite", "summer read", "beautiful writing"]
+}
+```
+
+## Built With
+
+- **React**
+- **Vite**
+- **CSS3**
