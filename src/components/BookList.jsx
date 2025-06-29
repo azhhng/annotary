@@ -1,4 +1,5 @@
 import BookForm from './BookForm'
+import CollapsibleText from './CollapsibleText'
 
 function BookList({ books, onEditBook, onDeleteBook, editingBook, onUpdateBook, onCancelEdit }) {
   return (
@@ -71,7 +72,7 @@ function BookList({ books, onEditBook, onDeleteBook, editingBook, onUpdateBook, 
           {book.notes && (
             <div className="notes-section">
               <div className="notes-separator"></div>
-              <p><span className="property-label">Notes</span><span className="property-content">{book.notes}</span></p>
+              <p><span className="property-label">Notes</span><span className="property-content"><CollapsibleText text={book.notes} maxLength={250} /></span></p>
             </div>
           )}
         </div>

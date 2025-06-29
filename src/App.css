@@ -385,6 +385,7 @@ body {
 
 .book-card p .property-content {
   flex: 1;
+  white-space: pre-wrap;
 }
 
 .book-card strong {
@@ -528,6 +529,30 @@ body {
 .notes-separator {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 1rem;
+}
+
+.collapsible-text {
+  display: inline;
+}
+
+.text-content {
+  transition: all 0.3s ease;
+}
+
+.toggle-text-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.toggle-text-btn:hover {
+  color: var(--font-color);
 }
 
 .book-header {
