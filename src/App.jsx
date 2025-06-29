@@ -14,6 +14,9 @@ function App() {
     author: ''
   })
 
+  const [sortBy, setSortBy] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
+
   const handleAddBook = (newBook) => {
     setBooks(prev => [...prev, newBook])
     setShowForm(false)
@@ -74,6 +77,28 @@ function App() {
     return genreMatch && ratingMatch && tagMatch && authorMatch
   })
 
+  const sortedBooks = [...filteredBooks].sort((a, b) => {
+    switch (sortBy) {
+      case 'rating':
+        return b.rating - a.rating
+      case 'title':
+        return a.title.localeCompare(b.title)
+      case 'author':
+        const getLastName = (fullName) => {
+          const names = fullName.trim().split(' ')
+          return names[names.length - 1]
+        }
+        return getLastName(a.author).localeCompare(getLastName(b.author))
+      case 'dateFinished':
+        if (!a.dateFinished && !b.dateFinished) return 0
+        if (!a.dateFinished) return 1
+        if (!b.dateFinished) return -1
+        return new Date(b.dateFinished) - new Date(a.dateFinished)
+      default:
+        return 0
+    }
+  })
+
   return (
     <div className="app">
       <header className="app-header">
@@ -116,7 +141,12 @@ function App() {
                 </button>
 
                 <div className="filters">
-                  <h4>Filters</h4>
+                  <h4 className="filters-header" onClick={() => setShowFilters(!showFilters)}>
+                    Filters {showFilters ? '▼' : '▶'}
+                  </h4>
+
+                  {showFilters && (
+                    <div className="filters-content">
 
                   <div className="filter-group">
                     <label>Genre</label>
@@ -175,11 +205,36 @@ function App() {
                       Clear filters
                     </button>
                   )}
+
+                  <div className="sort-section">
+                    <h4>Sort</h4>
+                    <div className="filter-group">
+                      <label>Sort by</label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value)}
+                      >
+                        <option value="">No sorting</option>
+                        <option value="rating">Rating (high to low)</option>
+                        <option value="title">Book name (A-Z)</option>
+                        <option value="author">Author name (A-Z)</option>
+                        <option value="dateFinished">Finished date (recent first)</option>
+                      </select>
+                    </div>
+
+                    {sortBy && (
+                      <button className="clear-filters-btn" onClick={() => setSortBy('')}>
+                        Clear sorting
+                      </button>
+                    )}
+                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="books-grid">
-                {filteredBooks.map(book => (
+                {sortedBooks.map(book => (
                 <div key={book.id} className="book-card">
                   <div className="book-header">
                     <h3>{book.title}</h3>
