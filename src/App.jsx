@@ -88,26 +88,24 @@ function App() {
         )}
 
         <div className="books-section">
-          {books.length === 0 ? (
-            <p>No books yet. Add your first book!</p>
-          ) : (
-            <div className="books-container">
-              <div className="sidebar">
-                <button
-                  className="add-book-btn"
-                  onClick={() => {
-                    if (showForm && !editingBook) {
-                      setShowForm(false)
-                    } else if (showForm && editingBook) {
-                      handleCancelEdit()
-                    } else {
-                      handleOpenAddForm()
-                    }
-                  }}
-                >
-                  {showForm ? 'Cancel' : 'Add book'}
-                </button>
+          <div className="books-container">
+            <div className="sidebar">
+              <button
+                className="add-book-btn"
+                onClick={() => {
+                  if (showForm && !editingBook) {
+                    setShowForm(false)
+                  } else if (showForm && editingBook) {
+                    handleCancelEdit()
+                  } else {
+                    handleOpenAddForm()
+                  }
+                }}
+              >
+                {showForm ? 'Cancel' : 'Add book'}
+              </button>
 
+              {books.length > 0 && (
                 <FilterSort
                   filters={filters}
                   sortBy={sortBy}
@@ -118,15 +116,21 @@ function App() {
                   onSortChange={setSortBy}
                   onClearSort={clearSort}
                 />
-              </div>
+              )}
+            </div>
 
+            {books.length === 0 ? (
+              <div className="books-grid">
+                <p>No books yet. Add your first book!</p>
+              </div>
+            ) : (
               <BookList
                 books={sortedBooks}
                 onEditBook={handleEditBook}
                 onDeleteBook={deleteBook}
               />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </main>
     </div>
