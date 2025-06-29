@@ -1,4 +1,4 @@
-function ColorPicker({ bgColors, setBgColors }) {
+function ColorPicker({ bgColors, setBgColors, fontColor, setFontColor }) {
   return (
     <div className="color-picker">
       <label>
@@ -13,6 +13,13 @@ function ColorPicker({ bgColors, setBgColors }) {
           type="color"
           value={bgColors.end}
           onChange={(e) => setBgColors(prev => ({ ...prev, end: e.target.value }))}
+        />
+      </label>
+      <label>
+        <input
+          type="color"
+          value={fontColor}
+          onChange={(e) => setFontColor(e.target.value)}
         />
       </label>
     </div>

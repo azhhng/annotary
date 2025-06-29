@@ -10,7 +10,7 @@ import { useTheme } from './hooks/useTheme'
 
 function App() {
   const [showForm, setShowForm] = useState(false)
-  const { bgColors, setBgColors } = useTheme()
+  const { bgColors, setBgColors, fontColor, setFontColor } = useTheme()
   
   const {
     books,
@@ -56,7 +56,12 @@ function App() {
 
   return (
     <div className="app">
-      <ColorPicker bgColors={bgColors} setBgColors={setBgColors} />
+      <ColorPicker 
+        bgColors={bgColors} 
+        setBgColors={setBgColors}
+        fontColor={fontColor}
+        setFontColor={setFontColor}
+      />
       
       <header className="app-header">
         <h1>Alice's Reads</h1>
