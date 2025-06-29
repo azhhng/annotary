@@ -16,6 +16,10 @@ function App() {
 
   const [sortBy, setSortBy] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  const [bgColors, setBgColors] = useState({
+    start: '#667eea',
+    end: '#764ba2'
+  })
 
   const handleAddBook = (newBook) => {
     setBooks(prev => [...prev, newBook])
@@ -99,8 +103,27 @@ function App() {
     }
   })
 
+  document.body.style.background = `linear-gradient(135deg, ${bgColors.start} 0%, ${bgColors.end} 100%)`
+
   return (
     <div className="app">
+      <div className="color-picker">
+        <label>
+          <input
+            type="color"
+            value={bgColors.start}
+            onChange={(e) => setBgColors(prev => ({ ...prev, start: e.target.value }))}
+          />
+        </label>
+        <label>
+          <input
+            type="color"
+            value={bgColors.end}
+            onChange={(e) => setBgColors(prev => ({ ...prev, end: e.target.value }))}
+          />
+        </label>
+      </div>
+
       <header className="app-header">
         <h1>Alice's Reads</h1>
       </header>
