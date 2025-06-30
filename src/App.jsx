@@ -1,24 +1,20 @@
-import { useState } from "react";
-import "./App.css";
-import BookForm from "./components/BookForm";
-import BookList from "./components/BookList";
-import ColorPicker from "./components/ColorPicker";
-import FilterSort from "./components/FilterSort";
-import EditableTitle from "./components/EditableTitle";
-import { useBooks } from "./hooks/useBooks";
-import { useBookFilters } from "./hooks/useBookFilters";
-import { useTheme } from "./hooks/useTheme";
+import { useState } from 'react'
+import './App.css'
+import BookForm from './components/BookForm'
+import BookList from './components/BookList'
+import ColorPicker from './components/ColorPicker'
+import FilterSort from './components/FilterSort'
+import EditableTitle from './components/EditableTitle'
+import AuthForm from './components/AuthForm'
+import { useBooks } from './hooks/useBooks'
+import { useBookFilters } from './hooks/useBookFilters'
+import { useTheme } from './hooks/useTheme'
+import { useAuth } from './contexts/AuthContext'
 
 function App() {
-  const [showForm, setShowForm] = useState(false);
-  const {
-    bgColors,
-    setBgColors,
-    fontColor,
-    setFontColor,
-    journalTitle,
-    setJournalTitle,
-  } = useTheme();
+  const [showForm, setShowForm] = useState(false)
+  const { bgColors, setBgColors, fontColor, setFontColor, journalTitle, setJournalTitle } = useTheme()
+  const { user, loading, signOut } = useAuth()
 
   const {
     books,
@@ -60,10 +56,28 @@ function App() {
   };
 
   const handleOpenAddForm = () => {
-    cancelEditing();
-    setShowForm(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+    cancelEditing()
+    setShowForm(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleLogout = async () => {
+    await signOut()
+  }
+
+  if (loading) {
+    return (
+      <div className="app">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return <AuthForm />
+  }
 
   return (
     <div className="app">
@@ -73,6 +87,13 @@ function App() {
         fontColor={fontColor}
         setFontColor={setFontColor}
       />
+
+      <div className="user-header">
+        <span className="user-info">Welcome, {user.email}</span>
+        <button className="logout-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
 
       <header className="app-header">
         <EditableTitle title={journalTitle} onTitleChange={setJournalTitle} />
