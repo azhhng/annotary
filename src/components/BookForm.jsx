@@ -1,117 +1,121 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const [formData, setFormData] = useState({
-    title: '',
-    author: '',
-    genre: '',
-    dateStarted: '',
-    dateFinished: '',
+    title: "",
+    author: "",
+    genre: "",
+    dateStarted: "",
+    dateFinished: "",
     rating: 1,
-    notes: '',
+    notes: "",
     tags: [],
-    emojis: []
-  })
+    emojis: [],
+  });
 
   useEffect(() => {
     if (editingBook) {
       setFormData({
-        title: editingBook.title || '',
-        author: editingBook.author || '',
-        genre: editingBook.genre || '',
-        dateStarted: editingBook.dateStarted || '',
-        dateFinished: editingBook.dateFinished || '',
+        title: editingBook.title || "",
+        author: editingBook.author || "",
+        genre: editingBook.genre || "",
+        dateStarted: editingBook.dateStarted || "",
+        dateFinished: editingBook.dateFinished || "",
         rating: editingBook.rating || 1,
-        notes: editingBook.notes || '',
+        notes: editingBook.notes || "",
         tags: editingBook.tags || [],
-        emojis: editingBook.emojis || []
-      })
+        emojis: editingBook.emojis || [],
+      });
     }
-  }, [editingBook])
+  }, [editingBook]);
 
-  const [tagInput, setTagInput] = useState('')
-  const [emojiInput, setEmojiInput] = useState('')
+  const [tagInput, setTagInput] = useState("");
+  const [emojiInput, setEmojiInput] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const handleAddTag = (e) => {
-    if (e.key === 'Enter' || e.type === 'click') {
-      e.preventDefault()
+    if (e.key === "Enter" || e.type === "click") {
+      e.preventDefault();
       if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          tags: [...prev.tags, tagInput.trim()]
-        }))
-        setTagInput('')
+          tags: [...prev.tags, tagInput.trim()],
+        }));
+        setTagInput("");
       }
     }
-  }
+  };
 
   const removeTag = (tagToRemove) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }))
-  }
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
+  };
 
   const handleAddEmoji = (e) => {
-    if (e.key === 'Enter' || e.type === 'click') {
-      e.preventDefault()
-      if (emojiInput.trim() && !formData.emojis.includes(emojiInput.trim()) && formData.emojis.length < 3) {
-        setFormData(prev => ({
+    if (e.key === "Enter" || e.type === "click") {
+      e.preventDefault();
+      if (
+        emojiInput.trim() &&
+        !formData.emojis.includes(emojiInput.trim()) &&
+        formData.emojis.length < 3
+      ) {
+        setFormData((prev) => ({
           ...prev,
-          emojis: [...prev.emojis, emojiInput.trim()]
-        }))
-        setEmojiInput('')
+          emojis: [...prev.emojis, emojiInput.trim()],
+        }));
+        setEmojiInput("");
       }
     }
-  }
+  };
 
   const removeEmoji = (emojiToRemove) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      emojis: prev.emojis.filter(emoji => emoji !== emojiToRemove)
-    }))
-  }
+      emojis: prev.emojis.filter((emoji) => emoji !== emojiToRemove),
+    }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!formData.title || !formData.author) {
-      alert('Please fill in at least the title and author')
-      return
+      alert("Please fill in at least the title and author");
+      return;
     }
 
     const bookData = {
       ...formData,
-      rating: parseFloat(formData.rating)
-    }
+      rating: parseFloat(formData.rating),
+    };
 
     if (editingBook) {
-      onUpdateBook({ ...bookData, id: editingBook.id })
+      onUpdateBook({ ...bookData, id: editingBook.id });
     } else {
-      onAddBook({ ...bookData, id: Date.now() })
+      onAddBook({ ...bookData, id: Date.now() });
     }
 
     if (!editingBook) {
       setFormData({
-        title: '',
-        author: '',
-        genre: '',
-        dateStarted: '',
-        dateFinished: '',
+        title: "",
+        author: "",
+        genre: "",
+        dateStarted: "",
+        dateFinished: "",
         rating: 1,
-        notes: '',
+        notes: "",
         tags: [],
-        emojis: []
-      })
+        emojis: [],
+      });
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="book-form">
@@ -161,9 +165,12 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             value={formData.rating}
             onChange={handleChange}
           >
-            {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(num => (
+            {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((num) => (
               <option key={num} value={num}>
-                {num} {num % 1 === 0 ? '⭐'.repeat(num) : '⭐'.repeat(Math.floor(num)) + '⭐️'}
+                {num}{" "}
+                {num % 1 === 0
+                  ? "⭐".repeat(num)
+                  : "⭐".repeat(Math.floor(num)) + "⭐️"}
               </option>
             ))}
           </select>
@@ -215,13 +222,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={handleAddTag}
-            placeholder="Type a tag and press Enter (e.g., favorite, summer read)"
+            placeholder="Type a tag and press Enter (e.g., favorite, drama)"
           />
-          <button
-            type="button"
-            onClick={handleAddTag}
-            className="add-tag-btn"
-          >
+          <button type="button" onClick={handleAddTag} className="add-tag-btn">
             Add
           </button>
         </div>
@@ -281,22 +284,20 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           </div>
         )}
         {formData.emojis.length >= 3 && (
-          <p className="emoji-warning">
-            Maximum of 3 emojis reached
-          </p>
+          <p className="emoji-warning">Maximum of 3 emojis reached</p>
         )}
       </div>
 
       <div className="form-actions">
         <button type="submit" className="btn-primary">
-          {editingBook ? 'Update book' : 'Add book'}
+          {editingBook ? "Update book" : "Add book"}
         </button>
         <button type="button" onClick={onCancel} className="btn-secondary">
           Cancel
         </button>
       </div>
     </form>
-  )
+  );
 }
 
-export default BookForm
+export default BookForm;

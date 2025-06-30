@@ -1,21 +1,24 @@
-import { useState } from 'react'
+import { useState } from "react";
 
-function FilterSort({ 
-  filters, 
-  sortBy, 
-  filterOptions, 
+function FilterSort({
+  filters,
+  sortBy,
+  filterOptions,
   hasActiveFilters,
-  onFilterChange, 
-  onClearFilters, 
-  onSortChange, 
-  onClearSort 
+  onFilterChange,
+  onClearFilters,
+  onSortChange,
+  onClearSort,
 }) {
-  const [showFilters, setShowFilters] = useState(false)
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <div className="filters">
-      <h4 className="filters-header" onClick={() => setShowFilters(!showFilters)}>
-        Filters {showFilters ? '▼' : '▶'}
+      <h4
+        className="filters-header"
+        onClick={() => setShowFilters(!showFilters)}
+      >
+        Filters {showFilters ? "▼" : "▶"}
       </h4>
 
       {showFilters && (
@@ -24,11 +27,13 @@ function FilterSort({
             <label>Genre</label>
             <select
               value={filters.genre}
-              onChange={(e) => onFilterChange('genre', e.target.value)}
+              onChange={(e) => onFilterChange("genre", e.target.value)}
             >
               <option value="">All genres</option>
-              {filterOptions.genres.map(genre => (
-                <option key={genre} value={genre}>{genre}</option>
+              {filterOptions.genres.map((genre) => (
+                <option key={genre} value={genre}>
+                  {genre}
+                </option>
               ))}
             </select>
           </div>
@@ -37,11 +42,13 @@ function FilterSort({
             <label>Rating</label>
             <select
               value={filters.rating}
-              onChange={(e) => onFilterChange('rating', e.target.value)}
+              onChange={(e) => onFilterChange("rating", e.target.value)}
             >
               <option value="">All ratings</option>
-              {filterOptions.ratings.map(rating => (
-                <option key={rating} value={rating}>{rating}</option>
+              {filterOptions.ratings.map((rating) => (
+                <option key={rating} value={rating}>
+                  {rating}
+                </option>
               ))}
             </select>
           </div>
@@ -50,11 +57,13 @@ function FilterSort({
             <label>Tag</label>
             <select
               value={filters.tag}
-              onChange={(e) => onFilterChange('tag', e.target.value)}
+              onChange={(e) => onFilterChange("tag", e.target.value)}
             >
               <option value="">All tags</option>
-              {filterOptions.tags.map(tag => (
-                <option key={tag} value={tag}>{tag}</option>
+              {filterOptions.tags.map((tag) => (
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
               ))}
             </select>
           </div>
@@ -63,11 +72,13 @@ function FilterSort({
             <label>Author</label>
             <select
               value={filters.author}
-              onChange={(e) => onFilterChange('author', e.target.value)}
+              onChange={(e) => onFilterChange("author", e.target.value)}
             >
               <option value="">All authors</option>
-              {filterOptions.authors.map(author => (
-                <option key={author} value={author}>{author}</option>
+              {filterOptions.authors.map((author) => (
+                <option key={author} value={author}>
+                  {author}
+                </option>
               ))}
             </select>
           </div>
@@ -76,11 +87,13 @@ function FilterSort({
             <label>Emoji</label>
             <select
               value={filters.emoji}
-              onChange={(e) => onFilterChange('emoji', e.target.value)}
+              onChange={(e) => onFilterChange("emoji", e.target.value)}
             >
               <option value="">All emojis</option>
-              {filterOptions.emojis.map(emoji => (
-                <option key={emoji} value={emoji}>{emoji}</option>
+              {filterOptions.emojis.map((emoji) => (
+                <option key={emoji} value={emoji}>
+                  {emoji}
+                </option>
               ))}
             </select>
           </div>
@@ -103,7 +116,9 @@ function FilterSort({
                 <option value="rating">Rating (high to low)</option>
                 <option value="title">Book name (A-Z)</option>
                 <option value="author">Author name (A-Z)</option>
-                <option value="dateFinished">Finished date (recent first)</option>
+                <option value="dateFinished">
+                  Finished date (recent first)
+                </option>
               </select>
             </div>
 
@@ -116,7 +131,7 @@ function FilterSort({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default FilterSort
+export default FilterSort;

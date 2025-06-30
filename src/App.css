@@ -599,27 +599,27 @@ body {
   .app {
     padding: 1rem;
   }
-  
+
   .books-container {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
-  
+
   .sidebar {
     position: static;
     width: 100%;
     max-width: 400px;
   }
-  
+
   .filters {
     min-width: auto;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .book-card {
     padding: 1.5rem;
   }

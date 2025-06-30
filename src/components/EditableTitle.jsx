@@ -1,45 +1,45 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from "react";
 
 function EditableTitle({ title, onTitleChange }) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [editValue, setEditValue] = useState(title)
-  const inputRef = useRef(null)
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(title);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
-      inputRef.current.focus()
-      inputRef.current.select()
+      inputRef.current.focus();
+      inputRef.current.select();
     }
-  }, [isEditing])
+  }, [isEditing]);
 
   const handleClick = () => {
-    setEditValue(title)
-    setIsEditing(true)
-  }
+    setEditValue(title);
+    setIsEditing(true);
+  };
 
   const handleSave = () => {
     if (editValue.trim()) {
-      onTitleChange(editValue.trim())
+      onTitleChange(editValue.trim());
     }
-    setIsEditing(false)
-  }
+    setIsEditing(false);
+  };
 
   const handleCancel = () => {
-    setEditValue(title)
-    setIsEditing(false)
-  }
+    setEditValue(title);
+    setIsEditing(false);
+  };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSave()
-    } else if (e.key === 'Escape') {
-      handleCancel()
+    if (e.key === "Enter") {
+      handleSave();
+    } else if (e.key === "Escape") {
+      handleCancel();
     }
-  }
+  };
 
   const handleBlur = () => {
-    handleSave()
-  }
+    handleSave();
+  };
 
   if (isEditing) {
     return (
@@ -52,14 +52,14 @@ function EditableTitle({ title, onTitleChange }) {
         onBlur={handleBlur}
         maxLength={50}
       />
-    )
+    );
   }
 
   return (
     <h1 className="editable-title" onClick={handleClick} title="Click to edit">
       {title}
     </h1>
-  )
+  );
 }
 
-export default EditableTitle
+export default EditableTitle;

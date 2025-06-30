@@ -1,17 +1,24 @@
-import { useState } from 'react'
-import './App.css'
-import BookForm from './components/BookForm'
-import BookList from './components/BookList'
-import ColorPicker from './components/ColorPicker'
-import FilterSort from './components/FilterSort'
-import EditableTitle from './components/EditableTitle'
-import { useBooks } from './hooks/useBooks'
-import { useBookFilters } from './hooks/useBookFilters'
-import { useTheme } from './hooks/useTheme'
+import { useState } from "react";
+import "./App.css";
+import BookForm from "./components/BookForm";
+import BookList from "./components/BookList";
+import ColorPicker from "./components/ColorPicker";
+import FilterSort from "./components/FilterSort";
+import EditableTitle from "./components/EditableTitle";
+import { useBooks } from "./hooks/useBooks";
+import { useBookFilters } from "./hooks/useBookFilters";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
-  const [showForm, setShowForm] = useState(false)
-  const { bgColors, setBgColors, fontColor, setFontColor, journalTitle, setJournalTitle } = useTheme()
+  const [showForm, setShowForm] = useState(false);
+  const {
+    bgColors,
+    setBgColors,
+    fontColor,
+    setFontColor,
+    journalTitle,
+    setJournalTitle,
+  } = useTheme();
 
   const {
     books,
@@ -20,8 +27,8 @@ function App() {
     updateBook,
     deleteBook,
     startEditing,
-    cancelEditing
-  } = useBooks()
+    cancelEditing,
+  } = useBooks();
 
   const {
     filters,
@@ -32,31 +39,31 @@ function App() {
     handleFilterChange,
     clearFilters,
     setSortBy,
-    clearSort
-  } = useBookFilters(books)
+    clearSort,
+  } = useBookFilters(books);
 
   const handleAddBook = (newBook) => {
-    addBook(newBook)
-    setShowForm(false)
-  }
+    addBook(newBook);
+    setShowForm(false);
+  };
 
   const handleUpdateBook = (updatedBook) => {
-    updateBook(updatedBook)
-  }
+    updateBook(updatedBook);
+  };
 
   const handleEditBook = (book) => {
-    startEditing(book)
-  }
+    startEditing(book);
+  };
 
   const handleCancelEdit = () => {
-    cancelEditing()
-  }
+    cancelEditing();
+  };
 
   const handleOpenAddForm = () => {
-    cancelEditing()
-    setShowForm(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+    cancelEditing();
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="app">
@@ -91,15 +98,15 @@ function App() {
                 className="add-book-btn"
                 onClick={() => {
                   if (showForm && !editingBook) {
-                    setShowForm(false)
+                    setShowForm(false);
                   } else if (showForm && editingBook) {
-                    handleCancelEdit()
+                    handleCancelEdit();
                   } else {
-                    handleOpenAddForm()
+                    handleOpenAddForm();
                   }
                 }}
               >
-                {showForm ? 'Cancel' : 'Add book'}
+                {showForm ? "Cancel" : "Add book"}
               </button>
 
               {books.length > 0 && (
@@ -134,7 +141,7 @@ function App() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

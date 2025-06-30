@@ -5,14 +5,18 @@ function ColorPicker({ bgColors, setBgColors, fontColor, setFontColor }) {
         <input
           type="color"
           value={bgColors.start}
-          onChange={(e) => setBgColors(prev => ({ ...prev, start: e.target.value }))}
+          onChange={(e) =>
+            setBgColors((prev) => ({ ...prev, start: e.target.value }))
+          }
         />
       </label>
       <label>
         <input
           type="color"
           value={bgColors.end}
-          onChange={(e) => setBgColors(prev => ({ ...prev, end: e.target.value }))}
+          onChange={(e) =>
+            setBgColors((prev) => ({ ...prev, end: e.target.value }))
+          }
         />
       </label>
       <label>
@@ -23,7 +27,7 @@ function ColorPicker({ bgColors, setBgColors, fontColor, setFontColor }) {
         />
       </label>
     </div>
-  )
+  );
 }
 
-export default ColorPicker
+export default ColorPicker;
