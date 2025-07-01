@@ -17,7 +17,6 @@ function App() {
   const { user, loading, signOut } = useAuth();
   const {
     journaler,
-    loading: journalerLoading,
     updateColors,
     updateJournalTitle,
   } = useJournaler();
