@@ -6,6 +6,7 @@ const AuthForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [username, setUsername] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -25,7 +26,7 @@ const AuthForm = () => {
     try {
       const { error } = isLogin
         ? await signIn(email, password)
-        : await signUp(email, password)
+        : await signUp(email, password, { username })
 
       if (error) {
         setMessage(error.message)
@@ -56,6 +57,23 @@ const AuthForm = () => {
               disabled={loading}
             />
           </div>
+
+          {!isLogin && (
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                disabled={loading}
+                minLength={3}
+                maxLength={20}
+                placeholder="Choose a unique username"
+              />
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
@@ -111,6 +129,7 @@ const AuthForm = () => {
               setEmail('')
               setPassword('')
               setConfirmPassword('')
+              setUsername('')
             }}
             disabled={loading}
           >

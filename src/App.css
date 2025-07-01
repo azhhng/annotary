@@ -260,6 +260,10 @@ body {
   margin-top: 0;
 }
 
+.form-row .form-group label {
+  margin-top: 0;
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -289,6 +293,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+  align-items: start;
 }
 
 .checkbox-group label {
