@@ -35,7 +35,7 @@ export function useBookFilters(books) {
     genres: [...new Set(books.map(book => book.genre).filter(Boolean))],
     ratings: [...new Set(books.map(book => book.rating))].sort((a, b) => b - a),
     tags: [...new Set(books.flatMap(book => book.tags || []))],
-    authors: [...new Set(books.map(book => book.author).filter(Boolean))].sort(),
+    authors: [...new Set(books.flatMap(book => book.authors || []))].sort(),
     emojis: [...new Set(books.flatMap(book => book.emojis || []))]
   }), [books])
 
@@ -44,7 +44,7 @@ export function useBookFilters(books) {
       const genreMatch = !filters.genre || book.genre === filters.genre
       const ratingMatch = !filters.rating || book.rating === parseFloat(filters.rating)
       const tagMatch = !filters.tag || (book.tags && book.tags.includes(filters.tag))
-      const authorMatch = !filters.author || book.author === filters.author
+      const authorMatch = !filters.author || (book.authors && book.authors.includes(filters.author))
       const emojiMatch = !filters.emoji || (book.emojis && book.emojis.includes(filters.emoji))
 
       return genreMatch && ratingMatch && tagMatch && authorMatch && emojiMatch
@@ -64,7 +64,9 @@ export function useBookFilters(books) {
         case 'title':
           return a.title.localeCompare(b.title)
         case 'author':
-          return getLastName(a.author).localeCompare(getLastName(b.author))
+          const aAuthor = a.authors?.[0] || ''
+          const bAuthor = b.authors?.[0] || ''
+          return getLastName(aAuthor).localeCompare(getLastName(bAuthor))
         case 'dateFinished':
           if (!a.dateFinished && !b.dateFinished) return 0
           if (!a.dateFinished) return 1

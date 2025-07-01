@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const [formData, setFormData] = useState({
     title: "",
-    author: "",
+    authors: [],
     genre: "",
     dateStarted: "",
     dateFinished: "",
@@ -17,7 +17,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     if (editingBook) {
       setFormData({
         title: editingBook.title || "",
-        author: editingBook.author || "",
+        authors: editingBook.authors || [],
         genre: editingBook.genre || "",
         dateStarted: editingBook.dateStarted || "",
         dateFinished: editingBook.dateFinished || "",
@@ -31,12 +31,33 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
   const [tagInput, setTagInput] = useState("");
   const [emojiInput, setEmojiInput] = useState("");
+  const [authorInput, setAuthorInput] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleAddAuthor = (e) => {
+    if (e.key === "Enter" || e.type === "click") {
+      e.preventDefault();
+      if (authorInput.trim() && !formData.authors.includes(authorInput.trim())) {
+        setFormData((prev) => ({
+          ...prev,
+          authors: [...prev.authors, authorInput.trim()],
+        }));
+        setAuthorInput("");
+      }
+    }
+  };
+
+  const removeAuthor = (authorToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      authors: prev.authors.filter((author) => author !== authorToRemove),
     }));
   };
 
@@ -86,8 +107,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.author) {
-      alert("Please fill in at least the title and author");
+    if (!formData.title || formData.authors.length === 0) {
+      alert("Please fill in at least the title and one author");
       return;
     }
 
@@ -105,7 +126,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     if (!editingBook) {
       setFormData({
         title: "",
-        author: "",
+        authors: [],
         genre: "",
         dateStarted: "",
         dateFinished: "",
@@ -133,15 +154,36 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="author">Author *</label>
-          <input
-            type="text"
-            id="author"
-            name="author"
-            value={formData.author}
-            onChange={handleChange}
-            required
-          />
+          <label htmlFor="authors">Author(s) *</label>
+          <div className="tags-input-container">
+            <input
+              type="text"
+              id="authors"
+              value={authorInput}
+              onChange={(e) => setAuthorInput(e.target.value)}
+              onKeyDown={handleAddAuthor}
+              placeholder="Add an author and press Enter"
+            />
+            <button type="button" onClick={handleAddAuthor} className="add-tag-btn">
+              Add
+            </button>
+          </div>
+          {formData.authors.length > 0 && (
+            <div className="tags-display">
+              {formData.authors.map((author, index) => (
+                <span key={index} className="tag">
+                  {author}
+                  <button
+                    type="button"
+                    onClick={() => removeAuthor(author)}
+                    className="remove-tag"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

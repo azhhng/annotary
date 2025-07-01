@@ -44,8 +44,10 @@ function BookList({
                 </div>
               </div>
               <p>
-                <span className="property-label">Author</span>
-                <span className="property-content">{book.author}</span>
+                <span className="property-label">Author(s)</span>
+                <span className="property-content">
+                  {book.authors?.join(', ') || 'Unknown'}
+                </span>
               </p>
               <p>
                 <span className="property-label">Genre</span>
