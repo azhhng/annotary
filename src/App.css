@@ -532,6 +532,24 @@ body {
   font-weight: normal;
 }
 
+.inline-edit-form .form-row {
+  display: block;
+}
+
+.inline-edit-form .form-row .form-group {
+  margin-bottom: 1rem;
+}
+
+.inline-edit-form .form-row:has(input[type="date"]) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.inline-edit-form .form-row:has(input[type="date"]) .form-group {
+  margin-bottom: 0;
+}
+
 .notes-section {
   margin-top: 1.5rem;
 }
