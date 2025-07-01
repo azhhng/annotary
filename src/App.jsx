@@ -169,7 +169,6 @@ function App() {
       />
 
       <div className="user-header">
-        <span className="user-info">Welcome, {user.email}</span>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
