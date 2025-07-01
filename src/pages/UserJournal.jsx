@@ -72,6 +72,7 @@ function UserJournal() {
   const {
     books,
     editingBook,
+    loading: booksLoading,
     addBook,
     updateBook,
     deleteBook,
@@ -177,7 +178,7 @@ function UserJournal() {
     }
   };
 
-  if (loading) {
+  if (loading || booksLoading) {
     return (
       <div className="app">
         <div
