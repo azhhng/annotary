@@ -7,7 +7,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     genre: "",
     dateStarted: "",
     dateFinished: "",
-    rating: 1,
+    rating: 2.5,
     notes: "",
     tags: [],
     emojis: [],
@@ -21,7 +21,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         genre: editingBook.genre || "",
         dateStarted: editingBook.dateStarted || "",
         dateFinished: editingBook.dateFinished || "",
-        rating: editingBook.rating || 1,
+        rating: editingBook.rating || 2.5,
         notes: editingBook.notes || "",
         tags: editingBook.tags || [],
         emojis: editingBook.emojis || [],
@@ -160,7 +160,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         genre: "",
         dateStarted: "",
         dateFinished: "",
-        rating: 1,
+        rating: 2.5,
         notes: "",
         tags: [],
         emojis: [],
@@ -239,10 +239,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           >
             {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((num) => (
               <option key={num} value={num}>
-                {num}{" "}
-                {num % 1 === 0
-                  ? "⭐".repeat(num)
-                  : "⭐".repeat(Math.floor(num)) + "⭐️"}
+                {num}
               </option>
             ))}
           </select>
