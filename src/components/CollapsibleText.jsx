@@ -27,7 +27,7 @@ function CollapsibleText({ text, maxLength = 100 }) {
         }}
         type="button"
       >
-        {isExpanded ? "Show less" : "Read more"}
+        {isExpanded ? "Read less" : "Read more"}
       </button>
     </span>
   );

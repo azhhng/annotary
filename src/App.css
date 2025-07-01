@@ -550,18 +550,21 @@ body {
 }
 
 .toggle-text-btn {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
+  background: color-mix(in srgb, var(--font-color) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--font-color) 20%, transparent);
+  border-radius: 4px;
+  color: color-mix(in srgb, var(--font-color) 70%, transparent);
   cursor: pointer;
   font-size: 0.875rem;
   margin-left: 0.5rem;
-  padding: 0;
-  text-decoration: underline;
-  transition: color 0.2s;
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+  transition: all 0.2s;
 }
 
 .toggle-text-btn:hover {
+  background: color-mix(in srgb, var(--font-color) 20%, transparent);
+  border-color: color-mix(in srgb, var(--font-color) 40%, transparent);
   color: var(--font-color);
 }
 
