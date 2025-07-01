@@ -9,7 +9,7 @@ import AuthForm from "./components/AuthForm";
 import { useBooks } from "./hooks/useBooks";
 import { useBookFilters } from "./hooks/useBookFilters";
 import { useTheme } from "./hooks/useTheme";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "./hooks/useAuth";
 import { useJournaler } from "./hooks/useJournaler";
 
 function App() {
