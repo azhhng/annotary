@@ -212,7 +212,6 @@ function UserJournal() {
         <button className="home-btn" onClick={handleBackToHome}>
           ← Home
         </button>
-        <span className="username-display">{username}'s Journal</span>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
