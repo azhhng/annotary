@@ -50,8 +50,10 @@ function BookList({
                 </span>
               </p>
               <p>
-                <span className="property-label">Genre</span>
-                <span className="property-content">{book.genre}</span>
+                <span className="property-label">Genre(s)</span>
+                <span className="property-content">
+                  {book.genres?.join(', ') || 'Unknown'}
+                </span>
               </p>
               <p>
                 <span className="property-label">Rating</span>

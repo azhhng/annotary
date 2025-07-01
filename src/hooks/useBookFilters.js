@@ -32,7 +32,7 @@ export function useBookFilters(books) {
   }
 
   const filterOptions = useMemo(() => ({
-    genres: [...new Set(books.map(book => book.genre).filter(Boolean))],
+    genres: [...new Set(books.flatMap(book => book.genres || []))].sort(),
     ratings: [...new Set(books.map(book => book.rating))].sort((a, b) => b - a),
     tags: [...new Set(books.flatMap(book => book.tags || []))],
     authors: [...new Set(books.flatMap(book => book.authors || []))].sort(),
@@ -41,7 +41,7 @@ export function useBookFilters(books) {
 
   const filteredBooks = useMemo(() => {
     return books.filter(book => {
-      const genreMatch = !filters.genre || book.genre === filters.genre
+      const genreMatch = !filters.genre || (book.genres && book.genres.includes(filters.genre))
       const ratingMatch = !filters.rating || book.rating === parseFloat(filters.rating)
       const tagMatch = !filters.tag || (book.tags && book.tags.includes(filters.tag))
       const authorMatch = !filters.author || (book.authors && book.authors.includes(filters.author))

@@ -4,7 +4,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const [formData, setFormData] = useState({
     title: "",
     authors: [],
-    genre: "",
+    genres: [],
     dateStarted: "",
     dateFinished: "",
     rating: 2.5,
@@ -18,7 +18,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       setFormData({
         title: editingBook.title || "",
         authors: editingBook.authors || [],
-        genre: editingBook.genre || "",
+        genres: editingBook.genres || [],
         dateStarted: editingBook.dateStarted || "",
         dateFinished: editingBook.dateFinished || "",
         rating: editingBook.rating || 2.5,
@@ -32,6 +32,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const [tagInput, setTagInput] = useState("");
   const [emojiInput, setEmojiInput] = useState("");
   const [authorInput, setAuthorInput] = useState("");
+  const [genreInput, setGenreInput] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +59,38 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     setFormData((prev) => ({
       ...prev,
       authors: prev.authors.filter((author) => author !== authorToRemove),
+    }));
+  };
+
+  const handleAddGenre = (e) => {
+    if (e.key === "Enter" || e.type === "click") {
+      e.preventDefault();
+      const trimmedInput = genreInput.trim();
+      
+      if (!trimmedInput) return;
+      
+      if (formData.genres.includes(trimmedInput)) {
+        alert("This genre is already added");
+        return;
+      }
+      
+      if (formData.genres.length >= 5) {
+        alert("Maximum of 5 genres allowed");
+        return;
+      }
+      
+      setFormData((prev) => ({
+        ...prev,
+        genres: [...prev.genres, trimmedInput],
+      }));
+      setGenreInput("");
+    }
+  };
+
+  const removeGenre = (genreToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      genres: prev.genres.filter((genre) => genre !== genreToRemove),
     }));
   };
 
@@ -157,7 +190,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       setFormData({
         title: "",
         authors: [],
-        genre: "",
+        genres: [],
         dateStarted: "",
         dateFinished: "",
         rating: 2.5,
@@ -219,14 +252,39 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="genre">Genre</label>
-          <input
-            type="text"
-            id="genre"
-            name="genre"
-            value={formData.genre}
-            onChange={handleChange}
-          />
+          <label htmlFor="genres">Genre(s) (up to 5)</label>
+          <div className="tags-input-container">
+            <input
+              type="text"
+              id="genres"
+              value={genreInput}
+              onChange={(e) => setGenreInput(e.target.value)}
+              onKeyDown={handleAddGenre}
+              placeholder="Add a genre and press Enter"
+            />
+            <button type="button" onClick={handleAddGenre} className="add-tag-btn">
+              Add
+            </button>
+          </div>
+          {formData.genres.length > 0 && (
+            <div className="tags-display">
+              {formData.genres.map((genre, index) => (
+                <span key={index} className="tag">
+                  {genre}
+                  <button
+                    type="button"
+                    onClick={() => removeGenre(genre)}
+                    className="remove-tag"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          {formData.genres.length >= 5 && (
+            <p className="emoji-warning">Maximum of 5 genres reached</p>
+          )}
         </div>
 
         <div className="form-group">
