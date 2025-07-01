@@ -64,13 +64,25 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const handleAddTag = (e) => {
     if (e.key === "Enter" || e.type === "click") {
       e.preventDefault();
-      if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
-        setFormData((prev) => ({
-          ...prev,
-          tags: [...prev.tags, tagInput.trim()],
-        }));
-        setTagInput("");
+      const trimmedInput = tagInput.trim();
+
+      if (!trimmedInput) return;
+
+      if (formData.tags.includes(trimmedInput)) {
+        alert("This tag is already added");
+        return;
       }
+
+      if (formData.tags.length >= 15) {
+        alert("Maximum of 10 tags allowed");
+        return;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        tags: [...prev.tags, trimmedInput],
+      }));
+      setTagInput("");
     }
   };
 
@@ -274,7 +286,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="tags">Tags</label>
+        <label htmlFor="tags">Tags (up to 15)</label>
         <div className="tags-input-container">
           <input
             type="text"
@@ -303,6 +315,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               </span>
             ))}
           </div>
+        )}
+        {formData.tags.length >= 15 && (
+          <p className="emoji-warning">Maximum of 15 tags reached</p>
         )}
       </div>
 
