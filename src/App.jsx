@@ -114,7 +114,7 @@ function App() {
       if (journaler) {
         updateColors(gradientStart, gradientEnd, fontColor)
       }
-    }, 500)
+    }, 1000)
   }, [journaler, updateColors])
 
   const handleBgColorsChange = async (updateFn) => {
