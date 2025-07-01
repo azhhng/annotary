@@ -46,13 +46,13 @@ function BookList({
               <p>
                 <span className="property-label">Author(s)</span>
                 <span className="property-content">
-                  {book.authors?.join(', ') || 'Unknown'}
+                  {book.authors?.join(", ") || "Unknown"}
                 </span>
               </p>
               <p>
                 <span className="property-label">Genre(s)</span>
                 <span className="property-content">
-                  {book.genres?.join(', ') || 'Unknown'}
+                  {book.genres?.join(", ") || "Unknown"}
                 </span>
               </p>
               <p>

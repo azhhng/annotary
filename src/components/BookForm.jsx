@@ -45,7 +45,10 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const handleAddAuthor = (e) => {
     if (e.key === "Enter" || e.type === "click") {
       e.preventDefault();
-      if (authorInput.trim() && !formData.authors.includes(authorInput.trim())) {
+      if (
+        authorInput.trim() &&
+        !formData.authors.includes(authorInput.trim())
+      ) {
         setFormData((prev) => ({
           ...prev,
           authors: [...prev.authors, authorInput.trim()],
@@ -66,19 +69,19 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     if (e.key === "Enter" || e.type === "click") {
       e.preventDefault();
       const trimmedInput = genreInput.trim();
-      
+
       if (!trimmedInput) return;
-      
+
       if (formData.genres.includes(trimmedInput)) {
         alert("This genre is already added");
         return;
       }
-      
+
       if (formData.genres.length >= 5) {
         alert("Maximum of 5 genres allowed");
         return;
       }
-      
+
       setFormData((prev) => ({
         ...prev,
         genres: [...prev.genres, trimmedInput],
@@ -227,7 +230,11 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               onKeyDown={handleAddAuthor}
               placeholder="Add an author and press Enter"
             />
-            <button type="button" onClick={handleAddAuthor} className="add-tag-btn">
+            <button
+              type="button"
+              onClick={handleAddAuthor}
+              className="add-tag-btn"
+            >
               Add
             </button>
           </div>
@@ -262,7 +269,11 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               onKeyDown={handleAddGenre}
               placeholder="Add a genre and press Enter"
             />
-            <button type="button" onClick={handleAddGenre} className="add-tag-btn">
+            <button
+              type="button"
+              onClick={handleAddGenre}
+              className="add-tag-btn"
+            >
               Add
             </button>
           </div>

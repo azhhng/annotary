@@ -1,58 +1,73 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import './App.css'
-import BookForm from './components/BookForm'
-import BookList from './components/BookList'
-import ColorPicker from './components/ColorPicker'
-import FilterSort from './components/FilterSort'
-import EditableTitle from './components/EditableTitle'
-import AuthForm from './components/AuthForm'
-import { useBooks } from './hooks/useBooks'
-import { useBookFilters } from './hooks/useBookFilters'
-import { useTheme } from './hooks/useTheme'
-import { useAuth } from './contexts/AuthContext'
-import { useJournaler } from './hooks/useJournaler'
+import { useState, useEffect, useCallback, useRef } from "react";
+import "./App.css";
+import BookForm from "./components/BookForm";
+import BookList from "./components/BookList";
+import ColorPicker from "./components/ColorPicker";
+import FilterSort from "./components/FilterSort";
+import EditableTitle from "./components/EditableTitle";
+import AuthForm from "./components/AuthForm";
+import { useBooks } from "./hooks/useBooks";
+import { useBookFilters } from "./hooks/useBookFilters";
+import { useTheme } from "./hooks/useTheme";
+import { useAuth } from "./contexts/AuthContext";
+import { useJournaler } from "./hooks/useJournaler";
 
 function App() {
-  const [showForm, setShowForm] = useState(false)
-  const { user, loading, signOut } = useAuth()
-  const { journaler, loading: journalerLoading, updateColors, updateJournalTitle } = useJournaler()
+  const [showForm, setShowForm] = useState(false);
+  const { user, loading, signOut } = useAuth();
+  const {
+    journaler,
+    loading: journalerLoading,
+    updateColors,
+    updateJournalTitle,
+  } = useJournaler();
 
-  const { bgColors, setBgColors, fontColor, setFontColor, journalTitle, setJournalTitle } = useTheme()
+  const {
+    bgColors,
+    setBgColors,
+    fontColor,
+    setFontColor,
+    journalTitle,
+    setJournalTitle,
+  } = useTheme();
 
   useEffect(() => {
     if (journaler) {
       setBgColors({
         start: journaler.gradient_start_color,
-        end: journaler.gradient_end_color
-      })
-      setFontColor(journaler.font_color)
-      setJournalTitle(journaler.journal_title)
+        end: journaler.gradient_end_color,
+      });
+      setFontColor(journaler.font_color);
+      setJournalTitle(journaler.journal_title);
     }
-  }, [journaler, setBgColors, setFontColor, setJournalTitle])
+  }, [journaler, setBgColors, setFontColor, setJournalTitle]);
 
-  const currentBgColors = bgColors
-  const currentFontColor = fontColor
-  const currentJournalTitle = journaler?.journal_title || journalTitle
-
-  useEffect(() => {
-    document.body.style.background = `linear-gradient(135deg, ${currentBgColors.start} 0%, ${currentBgColors.end} 100%)`
-  }, [currentBgColors])
+  const currentBgColors = bgColors;
+  const currentFontColor = fontColor;
+  const currentJournalTitle = journaler?.journal_title || journalTitle;
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--font-color', currentFontColor)
-  }, [currentFontColor])
+    document.body.style.background = `linear-gradient(135deg, ${currentBgColors.start} 0%, ${currentBgColors.end} 100%)`;
+  }, [currentBgColors]);
 
   useEffect(() => {
-    document.title = currentJournalTitle
-  }, [currentJournalTitle])
+    document.documentElement.style.setProperty(
+      "--font-color",
+      currentFontColor
+    );
+  }, [currentFontColor]);
+
+  useEffect(() => {
+    document.title = currentJournalTitle;
+  }, [currentJournalTitle]);
 
   useEffect(() => {
     return () => {
       if (colorUpdateTimeoutRef.current) {
-        clearTimeout(colorUpdateTimeoutRef.current)
+        clearTimeout(colorUpdateTimeoutRef.current);
       }
-    }
-  }, [])
+    };
+  }, []);
 
   const {
     books,
@@ -94,69 +109,88 @@ function App() {
   };
 
   const handleOpenAddForm = () => {
-    cancelEditing()
-    setShowForm(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
+    cancelEditing();
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleLogout = async () => {
-    await signOut()
-  }
+    await signOut();
+  };
 
-  const colorUpdateTimeoutRef = useRef(null)
+  const colorUpdateTimeoutRef = useRef(null);
 
-  const debouncedColorUpdate = useCallback((gradientStart, gradientEnd, fontColor) => {
-    if (colorUpdateTimeoutRef.current) {
-      clearTimeout(colorUpdateTimeoutRef.current)
-    }
-
-    colorUpdateTimeoutRef.current = setTimeout(() => {
-      if (journaler) {
-        updateColors(gradientStart, gradientEnd, fontColor)
+  const debouncedColorUpdate = useCallback(
+    (gradientStart, gradientEnd, fontColor) => {
+      if (colorUpdateTimeoutRef.current) {
+        clearTimeout(colorUpdateTimeoutRef.current);
       }
-    }, 1000)
-  }, [journaler, updateColors])
+
+      colorUpdateTimeoutRef.current = setTimeout(() => {
+        if (journaler) {
+          updateColors(gradientStart, gradientEnd, fontColor);
+        }
+      }, 1000);
+    },
+    [journaler, updateColors]
+  );
 
   const handleBgColorsChange = async (updateFn) => {
-    const newBgColors = typeof updateFn === 'function' ? updateFn(currentBgColors) : updateFn
+    const newBgColors =
+      typeof updateFn === "function" ? updateFn(currentBgColors) : updateFn;
 
     if (journaler) {
-      setBgColors(newBgColors)
-      debouncedColorUpdate(newBgColors.start, newBgColors.end, currentFontColor)
+      setBgColors(newBgColors);
+      debouncedColorUpdate(
+        newBgColors.start,
+        newBgColors.end,
+        currentFontColor
+      );
     } else {
-      setBgColors(newBgColors)
+      setBgColors(newBgColors);
     }
-  }
+  };
 
   const handleFontColorChange = async (newFontColor) => {
     if (journaler) {
-      setFontColor(newFontColor)
-      debouncedColorUpdate(currentBgColors.start, currentBgColors.end, newFontColor)
+      setFontColor(newFontColor);
+      debouncedColorUpdate(
+        currentBgColors.start,
+        currentBgColors.end,
+        newFontColor
+      );
     } else {
-      setFontColor(newFontColor)
+      setFontColor(newFontColor);
     }
-  }
+  };
 
   const handleTitleChange = async (newTitle) => {
     if (journaler) {
-      await updateJournalTitle(newTitle)
+      await updateJournalTitle(newTitle);
     } else {
-      setJournalTitle(newTitle)
+      setJournalTitle(newTitle);
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="app">
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
           <p>Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return <AuthForm />
+    return <AuthForm />;
   }
 
   return (
@@ -175,7 +209,10 @@ function App() {
       </div>
 
       <header className="app-header">
-        <EditableTitle title={currentJournalTitle} onTitleChange={handleTitleChange} />
+        <EditableTitle
+          title={currentJournalTitle}
+          onTitleChange={handleTitleChange}
+        />
       </header>
 
       <main className="main-content">
