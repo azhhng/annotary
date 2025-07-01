@@ -81,20 +81,38 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     }));
   };
 
+  const isEmoji = (str) => {
+    const hasLettersOrNumbers = /[a-zA-Z0-9]/.test(str.trim());
+    return !hasLettersOrNumbers && str.trim().length > 0;
+  };
+
   const handleAddEmoji = (e) => {
     if (e.key === "Enter" || e.type === "click") {
       e.preventDefault();
-      if (
-        emojiInput.trim() &&
-        !formData.emojis.includes(emojiInput.trim()) &&
-        formData.emojis.length < 3
-      ) {
-        setFormData((prev) => ({
-          ...prev,
-          emojis: [...prev.emojis, emojiInput.trim()],
-        }));
-        setEmojiInput("");
+      const trimmedInput = emojiInput.trim();
+
+      if (!trimmedInput) return;
+
+      if (!isEmoji(trimmedInput)) {
+        alert("Please enter only emojis (no letters or numbers)");
+        return;
       }
+
+      if (formData.emojis.includes(trimmedInput)) {
+        alert("This emoji is already added");
+        return;
+      }
+
+      if (formData.emojis.length >= 3) {
+        alert("Maximum of 3 emojis allowed");
+        return;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        emojis: [...prev.emojis, trimmedInput],
+      }));
+      setEmojiInput("");
     }
   };
 
