@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useFeed } from "../hooks/useFeed";
 import AuthForm from "../components/AuthForm";
+import FeedItem from "../components/FeedItem";
 
 function Homepage() {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { feedItems, loading: feedLoading } = useFeed();
 
   useEffect(() => {
     document.body.style.background = `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
@@ -25,7 +28,7 @@ function Homepage() {
     }
   };
 
-  if (loading) {
+  if (loading || feedLoading) {
     return (
       <div className="homepage">
         <div
@@ -63,35 +66,43 @@ function Homepage() {
       <div className="homepage-content">
         <header className="homepage-header">
           <h1>Reading Journal</h1>
-          <p>Track your reading journey</p>
+          <p>Latest book reviews from the community</p>
         </header>
 
-        <main className="homepage-main">
-          <form onSubmit={handleSubmit} className="username-form">
-            <h2>Enter a username to view their journal</h2>
-            <div className="form-group">
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter username..."
-                className="username-input"
-                required
-              />
-              <button type="submit" className="go-btn">
-                Go to Journal
-              </button>
-            </div>
-          </form>
-
-          <div className="quick-access">
-            <h3>Quick Access</h3>
-            <button
-              onClick={() => navigate(`/${user.email.split('@')[0]}`)}
-              className="my-journal-btn"
-            >
-              Go to My Journal
+        <div className="homepage-nav">
+          <button
+            onClick={() => navigate(`/${user.email.split('@')[0]}`)}
+            className="my-journal-btn"
+          >
+            Go to My Journal
+          </button>
+          <form onSubmit={handleSubmit} className="search-form">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Search username..."
+              className="search-input"
+            />
+            <button type="submit" className="search-btn">
+              Go
             </button>
+          </form>
+        </div>
+
+        <main className="homepage-main">
+          <div className="feed-container">
+            {feedItems.length === 0 ? (
+              <div className="no-reviews">
+                <p>No book reviews yet. Be the first to add one!</p>
+              </div>
+            ) : (
+              <div className="feed-items">
+                {feedItems.map((item) => (
+                  <FeedItem key={item.id} item={item} />
+                ))}
+              </div>
+            )}
           </div>
         </main>
       </div>
