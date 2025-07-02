@@ -11,6 +11,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     notes: "",
     tags: [],
     emojis: [],
+    isPublic: false,
   });
 
   useEffect(() => {
@@ -25,6 +26,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         notes: editingBook.notes || "",
         tags: editingBook.tags || [],
         emojis: editingBook.emojis || [],
+        isPublic: editingBook.isPublic !== undefined ? editingBook.isPublic : false,
       });
     }
   }, [editingBook]);
@@ -200,6 +202,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         notes: "",
         tags: [],
         emojis: [],
+        isPublic: false,
       });
     }
   };
@@ -312,6 +315,19 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="isPublic" className="checkbox-label">
+            <input
+              type="checkbox"
+              id="isPublic"
+              name="isPublic"
+              checked={formData.isPublic}
+              onChange={(e) => setFormData(prev => ({ ...prev, isPublic: e.target.checked }))}
+            />
+            Make this review public (show on homepage)
+          </label>
         </div>
       </div>
 

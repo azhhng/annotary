@@ -19,6 +19,7 @@ export function useBooks() {
     notes: dbRow.notes,
     tags: dbRow.tags || [],
     emojis: dbRow.emojis || [],
+    isPublic: dbRow.is_public,
   });
 
   const transformBookToDb = (book) => ({
@@ -31,6 +32,7 @@ export function useBooks() {
     notes: book.notes,
     tags: book.tags || [],
     emojis: book.emojis || [],
+    is_public: book.isPublic,
     user_id: user?.id,
   });
 

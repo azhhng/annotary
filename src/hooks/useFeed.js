@@ -32,6 +32,7 @@ export function useFeed() {
           *,
           journalers!inner(username)
         `)
+        .eq('is_public', true)
         .order('created_at', { ascending: false })
         .limit(50);
 
@@ -41,6 +42,7 @@ export function useFeed() {
         const { data: fallbackEntries, error: fallbackError } = await supabase
           .from('book_entries')
           .select('*')
+          .eq('is_public', true)
           .order('created_at', { ascending: false })
           .limit(50);
 
