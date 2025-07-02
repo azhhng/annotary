@@ -14,7 +14,7 @@ function Homepage() {
   useEffect(() => {
     document.body.style.background = `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
     document.documentElement.style.setProperty("--font-color", "#ffffff");
-    document.title = "Reading Journal";
+    document.title = "Annotary";
 
     return () => {
       // Cleanup will be handled by individual journal pages
@@ -50,7 +50,7 @@ function Homepage() {
       <div className="homepage">
         <div className="homepage-content">
           <header className="homepage-header">
-            <h1>Reading Journal</h1>
+            <h1>Annotary</h1>
             <p>Track your reading journey</p>
           </header>
           <div style={{ marginTop: "2rem" }}>
@@ -65,7 +65,7 @@ function Homepage() {
     <div className="homepage">
       <div className="homepage-content">
         <header className="homepage-header">
-          <h1>Reading Journal</h1>
+          <h1>Annotary</h1>
           <p>Latest book reviews from the community</p>
         </header>
 

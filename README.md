@@ -1,4 +1,4 @@
-# 📚 Reading Journal
+# 📚 Annotary
 
 A personal reading journal app.
 
