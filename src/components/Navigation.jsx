@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Navigation({ activeTab, user, onLogout, showSearch = false, journalTitle = "My Journal" }) {
-  const [username, setUsername] = useState("");
+function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) {
   const navigate = useNavigate();
 
   const handleTabClick = (tab) => {
@@ -10,13 +8,6 @@ function Navigation({ activeTab, user, onLogout, showSearch = false, journalTitl
       navigate("/");
     } else if (tab === "journal") {
       navigate(`/${user.email.split('@')[0]}`);
-    }
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (username.trim()) {
-      navigate(`/${username.trim()}`);
     }
   };
 
@@ -37,27 +28,11 @@ function Navigation({ activeTab, user, onLogout, showSearch = false, journalTitl
         </button>
       </div>
       
-      <div className="nav-actions">
-        {showSearch && (
-          <form onSubmit={handleSearchSubmit} className="search-form">
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Search username..."
-              className="search-input"
-            />
-            <button type="submit" className="search-btn">
-              Go
-            </button>
-          </form>
-        )}
-        {onLogout && (
-          <button className="logout-btn" onClick={onLogout}>
-            Logout
-          </button>
-        )}
-      </div>
+      {onLogout && (
+        <button className="logout-btn" onClick={onLogout}>
+          Logout
+        </button>
+      )}
     </div>
   );
 }

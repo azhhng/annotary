@@ -42,8 +42,7 @@ function AppContent() {
         activeTab={getActiveTab()}
         user={user}
         onLogout={user ? handleLogout : undefined}
-        showSearch={getActiveTab() === 'feed'}
-        journalTitle={journaler?.journal_title || "My Journal"}
+        journalTitle={user && journaler?.journal_title ? journaler.journal_title : "My Journal"}
       />
 
       <main className="main-content">
