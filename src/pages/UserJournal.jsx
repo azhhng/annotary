@@ -61,14 +61,6 @@ function UserJournal() {
     document.title = `${username}'s ${currentJournalTitle}`;
   }, [currentJournalTitle, username]);
 
-  useEffect(() => {
-    return () => {
-      if (colorUpdateTimeoutRef.current) {
-        clearTimeout(colorUpdateTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const {
     books,
     editingBook,
