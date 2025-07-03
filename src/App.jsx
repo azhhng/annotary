@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import "./App.css";
 import Homepage from "./pages/Homepage";
 import UserJournal from "./pages/UserJournal";
+import AuthPage from "./pages/AuthPage";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
 import { useJournaler } from "./hooks/useJournaler";
@@ -48,6 +49,7 @@ function AppContent() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/:username" element={<UserJournal />} />
         </Routes>
       </main>

@@ -10,7 +10,7 @@ function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) 
       if (user && user.email) {
         navigate(`/${user.email.split('@')[0]}`);
       } else {
-        navigate("/");
+        navigate("/auth");
       }
     }
   };
@@ -32,11 +32,17 @@ function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) 
         </button>
       </div>
 
-      {onLogout && (
-        <button className="logout-btn" onClick={onLogout}>
-          Logout
-        </button>
-      )}
+      <div className="nav-actions">
+        {user ? (
+          <button className="logout-btn" onClick={onLogout}>
+            Logout
+          </button>
+        ) : (
+          <button className="signin-btn" onClick={() => navigate("/auth")}>
+            Sign in / Sign up
+          </button>
+        )}
+      </div>
     </div>
   );
 }

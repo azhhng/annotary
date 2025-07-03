@@ -1,14 +1,10 @@
-import { useAuth } from "../hooks/useAuth";
 import { useFeed } from "../hooks/useFeed";
-import AuthForm from "../components/AuthForm";
 import FeedItem from "../components/FeedItem";
 
 function Homepage() {
-  const { user, loading } = useAuth();
   const { feedItems, loading: feedLoading } = useFeed();
 
-
-  if (loading || feedLoading) {
+  if (feedLoading) {
     return (
       <div
         style={{
@@ -19,17 +15,6 @@ function Homepage() {
         }}
       >
         <p>Loading...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div style={{ textAlign: "center", marginTop: "2rem" }}>
-        <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
-          Welcome! Browse the community feed or sign up to create your own journal.
-        </p>
-        <AuthForm />
       </div>
     );
   }
