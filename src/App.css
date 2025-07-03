@@ -1135,6 +1135,43 @@ body {
   font-size: 1.2rem;
 }
 
+.feed-item-body {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.feed-item-body::after {
+  content: '';
+  position: absolute;
+  left: 60px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.feed-item-emojis {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  flex-shrink: 0;
+  min-width: 60px;
+  margin-top: 3rem;
+  padding-right: 1.5rem;
+}
+
+.feed-emoji {
+  font-size: 2.3rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.feed-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .tab-navigation {
   display: flex;
   justify-content: space-between;
@@ -1366,6 +1403,29 @@ body {
 
   .genre-tag, .user-tag {
     font-size: 0.75rem;
+  }
+
+  .feed-item-body {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .feed-item-body::after {
+    display: none;
+  }
+
+  .feed-item-emojis {
+    flex-direction: row;
+    justify-content: center;
+    min-width: auto;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 0;
+  }
+
+  .feed-emoji {
+    font-size: 1.1rem;
   }
 
   .tab-navigation {
