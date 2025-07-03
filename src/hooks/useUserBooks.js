@@ -42,8 +42,29 @@ export function useUserBooks(username) {
   }, [username]);
 
   useEffect(() => {
-    fetchUserBooks();
-  }, [fetchUserBooks]);
+    if (!username) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        const journalerData = await journalersApi.getJournalerByUsername(username);
+        setUserInfo(journalerData);
+
+        const bookData = await booksApi.getPublicBooks(journalerData.user_id);
+        const transformedBooks = bookData.map(transformDbToBook);
+        setBooks(transformedBooks);
+      } catch (error) {
+        console.error('Error fetching user books:', error);
+        setUserInfo(null);
+        setBooks([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [username]);
 
   return {
     books,

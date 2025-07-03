@@ -9,22 +9,6 @@ export const useJournaler = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchJournaler = useCallback(async () => {
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const data = await journalersApi.getJournaler(user.id);
-      setJournaler(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
   const updateJournaler = async (updates) => {
     if (!user || !journaler) return;
 
@@ -52,9 +36,41 @@ export const useJournaler = () => {
     });
   };
 
+  const fetchJournaler = useCallback(async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const data = await journalersApi.getJournaler(user.id);
+      setJournaler(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.id]);
+
   useEffect(() => {
-    fetchJournaler();
-  }, [fetchJournaler]);
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const data = await journalersApi.getJournaler(user.id);
+        setJournaler(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user?.id]);
 
   return {
     journaler,

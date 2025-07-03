@@ -9,18 +9,12 @@ import { useBooks } from "../hooks/useBooks";
 import { useBookFilters } from "../hooks/useBookFilters";
 import { useTheme } from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
-import { useJournaler } from "../hooks/useJournaler";
 import { createGradientBackground } from "../constants/colors";
 
-function UserJournal() {
+function UserJournal({ journaler, updateColors, updateJournalTitle }) {
   const [showForm, setShowForm] = useState(false);
   const { username } = useParams();
   const { user, loading } = useAuth();
-  const {
-    journaler,
-    updateColors,
-    updateJournalTitle,
-  } = useJournaler();
 
   const {
     bgColors,

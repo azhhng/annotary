@@ -7,13 +7,13 @@ import OtherUserJournal from "../pages/OtherUserJournal";
 function JournalRouter() {
   const { username } = useParams();
   const { user } = useAuth();
-  const { journaler } = useJournaler();
+  const { journaler, updateColors, updateJournalTitle } = useJournaler();
 
   // Check if the username matches the current user's username
   const isOwnJournal = user && journaler && journaler.username === username;
 
   if (isOwnJournal) {
-    return <UserJournal />;
+    return <UserJournal journaler={journaler} updateColors={updateColors} updateJournalTitle={updateJournalTitle} />;
   } else {
     return <OtherUserJournal />;
   }
