@@ -52,6 +52,12 @@ function UserJournal() {
   }, [currentBgColors]);
 
   useEffect(() => {
+    if (!journaler) {
+      document.body.style.background = `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
+    }
+  }, [journaler]);
+
+  useEffect(() => {
     document.documentElement.style.setProperty(
       "--font-color",
       currentFontColor
@@ -214,9 +220,9 @@ function UserJournal() {
         />
       </header>
 
-      <Navigation 
-        activeTab="journal" 
-        user={user} 
+      <Navigation
+        activeTab="journal"
+        user={user}
         onLogout={handleLogout}
         showSearch={false}
       />

@@ -22,7 +22,7 @@ function Homepage() {
 
   if (loading || feedLoading) {
     return (
-      <div className="homepage">
+      <div className="app">
         <div
           style={{
             display: "flex",
