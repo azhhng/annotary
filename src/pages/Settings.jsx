@@ -17,7 +17,6 @@ function Settings() {
       "--font-color",
       COLORS.PRIMARY_FONT
     );
-    document.title = "Settings - Annotary";
   }, []);
 
   useEffect(() => {
