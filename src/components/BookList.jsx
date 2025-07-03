@@ -29,83 +29,85 @@ function BookList({
             </div>
           ) : (
             <div key={book.id} className="book-card">
-              <div className="book-header">
-                <h3>{book.title}</h3>
-                <div className="book-actions">
-                  <button className="edit-btn" onClick={() => onEditBook(book)}>
-                    Edit
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => onDeleteBook(book.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-              <p>
-                <span className="property-label">Author(s)</span>
-                <span className="property-content">
-                  {book.authors?.join(", ") || "Unknown"}
-                </span>
-              </p>
-              <p>
-                <span className="property-label">Genre(s)</span>
-                <span className="property-content">
-                  {book.genres?.join(", ") || "Unknown"}
-                </span>
-              </p>
-              <p>
-                <span className="property-label">Rating</span>
-                <span className="property-content">{book.rating}</span>
-              </p>
-              {book.dateFinished && (
-                <p>
-                  <span className="property-label">Finished</span>
-                  <span className="property-content">
-                    {new Date(book.dateFinished).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                </p>
-              )}
-              {book.emojis && book.emojis.length > 0 && (
-                <div className="emoji-section">
-                  <span className="property-label">Emojis</span>
-                  <div className="book-emojis">
+              <div className="book-card-body">
+                {book.emojis && book.emojis.length > 0 && (
+                  <div className="book-card-emojis">
                     {book.emojis.map((emoji, index) => (
-                      <span key={index} className="emoji">
+                      <span key={index} className="book-emoji">
                         {emoji}
                       </span>
                     ))}
                   </div>
-                </div>
-              )}
-              {book.tags && book.tags.length > 0 && (
-                <div className="tags-section">
-                  <div className="tags-separator"></div>
-                  <div className="book-tags">
-                    {book.tags.map((tag, index) => (
-                      <span key={index} className="tag">
-                        {tag}
-                      </span>
-                    ))}
+                )}
+
+                <div className="book-card-content">
+                  <div className="book-header">
+                    <h3>{book.title}</h3>
+                    <div className="book-actions">
+                      <button className="edit-btn" onClick={() => onEditBook(book)}>
+                        Edit
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => onDeleteBook(book.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
-              {book.notes && (
-                <div className="notes-section">
-                  <div className="notes-separator"></div>
                   <p>
-                    <span className="property-label">Notes</span>
+                    <span className="property-label">Author(s)</span>
                     <span className="property-content">
-                      <CollapsibleText text={book.notes} maxLength={250} />
+                      {book.authors?.join(", ") || "Unknown"}
                     </span>
                   </p>
+                  <p>
+                    <span className="property-label">Genre(s)</span>
+                    <span className="property-content">
+                      {book.genres?.join(", ") || "Unknown"}
+                    </span>
+                  </p>
+                  <p>
+                    <span className="property-label">Rating</span>
+                    <span className="property-content">{book.rating}</span>
+                  </p>
+                  {book.dateFinished && (
+                    <p>
+                      <span className="property-label">Finished</span>
+                      <span className="property-content">
+                        {new Date(book.dateFinished).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </p>
+                  )}
+                  {book.tags && book.tags.length > 0 && (
+                    <div className="tags-section">
+                      <div className="tags-separator"></div>
+                      <div className="book-tags">
+                        {book.tags.map((tag, index) => (
+                          <span key={index} className="tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {book.notes && (
+                    <div className="notes-section">
+                      <div className="notes-separator"></div>
+                      <p>
+                        <span className="property-label">Notes</span>
+                        <span className="property-content">
+                          <CollapsibleText text={book.notes} maxLength={250} />
+                        </span>
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           )
         )

@@ -1172,6 +1172,43 @@ body {
   min-width: 0;
 }
 
+.book-card-body {
+  display: flex;
+  gap: 1rem;
+  position: relative;
+}
+
+.book-card-body::after {
+  content: '';
+  position: absolute;
+  left: 60px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.book-card-emojis {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  flex-shrink: 0;
+  min-width: 60px;
+  margin-top: 3rem;
+  padding-right: 1.5rem;
+}
+
+.book-emoji {
+  font-size: 2.3rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.book-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .tab-navigation {
   display: flex;
   justify-content: space-between;
@@ -1426,6 +1463,30 @@ body {
 
   .feed-emoji {
     font-size: 1.1rem;
+  }
+
+  .book-card-body {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .book-card-body::after {
+    display: none;
+  }
+
+  .book-card-emojis {
+    flex-direction: row;
+    justify-content: center;
+    min-width: auto;
+    gap: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 0;
+    padding-right: 0;
+  }
+
+  .book-emoji {
+    font-size: 1.5rem;
   }
 
   .tab-navigation {
