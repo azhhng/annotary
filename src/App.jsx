@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-ro
 import { useEffect } from "react";
 import "./App.css";
 import Homepage from "./pages/Homepage";
-import UserJournal from "./pages/UserJournal";
 import AuthPage from "./pages/AuthPage";
+import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
 import { useJournaler } from "./hooks/useJournaler";
@@ -20,7 +20,12 @@ function AppContent() {
   };
 
   const handleLogout = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.log('Logout error (likely expired session):', error);
+      // Even if signOut fails, we should still clear the local state and redirect
+    }
     navigate('/');
   };
 
@@ -42,7 +47,7 @@ function AppContent() {
       <Navigation
         activeTab={getActiveTab()}
         user={user}
-        onLogout={user ? handleLogout : undefined}
+        onLogout={handleLogout}
         journalTitle={user && journaler?.journal_title ? journaler.journal_title : "My Journal"}
       />
 
@@ -50,7 +55,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/auth" element={<AuthPage />} />
-          <Route path="/:username" element={<UserJournal />} />
+          <Route path="/:username" element={<JournalRouter />} />
         </Routes>
       </main>
     </div>

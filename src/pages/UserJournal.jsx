@@ -126,7 +126,6 @@ function UserJournal() {
     navigate('/');
   };
 
-
   const colorUpdateTimeoutRef = useRef(null);
 
   const debouncedColorUpdate = useCallback(
@@ -203,7 +202,6 @@ function UserJournal() {
         <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
           Create an account to start your own reading journal.
         </p>
-        {/* Could add AuthForm here if you want */}
       </div>
     );
   }
