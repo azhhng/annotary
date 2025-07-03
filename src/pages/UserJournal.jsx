@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
@@ -42,20 +42,21 @@ function UserJournal() {
     }
   }, [journaler, setBgColors, setFontColor, setJournalTitle]);
 
-  const currentBgColors = bgColors;
-  const currentFontColor = fontColor;
-  const currentJournalTitle = journaler?.journal_title || journalTitle;
+  const currentJournalTitle = useMemo(() => 
+    journaler?.journal_title || journalTitle, 
+    [journaler?.journal_title, journalTitle]
+  );
 
   useEffect(() => {
-    document.body.style.background = createGradientBackground(currentBgColors.start, currentBgColors.end);
-  }, [currentBgColors]);
+    document.body.style.background = createGradientBackground(bgColors.start, bgColors.end);
+  }, [bgColors]);
 
   useEffect(() => {
     document.documentElement.style.setProperty(
       "--font-color",
-      currentFontColor
+      fontColor
     );
-  }, [currentFontColor]);
+  }, [fontColor]);
 
   useEffect(() => {
     document.title = `${username}'s ${currentJournalTitle}`;
@@ -127,32 +128,32 @@ function UserJournal() {
 
   const handleBgColorsChange = useCallback(async (updateFn) => {
     const newBgColors =
-      typeof updateFn === "function" ? updateFn(currentBgColors) : updateFn;
+      typeof updateFn === "function" ? updateFn(bgColors) : updateFn;
 
     if (journaler) {
       setBgColors(newBgColors);
       debouncedColorUpdate(
         newBgColors.start,
         newBgColors.end,
-        currentFontColor
+        fontColor
       );
     } else {
       setBgColors(newBgColors);
     }
-  }, [currentBgColors, currentFontColor, journaler, setBgColors, debouncedColorUpdate]);
+  }, [bgColors, fontColor, journaler, setBgColors, debouncedColorUpdate]);
 
   const handleFontColorChange = useCallback(async (newFontColor) => {
     if (journaler) {
       setFontColor(newFontColor);
       debouncedColorUpdate(
-        currentBgColors.start,
-        currentBgColors.end,
+        bgColors.start,
+        bgColors.end,
         newFontColor
       );
     } else {
       setFontColor(newFontColor);
     }
-  }, [currentBgColors, journaler, setFontColor, debouncedColorUpdate]);
+  }, [bgColors, journaler, setFontColor, debouncedColorUpdate]);
 
   const handleTitleChange = useCallback(async (newTitle) => {
     if (journaler) {
@@ -205,9 +206,9 @@ function UserJournal() {
   return (
     <>
       <ColorPicker
-        bgColors={currentBgColors}
+        bgColors={bgColors}
         setBgColors={handleBgColorsChange}
-        fontColor={currentFontColor}
+        fontColor={fontColor}
         setFontColor={handleFontColorChange}
       />
 
