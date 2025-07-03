@@ -5,6 +5,7 @@ import BookList from "../components/BookList";
 import ColorPicker from "../components/ColorPicker";
 import FilterSort from "../components/FilterSort";
 import EditableTitle from "../components/EditableTitle";
+import Navigation from "../components/Navigation";
 import { useBooks } from "../hooks/useBooks";
 import { useBookFilters } from "../hooks/useBookFilters";
 import { useTheme } from "../hooks/useTheme";
@@ -120,9 +121,6 @@ function UserJournal() {
     navigate('/');
   };
 
-  const handleBackToHome = () => {
-    navigate('/');
-  };
 
   const colorUpdateTimeoutRef = useRef(null);
 
@@ -209,21 +207,19 @@ function UserJournal() {
         setFontColor={handleFontColorChange}
       />
 
-      <div className="user-header">
-        <button className="home-btn" onClick={handleBackToHome}>
-          ← Home
-        </button>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-
       <header className="app-header">
         <EditableTitle
           title={currentJournalTitle}
           onTitleChange={handleTitleChange}
         />
       </header>
+
+      <Navigation 
+        activeTab="journal" 
+        user={user} 
+        onLogout={handleLogout}
+        showSearch={false}
+      />
 
       <main className="main-content">
         {showForm && !editingBook && (
