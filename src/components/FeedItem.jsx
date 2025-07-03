@@ -74,7 +74,7 @@ function FeedItem({ item }) {
           <div className="book-tags">
             {item.tags.map((tag, index) => (
               <span key={index} className="user-tag">
-                #{tag}
+                {tag}
               </span>
             ))}
           </div>
