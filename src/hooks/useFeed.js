@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
 export function useFeed() {
@@ -21,11 +21,10 @@ export function useFeed() {
     username: dbRow.journalers?.username || 'Anonymous',
   });
 
-  const fetchFeed = async () => {
+  const fetchFeed = useCallback(async () => {
     try {
       setLoading(true);
 
-      // Get book entries with journaler info
       const { data: bookEntries, error: bookError } = await supabase
         .from('book_entries')
         .select(`
@@ -61,16 +60,15 @@ export function useFeed() {
 
     } catch (error) {
       console.error('Error fetching feed:', error);
-      // Final fallback: empty feed
       setFeedItems([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchFeed();
-  }, []);
+  }, [fetchFeed]);
 
   return {
     feedItems,

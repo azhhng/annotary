@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BookList from "../components/BookList";
 import FilterSort from "../components/FilterSort";
@@ -15,7 +15,6 @@ function OtherUserJournal() {
     setBgColors,
     fontColor,
     setFontColor,
-    journalTitle,
     setJournalTitle,
   } = useTheme();
 

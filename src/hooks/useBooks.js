@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "./useAuth";
 
@@ -36,7 +36,7 @@ export function useBooks() {
     user_id: user?.id,
   });
 
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     if (!user) return;
 
     try {
@@ -56,11 +56,11 @@ export function useBooks() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     fetchBooks();
-  }, [user]);
+  }, [fetchBooks]);
 
   const addBook = async (newBook) => {
     if (!user) return;

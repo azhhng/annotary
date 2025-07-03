@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { VALIDATION_LIMITS } from "../constants/bookConstants";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -68,8 +69,8 @@ const AuthForm = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 disabled={loading}
-                minLength={3}
-                maxLength={20}
+                minLength={VALIDATION_LIMITS.MIN_USERNAME_LENGTH}
+                maxLength={VALIDATION_LIMITS.MAX_USERNAME_LENGTH}
                 placeholder="Choose a unique username"
               />
             </div>
@@ -84,7 +85,7 @@ const AuthForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              minLength={6}
+              minLength={VALIDATION_LIMITS.MIN_PASSWORD_LENGTH}
             />
           </div>
 
@@ -98,7 +99,7 @@ const AuthForm = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={loading}
-                minLength={6}
+                minLength={VALIDATION_LIMITS.MIN_PASSWORD_LENGTH}
               />
             </div>
           )}

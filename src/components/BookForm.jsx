@@ -1,18 +1,8 @@
 import { useState, useEffect } from "react";
+import { VALIDATION_LIMITS, RATING_OPTIONS, DEFAULT_BOOK_FORM, VALIDATION_MESSAGES } from "../constants/bookConstants";
 
 function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    authors: [],
-    genres: [],
-    dateStarted: "",
-    dateFinished: "",
-    rating: 2.5,
-    notes: "",
-    tags: [],
-    emojis: [],
-    isPublic: false,
-  });
+  const [formData, setFormData] = useState(DEFAULT_BOOK_FORM);
 
   useEffect(() => {
     if (editingBook) {
@@ -75,12 +65,12 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       if (!trimmedInput) return;
 
       if (formData.genres.includes(trimmedInput)) {
-        alert("This genre is already added");
+        alert(VALIDATION_MESSAGES.GENRE_DUPLICATE);
         return;
       }
 
-      if (formData.genres.length >= 5) {
-        alert("Maximum of 5 genres allowed");
+      if (formData.genres.length >= VALIDATION_LIMITS.MAX_GENRES) {
+        alert(VALIDATION_MESSAGES.GENRE_LIMIT);
         return;
       }
 
@@ -107,12 +97,12 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       if (!trimmedInput) return;
 
       if (formData.tags.includes(trimmedInput)) {
-        alert("This tag is already added");
+        alert(VALIDATION_MESSAGES.TAG_DUPLICATE);
         return;
       }
 
-      if (formData.tags.length >= 15) {
-        alert("Maximum of 10 tags allowed");
+      if (formData.tags.length >= VALIDATION_LIMITS.MAX_TAGS) {
+        alert(VALIDATION_MESSAGES.TAG_LIMIT);
         return;
       }
 
@@ -144,17 +134,17 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       if (!trimmedInput) return;
 
       if (!isEmoji(trimmedInput)) {
-        alert("Please enter only emojis (no letters or numbers)");
+        alert(VALIDATION_MESSAGES.EMOJI_FORMAT);
         return;
       }
 
       if (formData.emojis.includes(trimmedInput)) {
-        alert("This emoji is already added");
+        alert(VALIDATION_MESSAGES.EMOJI_DUPLICATE);
         return;
       }
 
-      if (formData.emojis.length >= 3) {
-        alert("Maximum of 3 emojis allowed");
+      if (formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS) {
+        alert(VALIDATION_MESSAGES.EMOJI_LIMIT);
         return;
       }
 
@@ -176,7 +166,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.title || formData.authors.length === 0) {
-      alert("Please fill in at least the title and one author");
+      alert(VALIDATION_MESSAGES.TITLE_REQUIRED);
       return;
     }
 
@@ -192,18 +182,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     }
 
     if (!editingBook) {
-      setFormData({
-        title: "",
-        authors: [],
-        genres: [],
-        dateStarted: "",
-        dateFinished: "",
-        rating: 2.5,
-        notes: "",
-        tags: [],
-        emojis: [],
-        isPublic: false,
-      });
+      setFormData(DEFAULT_BOOK_FORM);
     }
   };
 
@@ -262,7 +241,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="genres">Genre(s) (up to 5)</label>
+          <label htmlFor="genres">Genre(s) (up to {VALIDATION_LIMITS.MAX_GENRES})</label>
           <div className="tags-input-container">
             <input
               type="text"
@@ -296,8 +275,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               ))}
             </div>
           )}
-          {formData.genres.length >= 5 && (
-            <p className="emoji-warning">Maximum of 5 genres reached</p>
+          {formData.genres.length >= VALIDATION_LIMITS.MAX_GENRES && (
+            <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_GENRES} genres reached</p>
           )}
         </div>
 
@@ -309,7 +288,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             value={formData.rating}
             onChange={handleChange}
           >
-            {[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map((num) => (
+            {RATING_OPTIONS.map((num) => (
               <option key={num} value={num}>
                 {num}
               </option>
@@ -368,7 +347,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="tags">Tags (up to 15)</label>
+        <label htmlFor="tags">Tags (up to {VALIDATION_LIMITS.MAX_TAGS})</label>
         <div className="tags-input-container">
           <input
             type="text"
@@ -398,13 +377,13 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             ))}
           </div>
         )}
-        {formData.tags.length >= 15 && (
-          <p className="emoji-warning">Maximum of 15 tags reached</p>
+        {formData.tags.length >= VALIDATION_LIMITS.MAX_TAGS && (
+          <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_TAGS} tags reached</p>
         )}
       </div>
 
       <div className="form-group">
-        <label htmlFor="emojis">Emojis (up to 3)</label>
+        <label htmlFor="emojis">Emojis (up to {VALIDATION_LIMITS.MAX_EMOJIS})</label>
         <div className="tags-input-container">
           <input
             type="text"
@@ -413,13 +392,13 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             onChange={(e) => setEmojiInput(e.target.value)}
             onKeyDown={handleAddEmoji}
             placeholder="Add an emoji and press Enter (e.g., 📚, 💕, 🌟)"
-            disabled={formData.emojis.length >= 3}
+            disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
           />
           <button
             type="button"
             onClick={handleAddEmoji}
             className="add-tag-btn"
-            disabled={formData.emojis.length >= 3}
+            disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
           >
             Add
           </button>
@@ -440,8 +419,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             ))}
           </div>
         )}
-        {formData.emojis.length >= 3 && (
-          <p className="emoji-warning">Maximum of 3 emojis reached</p>
+        {formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS && (
+          <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached</p>
         )}
       </div>
 

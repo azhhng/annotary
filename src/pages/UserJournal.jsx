@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
 import ColorPicker from "../components/ColorPicker";
@@ -14,8 +14,7 @@ import { useJournaler } from "../hooks/useJournaler";
 function UserJournal() {
   const [showForm, setShowForm] = useState(false);
   const { username } = useParams();
-  const navigate = useNavigate();
-  const { user, loading, signOut } = useAuth();
+  const { user, loading } = useAuth();
   const {
     journaler,
     updateColors,
@@ -121,10 +120,6 @@ function UserJournal() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleLogout = async () => {
-    await signOut();
-    navigate('/');
-  };
 
   const colorUpdateTimeoutRef = useRef(null);
 

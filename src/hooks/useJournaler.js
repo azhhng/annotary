@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "./useAuth";
 
@@ -8,7 +8,7 @@ export const useJournaler = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchJournaler = async () => {
+  const fetchJournaler = useCallback(async () => {
     if (!user) {
       setLoading(false);
       return;
@@ -31,7 +31,7 @@ export const useJournaler = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   const updateJournaler = async (updates) => {
     if (!user || !journaler) return;
@@ -80,7 +80,7 @@ export const useJournaler = () => {
 
   useEffect(() => {
     fetchJournaler();
-  }, [user]);
+  }, [fetchJournaler]);
 
   return {
     journaler,

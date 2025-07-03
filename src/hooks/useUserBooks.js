@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../lib/supabase";
 
 export function useUserBooks(username) {
@@ -20,7 +20,7 @@ export function useUserBooks(username) {
     isPublic: dbRow.is_public,
   });
 
-  const fetchUserBooks = async () => {
+  const fetchUserBooks = useCallback(async () => {
     if (!username) return;
 
     try {
@@ -60,11 +60,11 @@ export function useUserBooks(username) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [username]);
 
   useEffect(() => {
     fetchUserBooks();
-  }, [username]);
+  }, [fetchUserBooks]);
 
   return {
     books,
