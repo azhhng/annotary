@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useFeed } from "../hooks/useFeed";
 import { useJournaler } from "../hooks/useJournaler";
@@ -7,7 +8,8 @@ import FeedItem from "../components/FeedItem";
 import Navigation from "../components/Navigation";
 
 function Homepage() {
-  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  const { user, loading, signOut } = useAuth();
   const { feedItems, loading: feedLoading } = useFeed();
   const { journaler } = useJournaler();
 
@@ -62,6 +64,10 @@ function Homepage() {
       <Navigation 
         activeTab="feed" 
         user={user} 
+        onLogout={async () => {
+          await signOut();
+          navigate('/');
+        }}
         showSearch={true}
         journalTitle={journaler?.journal_title || "My Journal"}
       />

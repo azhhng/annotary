@@ -37,24 +37,27 @@ function Navigation({ activeTab, user, onLogout, showSearch = false, journalTitl
         </button>
       </div>
       
-      {showSearch ? (
-        <form onSubmit={handleSearchSubmit} className="search-form">
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Search username..."
-            className="search-input"
-          />
-          <button type="submit" className="search-btn">
-            Go
+      <div className="nav-actions">
+        {showSearch && (
+          <form onSubmit={handleSearchSubmit} className="search-form">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Search username..."
+              className="search-input"
+            />
+            <button type="submit" className="search-btn">
+              Go
+            </button>
+          </form>
+        )}
+        {onLogout && (
+          <button className="logout-btn" onClick={onLogout}>
+            Logout
           </button>
-        </form>
-      ) : (
-        <button className="logout-btn" onClick={onLogout}>
-          Logout
-        </button>
-      )}
+        )}
+      </div>
     </div>
   );
 }

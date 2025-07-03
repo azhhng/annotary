@@ -1235,6 +1235,12 @@ body {
   border-color: rgba(255, 255, 255, 0.5);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 @media (max-width: 768px) {
   body {
     display: block;
