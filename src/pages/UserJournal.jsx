@@ -84,28 +84,28 @@ function UserJournal() {
     clearSort,
   } = useBookFilters(books);
 
-  const handleAddBook = (newBook) => {
+  const handleAddBook = useCallback((newBook) => {
     addBook(newBook);
     setShowForm(false);
-  };
+  }, [addBook]);
 
-  const handleUpdateBook = (updatedBook) => {
+  const handleUpdateBook = useCallback((updatedBook) => {
     updateBook(updatedBook);
-  };
+  }, [updateBook]);
 
-  const handleEditBook = (book) => {
+  const handleEditBook = useCallback((book) => {
     startEditing(book);
-  };
+  }, [startEditing]);
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = useCallback(() => {
     cancelEditing();
-  };
+  }, [cancelEditing]);
 
-  const handleOpenAddForm = () => {
+  const handleOpenAddForm = useCallback(() => {
     cancelEditing();
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, [cancelEditing]);
 
 
   const colorUpdateTimeoutRef = useRef(null);
@@ -125,7 +125,7 @@ function UserJournal() {
     [journaler, updateColors]
   );
 
-  const handleBgColorsChange = async (updateFn) => {
+  const handleBgColorsChange = useCallback(async (updateFn) => {
     const newBgColors =
       typeof updateFn === "function" ? updateFn(currentBgColors) : updateFn;
 
@@ -139,9 +139,9 @@ function UserJournal() {
     } else {
       setBgColors(newBgColors);
     }
-  };
+  }, [currentBgColors, currentFontColor, journaler, setBgColors, debouncedColorUpdate]);
 
-  const handleFontColorChange = async (newFontColor) => {
+  const handleFontColorChange = useCallback(async (newFontColor) => {
     if (journaler) {
       setFontColor(newFontColor);
       debouncedColorUpdate(
@@ -152,15 +152,29 @@ function UserJournal() {
     } else {
       setFontColor(newFontColor);
     }
-  };
+  }, [currentBgColors, journaler, setFontColor, debouncedColorUpdate]);
 
-  const handleTitleChange = async (newTitle) => {
+  const handleTitleChange = useCallback(async (newTitle) => {
     if (journaler) {
       await updateJournalTitle(newTitle);
     } else {
       setJournalTitle(newTitle);
     }
-  };
+  }, [journaler, updateJournalTitle, setJournalTitle]);
+
+  const handleFormCancel = useCallback(() => {
+    setShowForm(false);
+  }, []);
+
+  const handleToggleAddForm = useCallback(() => {
+    if (showForm && !editingBook) {
+      setShowForm(false);
+    } else if (showForm && editingBook) {
+      handleCancelEdit();
+    } else {
+      handleOpenAddForm();
+    }
+  }, [showForm, editingBook, handleCancelEdit, handleOpenAddForm]);
 
   if (loading || booksLoading) {
     return (
@@ -210,7 +224,7 @@ function UserJournal() {
           <BookForm
             onAddBook={handleAddBook}
             onUpdateBook={handleUpdateBook}
-            onCancel={() => setShowForm(false)}
+            onCancel={handleFormCancel}
             editingBook={null}
           />
         </div>
@@ -221,15 +235,7 @@ function UserJournal() {
           <div className="sidebar">
             <button
               className="add-book-btn"
-              onClick={() => {
-                if (showForm && !editingBook) {
-                  setShowForm(false);
-                } else if (showForm && editingBook) {
-                  handleCancelEdit();
-                } else {
-                  handleOpenAddForm();
-                }
-              }}
+              onClick={handleToggleAddForm}
             >
               {showForm ? "Cancel" : "Add book"}
             </button>
