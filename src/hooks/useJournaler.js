@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { journalersApi } from "../services/api";
 import { useAuth } from "./useAuth";
+import { COLORS, getValidColor } from "../constants/colors";
 
 export const useJournaler = () => {
   const { user } = useAuth();
@@ -38,14 +39,10 @@ export const useJournaler = () => {
   };
 
   const updateColors = async (gradientStart, gradientEnd, fontColor) => {
-    const isValidHex = (hex) => /^#[0-9A-F]{6}$/i.test(hex);
-
     return updateJournaler({
-      gradient_start_color: isValidHex(gradientStart)
-        ? gradientStart
-        : "#667eea",
-      gradient_end_color: isValidHex(gradientEnd) ? gradientEnd : "#764ba2",
-      font_color: isValidHex(fontColor) ? fontColor : "#ffffff",
+      gradient_start_color: getValidColor(gradientStart, COLORS.PRIMARY_GRADIENT_START),
+      gradient_end_color: getValidColor(gradientEnd, COLORS.PRIMARY_GRADIENT_END),
+      font_color: getValidColor(fontColor, COLORS.PRIMARY_FONT),
     });
   };
 

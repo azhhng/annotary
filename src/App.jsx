@@ -7,6 +7,7 @@ import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
 import { useJournaler } from "./hooks/useJournaler";
+import { COLORS, createGradientBackground } from "./constants/colors";
 
 function AppContent() {
   const location = useLocation();
@@ -41,8 +42,8 @@ function AppContent() {
   // handle colors for each page
   useEffect(() => {
     if (location.pathname === '/') {
-      document.body.style.background = `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
-      document.documentElement.style.setProperty("--font-color", "#ffffff");
+      document.body.style.background = createGradientBackground(COLORS.PRIMARY_GRADIENT_START, COLORS.PRIMARY_GRADIENT_END);
+      document.documentElement.style.setProperty("--font-color", COLORS.PRIMARY_FONT);
     }
     document.title = "Annotary";
   }, [location.pathname]);

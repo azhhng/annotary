@@ -10,6 +10,7 @@ import { useBookFilters } from "../hooks/useBookFilters";
 import { useTheme } from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
 import { useJournaler } from "../hooks/useJournaler";
+import { createGradientBackground } from "../constants/colors";
 
 function UserJournal() {
   const [showForm, setShowForm] = useState(false);
@@ -46,7 +47,7 @@ function UserJournal() {
   const currentJournalTitle = journaler?.journal_title || journalTitle;
 
   useEffect(() => {
-    document.body.style.background = `linear-gradient(135deg, ${currentBgColors.start} 0%, ${currentBgColors.end} 100%)`;
+    document.body.style.background = createGradientBackground(currentBgColors.start, currentBgColors.end);
   }, [currentBgColors]);
 
   useEffect(() => {

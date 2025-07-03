@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
+import { COLORS } from "../constants/colors";
 
 export function useTheme() {
   const [bgColors, setBgColors] = useState({
-    start: "#667eea",
-    end: "#764ba2",
+    start: COLORS.PRIMARY_GRADIENT_START,
+    end: COLORS.PRIMARY_GRADIENT_END,
   });
-  const [fontColor, setFontColor] = useState("#ffffff");
+  const [fontColor, setFontColor] = useState(COLORS.PRIMARY_FONT);
   const [journalTitle, setJournalTitle] = useState("loading");
 
   useEffect(() => {
