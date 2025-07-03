@@ -225,6 +225,7 @@ function UserJournal() {
         user={user}
         onLogout={handleLogout}
         showSearch={false}
+        journalTitle={currentJournalTitle}
       />
 
       <main className="main-content">

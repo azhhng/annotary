@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useFeed } from "../hooks/useFeed";
+import { useJournaler } from "../hooks/useJournaler";
 import AuthForm from "../components/AuthForm";
 import FeedItem from "../components/FeedItem";
 import Navigation from "../components/Navigation";
@@ -8,6 +9,7 @@ import Navigation from "../components/Navigation";
 function Homepage() {
   const { user, loading } = useAuth();
   const { feedItems, loading: feedLoading } = useFeed();
+  const { journaler } = useJournaler();
 
   useEffect(() => {
     document.body.style.background = `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`;
@@ -61,6 +63,7 @@ function Homepage() {
         activeTab="feed" 
         user={user} 
         showSearch={true}
+        journalTitle={journaler?.journal_title || "My Journal"}
       />
 
       <main className="main-content">

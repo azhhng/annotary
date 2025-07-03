@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Navigation({ activeTab, user, onLogout, showSearch = false }) {
+function Navigation({ activeTab, user, onLogout, showSearch = false, journalTitle = "My Journal" }) {
   const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function Navigation({ activeTab, user, onLogout, showSearch = false }) {
           onClick={() => handleTabClick("journal")}
           className={`tab ${activeTab === "journal" ? "active" : ""}`}
         >
-          My Journal
+          {journalTitle}
         </button>
       </div>
       
