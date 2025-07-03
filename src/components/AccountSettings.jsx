@@ -41,71 +41,99 @@ function AccountSettings() {
 
   return (
     <div className="account-settings">
-      <h3>Account Settings</h3>
-      
-      <div className="danger-zone">
-        <h4 style={{ color: "#ff4444", marginBottom: "1rem" }}>Danger Zone</h4>
-        <p style={{ marginBottom: "1rem", fontSize: "0.9rem" }}>
-          This will permanently delete your entire account, including all books, journal data, and profile. This action cannot be undone.
-        </p>
-        
-        {!showConfirmation ? (
-          <button
-            className="delete-account-btn"
-            onClick={handleDeleteAccount}
-            disabled={isDeleting}
-            style={{
-              backgroundColor: "#ff4444",
-              color: "white",
-              border: "none",
-              padding: "0.5rem 1rem",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "0.9rem"
-            }}
+
+      {!showConfirmation ? (
+          <div
+            style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}
           >
-            Delete Account
-          </button>
-        ) : (
-          <div className="confirmation-dialog">
-            <p style={{ marginBottom: "1rem", fontWeight: "bold", color: "#ff4444" }}>
-              Are you absolutely sure? This will permanently delete your account and all data.
+            <button
+              className="delete-account-btn"
+              onClick={handleDeleteAccount}
+              disabled={isDeleting}
+              style={{
+                background: "rgba(255, 255, 255, 0.1)",
+                color: "var(--font-color)",
+                border: "1px solid rgba(255, 255, 255, 0.3)",
+                padding: "0.5rem 1rem",
+                borderRadius: "6px",
+                cursor: "pointer",
+                fontSize: "0.875rem",
+                transition: "all 0.2s",
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.background = "rgba(255, 100, 100, 0.3)";
+                e.target.style.borderColor = "rgba(255, 100, 100, 0.5)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.background = "rgba(255, 255, 255, 0.1)";
+                e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
+              }}
+            >
+              Delete account
+            </button>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "0.9rem",
+                lineHeight: "1.5",
+                flex: 1,
+              }}
+            >
+              This will permanently delete your entire account, including all
+              books, journal data, and profile. This action cannot be undone.
             </p>
-            <div style={{ display: "flex", gap: "0.5rem" }}>
+          </div>
+        ) : (
+          <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
               <button
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}
                 style={{
-                  backgroundColor: "#ff4444",
-                  color: "white",
-                  border: "none",
+                  background: "rgba(255, 100, 100, 0.3)",
+                  color: "var(--font-color)",
+                  border: "1px solid rgba(255, 100, 100, 0.5)",
                   padding: "0.5rem 1rem",
-                  borderRadius: "4px",
+                  borderRadius: "6px",
                   cursor: isDeleting ? "not-allowed" : "pointer",
-                  fontSize: "0.9rem"
+                  fontSize: "0.875rem",
+                  transition: "all 0.2s",
                 }}
               >
-                {isDeleting ? "Deleting..." : "Yes, Delete Forever"}
+                {isDeleting ? "Deleting..." : "Yes, delete forever"}
               </button>
               <button
                 onClick={handleCancel}
                 disabled={isDeleting}
                 style={{
-                  backgroundColor: "#666",
-                  color: "white",
-                  border: "none",
+                  background: "rgba(255, 255, 255, 0.1)",
+                  color: "var(--font-color)",
+                  border: "1px solid rgba(255, 255, 255, 0.3)",
                   padding: "0.5rem 1rem",
-                  borderRadius: "4px",
+                  borderRadius: "6px",
                   cursor: "pointer",
-                  fontSize: "0.9rem"
+                  fontSize: "0.875rem",
+                  transition: "all 0.2s",
                 }}
               >
                 Cancel
               </button>
             </div>
+            <p
+              style={{
+                margin: 0,
+                fontSize: "0.9rem",
+                lineHeight: "1.5",
+                flex: 1,
+                color: "var(--font-color)",
+              }}
+            >
+              Are you absolutely sure? This will permanently delete your account
+              and all data.
+            </p>
           </div>
         )}
-      </div>
     </div>
   );
 }
