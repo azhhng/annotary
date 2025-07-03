@@ -1,34 +1,31 @@
 # 📚 Annotary
 
-A personal reading journal app.
+A social reading journal platform where users can track their books, customize their journal themes, and discover what others are reading.
 
-## Features
+## ✨ Features
 
-- **Add & Edit Books** - Track title, author, genre, start/finish dates, and personal notes
-- **Half-Star Ratings** - Rate books from 0.5 to 5 stars with half star support
-- **Custom Tags** - Add any tags you want
-- **Local Storage** - All data stored in a JSON file
+### 📖 Personal Reading Journal
+- **Add & Edit Books** - Track title, multiple authors, genres, start/finish dates, and personal notes/reviews
+- **Half-Star Ratings** - Rate books from 0.5 to 5 stars
+- **Required Emojis** - Describe books with at least 1 emoji (up to 3)
+- **Custom Tags** - Add up to 15 personalized tags per book
+- **Multiple Genres** - Add up to 5 genres per book
+- **Public/Private Books** - Choose which books appear on the public feed
 
-## Data Storage
+### 🎨 Customization
+- **Theme Customization** - Personalize your journal with custom background and font colors
+- **Editable Journal Title** - Name your journal
 
-Books are stored in `src/data/books.json`. We can manually edit this file or go through the website UI. Each book entry looks like:
+### 👥 Social Features
+- **Public Feed** - Discover what other users are reading
+- **User Profiles** - Visit other users' public journals
+- **Public Book Reviews** - Control privacy of your book reviews
 
-```json
-{
-  "id": 1,
-  "title": "Book Title",
-  "author": "Author Name",
-  "genre": "Fiction",
-  "dateStarted": "2024-01-15",
-  "dateFinished": "2024-01-22",
-  "rating": 4.5,
-  "notes": "Your thoughts about the book...",
-  "tags": ["favorite", "summer read", "beautiful writing"]
-}
-```
+### 🔍 Filtering & Sorting
+- **Smart Filters** - Filter by genre, rating, tags, author, or emoji
+- **Multi-Sort Options** - Sort by rating, title, author, or completion date
 
-## Built With
+### 🔐 User Authentication
+- **Secure Auth** - Using Supabase authentication
+- **User Profiles** - Each user gets their own journal space
 
-- **React**
-- **Vite**
-- **CSS3**
