@@ -8,6 +8,7 @@ function BookList({
   editingBook,
   onUpdateBook,
   onCancelEdit,
+  showActions = true,
 }) {
   return (
     <div className="books-grid">
@@ -43,17 +44,19 @@ function BookList({
                 <div className="book-card-content">
                   <div className="book-header">
                     <h3>{book.title}</h3>
-                    <div className="book-actions">
-                      <button className="edit-btn" onClick={() => onEditBook(book)}>
-                        Edit
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => onDeleteBook(book.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {showActions && (
+                      <div className="book-actions">
+                        <button className="edit-btn" onClick={() => onEditBook(book)}>
+                          Edit
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => onDeleteBook(book.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <p>
                     <span className="property-label">Author(s)</span>

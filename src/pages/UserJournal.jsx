@@ -278,6 +278,7 @@ function UserJournal() {
               editingBook={editingBook}
               onUpdateBook={handleUpdateBook}
               onCancelEdit={handleCancelEdit}
+              showActions={true}
             />
           )}
         </div>
