@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
-function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) {
+function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal", currentUsername }) {
   const navigate = useNavigate();
 
   const handleTabClick = (tab) => {
     if (tab === "feed") {
       navigate("/");
     } else if (tab === "journal") {
-      if (user && user.email) {
-        navigate(`/${user.email.split('@')[0]}`);
+      if (user && currentUsername) {
+        navigate(`/${currentUsername}`);
       } else {
         navigate("/auth");
       }

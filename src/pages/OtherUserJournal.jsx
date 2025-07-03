@@ -84,7 +84,7 @@ function OtherUserJournal() {
   return (
     <>
       <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-        <h1 style={{ margin: 0, color: fontColor }}>
+        <h1 style={{ margin: 0, color: fontColor, fontSize: "1rem", fontWeight: "normal" }}>
           {userInfo.journal_title}
         </h1>
       </div>

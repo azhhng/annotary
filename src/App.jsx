@@ -16,7 +16,17 @@ function AppContent() {
 
   const getActiveTab = () => {
     if (location.pathname === '/') return 'feed';
-    return 'journal';
+    if (location.pathname === '/auth') return null;
+
+    const username = location.pathname.slice(1);
+
+    if (user && journaler) {
+      const currentUsername = journaler.username;
+      const isOwnJournal = currentUsername === username;
+      return isOwnJournal ? 'journal' : null;
+    }
+
+    return null;
   };
 
   const handleLogout = async () => {
@@ -24,7 +34,6 @@ function AppContent() {
       await signOut();
     } catch (error) {
       console.log('Logout error (likely expired session):', error);
-      // Even if signOut fails, we should still clear the local state and redirect
     }
     navigate('/');
   };
@@ -49,6 +58,7 @@ function AppContent() {
         user={user}
         onLogout={handleLogout}
         journalTitle={user && journaler?.journal_title ? journaler.journal_title : "My Journal"}
+        currentUsername={journaler?.username}
       />
 
       <main className="main-content">
