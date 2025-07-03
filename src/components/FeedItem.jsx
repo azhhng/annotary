@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 function FeedItem({ item }) {
@@ -96,4 +97,4 @@ function FeedItem({ item }) {
   );
 }
 
-export default FeedItem;
+export default memo(FeedItem);

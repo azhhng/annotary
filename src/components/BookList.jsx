@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import BookForm from "./BookForm";
 import CollapsibleText from "./CollapsibleText";
 
@@ -131,4 +131,4 @@ function BookList({
   );
 }
 
-export default BookList;
+export default memo(BookList);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 
 function FilterSort({
   filters,
@@ -134,4 +134,4 @@ function FilterSort({
   );
 }
 
-export default FilterSort;
+export default memo(FilterSort);
