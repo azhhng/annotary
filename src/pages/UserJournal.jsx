@@ -36,20 +36,20 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     }
   }, [journaler, setBgColors, setFontColor, setJournalTitle]);
 
-  const currentJournalTitle = useMemo(() => 
-    journaler?.journal_title || journalTitle, 
+  const currentJournalTitle = useMemo(
+    () => journaler?.journal_title || journalTitle,
     [journaler?.journal_title, journalTitle]
   );
 
   useEffect(() => {
-    document.body.style.background = createGradientBackground(bgColors.start, bgColors.end);
+    document.body.style.background = createGradientBackground(
+      bgColors.start,
+      bgColors.end
+    );
   }, [bgColors]);
 
   useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--font-color",
-      fontColor
-    );
+    document.documentElement.style.setProperty("--font-color", fontColor);
   }, [fontColor]);
 
   useEffect(() => {
@@ -79,18 +79,27 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     clearSort,
   } = useBookFilters(books);
 
-  const handleAddBook = useCallback((newBook) => {
-    addBook(newBook);
-    setShowForm(false);
-  }, [addBook]);
+  const handleAddBook = useCallback(
+    (newBook) => {
+      addBook(newBook);
+      setShowForm(false);
+    },
+    [addBook]
+  );
 
-  const handleUpdateBook = useCallback((updatedBook) => {
-    updateBook(updatedBook);
-  }, [updateBook]);
+  const handleUpdateBook = useCallback(
+    (updatedBook) => {
+      updateBook(updatedBook);
+    },
+    [updateBook]
+  );
 
-  const handleEditBook = useCallback((book) => {
-    startEditing(book);
-  }, [startEditing]);
+  const handleEditBook = useCallback(
+    (book) => {
+      startEditing(book);
+    },
+    [startEditing]
+  );
 
   const handleCancelEdit = useCallback(() => {
     cancelEditing();
@@ -101,7 +110,6 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [cancelEditing]);
-
 
   const colorUpdateTimeoutRef = useRef(null);
 
@@ -120,42 +128,43 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     [journaler, updateColors]
   );
 
-  const handleBgColorsChange = useCallback(async (updateFn) => {
-    const newBgColors =
-      typeof updateFn === "function" ? updateFn(bgColors) : updateFn;
+  const handleBgColorsChange = useCallback(
+    async (updateFn) => {
+      const newBgColors =
+        typeof updateFn === "function" ? updateFn(bgColors) : updateFn;
 
-    if (journaler) {
-      setBgColors(newBgColors);
-      debouncedColorUpdate(
-        newBgColors.start,
-        newBgColors.end,
-        fontColor
-      );
-    } else {
-      setBgColors(newBgColors);
-    }
-  }, [bgColors, fontColor, journaler, setBgColors, debouncedColorUpdate]);
+      if (journaler) {
+        setBgColors(newBgColors);
+        debouncedColorUpdate(newBgColors.start, newBgColors.end, fontColor);
+      } else {
+        setBgColors(newBgColors);
+      }
+    },
+    [bgColors, fontColor, journaler, setBgColors, debouncedColorUpdate]
+  );
 
-  const handleFontColorChange = useCallback(async (newFontColor) => {
-    if (journaler) {
-      setFontColor(newFontColor);
-      debouncedColorUpdate(
-        bgColors.start,
-        bgColors.end,
-        newFontColor
-      );
-    } else {
-      setFontColor(newFontColor);
-    }
-  }, [bgColors, journaler, setFontColor, debouncedColorUpdate]);
+  const handleFontColorChange = useCallback(
+    async (newFontColor) => {
+      if (journaler) {
+        setFontColor(newFontColor);
+        debouncedColorUpdate(bgColors.start, bgColors.end, newFontColor);
+      } else {
+        setFontColor(newFontColor);
+      }
+    },
+    [bgColors, journaler, setFontColor, debouncedColorUpdate]
+  );
 
-  const handleTitleChange = useCallback(async (newTitle) => {
-    if (journaler) {
-      await updateJournalTitle(newTitle);
-    } else {
-      setJournalTitle(newTitle);
-    }
-  }, [journaler, updateJournalTitle, setJournalTitle]);
+  const handleTitleChange = useCallback(
+    async (newTitle) => {
+      if (journaler) {
+        await updateJournalTitle(newTitle);
+      } else {
+        setJournalTitle(newTitle);
+      }
+    },
+    [journaler, updateJournalTitle, setJournalTitle]
+  );
 
   const handleFormCancel = useCallback(() => {
     setShowForm(false);
@@ -228,10 +237,7 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
       <div className="books-section">
         <div className="books-container">
           <div className="sidebar">
-            <button
-              className="add-book-btn"
-              onClick={handleToggleAddForm}
-            >
+            <button className="add-book-btn" onClick={handleToggleAddForm}>
               {showForm ? "Cancel" : "Add book"}
             </button>
 

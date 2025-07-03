@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
 import Homepage from "./pages/Homepage";
@@ -16,15 +22,15 @@ function AppContent() {
   const { journaler } = useJournaler();
 
   const getActiveTab = () => {
-    if (location.pathname === '/') return 'feed';
-    if (location.pathname === '/auth') return null;
+    if (location.pathname === "/") return "feed";
+    if (location.pathname === "/auth") return null;
 
     const username = location.pathname.slice(1);
 
     if (user && journaler) {
       const currentUsername = journaler.username;
       const isOwnJournal = currentUsername === username;
-      return isOwnJournal ? 'journal' : null;
+      return isOwnJournal ? "journal" : null;
     }
 
     return null;
@@ -34,16 +40,22 @@ function AppContent() {
     try {
       await signOut();
     } catch (error) {
-      console.log('Logout error (likely expired session):', error);
+      console.log("Logout error (likely expired session):", error);
     }
-    navigate('/');
+    navigate("/");
   };
 
   // handle colors for each page
   useEffect(() => {
-    if (location.pathname === '/') {
-      document.body.style.background = createGradientBackground(COLORS.PRIMARY_GRADIENT_START, COLORS.PRIMARY_GRADIENT_END);
-      document.documentElement.style.setProperty("--font-color", COLORS.PRIMARY_FONT);
+    if (location.pathname === "/") {
+      document.body.style.background = createGradientBackground(
+        COLORS.PRIMARY_GRADIENT_START,
+        COLORS.PRIMARY_GRADIENT_END
+      );
+      document.documentElement.style.setProperty(
+        "--font-color",
+        COLORS.PRIMARY_FONT
+      );
     }
     document.title = "Annotary";
   }, [location.pathname]);
@@ -58,7 +70,11 @@ function AppContent() {
         activeTab={getActiveTab()}
         user={user}
         onLogout={handleLogout}
-        journalTitle={user && journaler?.journal_title ? journaler.journal_title : "My Journal"}
+        journalTitle={
+          user && journaler?.journal_title
+            ? journaler.journal_title
+            : "My Journal"
+        }
         currentUsername={journaler?.username}
       />
 

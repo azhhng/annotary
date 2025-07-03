@@ -7,16 +7,19 @@ import OtherUserJournal from "../pages/OtherUserJournal";
 function JournalRouter() {
   const { username } = useParams();
   const { user } = useAuth();
-  const { journaler, loading, updateColors, updateJournalTitle } = useJournaler();
+  const { journaler, loading, updateColors, updateJournalTitle } =
+    useJournaler();
 
   if (loading || !user || !journaler) {
     return (
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "50vh",
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+        }}
+      >
         <p>Loading...</p>
       </div>
     );
@@ -26,7 +29,13 @@ function JournalRouter() {
   const isOwnJournal = user && journaler && journaler.username === username;
 
   if (isOwnJournal) {
-    return <UserJournal journaler={journaler} updateColors={updateColors} updateJournalTitle={updateJournalTitle} />;
+    return (
+      <UserJournal
+        journaler={journaler}
+        updateColors={updateColors}
+        updateJournalTitle={updateJournalTitle}
+      />
+    );
   } else {
     return <OtherUserJournal />;
   }

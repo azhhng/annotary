@@ -1085,7 +1085,7 @@ body {
 }
 
 .stars {
-  color: #FFD700;
+  color: #ffd700;
   font-size: 1.1rem;
 }
 
@@ -1163,7 +1163,7 @@ body {
 }
 
 .feed-item-body::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 60px;
   top: 0;
@@ -1200,7 +1200,7 @@ body {
 }
 
 .book-card-body::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 60px;
   top: 0;
@@ -1455,11 +1455,13 @@ body {
     gap: 0.5rem;
   }
 
-  .book-genres, .book-tags {
+  .book-genres,
+  .book-tags {
     margin: 0.5rem 0;
   }
 
-  .genre-tag, .user-tag {
+  .genre-tag,
+  .user-tag {
     font-size: 0.75rem;
   }
 

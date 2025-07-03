@@ -9,5 +9,5 @@ export const createGradientBackground = (startColor, endColor) =>
 
 export const isValidHex = (hex) => /^#[0-9A-F]{6}$/i.test(hex);
 
-export const getValidColor = (color, fallback) => 
+export const getValidColor = (color, fallback) =>
   isValidHex(color) ? color : fallback;

@@ -1,6 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal", currentUsername }) {
+function Navigation({
+  activeTab,
+  user,
+  onLogout,
+  journalTitle = "My Journal",
+  currentUsername,
+}) {
   const navigate = useNavigate();
 
   const handleTabClick = (tab) => {

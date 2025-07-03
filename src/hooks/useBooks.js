@@ -7,7 +7,6 @@ export function useBooks() {
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-  
 
   const transformDbToBook = (dbRow) => ({
     id: dbRow.id,
@@ -47,7 +46,7 @@ export function useBooks() {
         const transformedBooks = data.map(transformDbToBook);
         setBooks(transformedBooks);
       } catch (error) {
-        console.error('Error fetching books:', error);
+        console.error("Error fetching books:", error);
       } finally {
         setLoading(false);
       }
@@ -55,7 +54,6 @@ export function useBooks() {
 
     fetchData();
   }, [user?.id]);
-
 
   const addBook = async (newBook) => {
     if (!user) return;
@@ -66,7 +64,7 @@ export function useBooks() {
       const transformedBook = transformDbToBook(data);
       setBooks((prev) => [transformedBook, ...prev]);
     } catch (error) {
-      console.error('Error adding book:', error);
+      console.error("Error adding book:", error);
     }
   };
 
@@ -78,11 +76,13 @@ export function useBooks() {
       const data = await booksApi.updateBook(updatedBook.id, user.id, dbBook);
       const transformedBook = transformDbToBook(data);
       setBooks((prev) =>
-        prev.map((book) => (book.id === updatedBook.id ? transformedBook : book))
+        prev.map((book) =>
+          book.id === updatedBook.id ? transformedBook : book
+        )
       );
       setEditingBook(null);
     } catch (error) {
-      console.error('Error updating book:', error);
+      console.error("Error updating book:", error);
     }
   };
 
@@ -94,7 +94,7 @@ export function useBooks() {
         await booksApi.deleteBook(bookId, user.id);
         setBooks((prev) => prev.filter((book) => book.id !== bookId));
       } catch (error) {
-        console.error('Error deleting book:', error);
+        console.error("Error deleting book:", error);
       }
     }
   };

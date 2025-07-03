@@ -36,12 +36,12 @@ export const AuthProvider = ({ children }) => {
   const signOut = async () => {
     try {
       const { error } = await authApi.signOut();
-      if (error && error.code !== 'session_not_found') {
+      if (error && error.code !== "session_not_found") {
         return { error };
       }
       return { error: null };
     } catch (error) {
-      console.log('SignOut error:', error);
+      console.log("SignOut error:", error);
       setUser(null);
       return { error: null };
     }

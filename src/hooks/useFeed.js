@@ -18,27 +18,27 @@ export function useFeed() {
     emojis: dbRow.emojis || [],
     createdAt: dbRow.created_at,
     userId: dbRow.user_id,
-    username: dbRow.journalers?.username || 'Anonymous',
+    username: dbRow.journalers?.username || "Anonymous",
   });
 
   const fetchFeed = useCallback(async () => {
     try {
       setLoading(true);
       const bookEntries = await feedApi.getFeed(50);
-      
-      const transformedItems = bookEntries.map(item => {
+
+      const transformedItems = bookEntries.map((item) => {
         if (item.journalers) {
           return transformDbToFeedItem(item);
         } else {
           return {
             ...transformDbToFeedItem(item),
-            username: 'Anonymous'
+            username: "Anonymous",
           };
         }
       });
       setFeedItems(transformedItems);
     } catch (error) {
-      console.error('Error fetching feed:', error);
+      console.error("Error fetching feed:", error);
       setFeedItems([]);
     } finally {
       setLoading(false);

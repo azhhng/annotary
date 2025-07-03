@@ -9,14 +9,9 @@ import { useTheme } from "../hooks/useTheme";
 function OtherUserJournal() {
   const { username } = useParams();
   const { books, loading, userInfo } = useUserBooks(username);
-  
-  const {
-    bgColors,
-    setBgColors,
-    fontColor,
-    setFontColor,
-    setJournalTitle,
-  } = useTheme();
+
+  const { bgColors, setBgColors, fontColor, setFontColor, setJournalTitle } =
+    useTheme();
 
   const {
     filters,
@@ -51,7 +46,7 @@ function OtherUserJournal() {
   }, [fontColor]);
 
   useEffect(() => {
-    document.title = `${username}'s ${userInfo?.journal_title || 'Journal'}`;
+    document.title = `${username}'s ${userInfo?.journal_title || "Journal"}`;
   }, [username, userInfo]);
 
   if (loading) {
@@ -83,7 +78,14 @@ function OtherUserJournal() {
   return (
     <>
       <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-        <h1 style={{ margin: 0, color: fontColor, fontSize: "1rem", fontWeight: "normal" }}>
+        <h1
+          style={{
+            margin: 0,
+            color: fontColor,
+            fontSize: "1rem",
+            fontWeight: "normal",
+          }}
+        >
           {userInfo.journal_title}
         </h1>
       </div>

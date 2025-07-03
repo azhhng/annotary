@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { VALIDATION_LIMITS, RATING_OPTIONS, DEFAULT_BOOK_FORM, VALIDATION_MESSAGES } from "../constants/bookConstants";
+import {
+  VALIDATION_LIMITS,
+  RATING_OPTIONS,
+  DEFAULT_BOOK_FORM,
+  VALIDATION_MESSAGES,
+} from "../constants/bookConstants";
 
 function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   const [formData, setFormData] = useState(DEFAULT_BOOK_FORM);
@@ -16,7 +21,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         notes: editingBook.notes || "",
         tags: editingBook.tags || [],
         emojis: editingBook.emojis || [],
-        isPublic: editingBook.isPublic !== undefined ? editingBook.isPublic : false,
+        isPublic:
+          editingBook.isPublic !== undefined ? editingBook.isPublic : false,
       });
     }
   }, [editingBook]);
@@ -246,7 +252,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="genres">Genre(s) (up to {VALIDATION_LIMITS.MAX_GENRES})</label>
+          <label htmlFor="genres">
+            Genre(s) (up to {VALIDATION_LIMITS.MAX_GENRES})
+          </label>
           <div className="tags-input-container">
             <input
               type="text"
@@ -281,7 +289,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             </div>
           )}
           {formData.genres.length >= VALIDATION_LIMITS.MAX_GENRES && (
-            <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_GENRES} genres reached</p>
+            <p className="emoji-warning">
+              Maximum of {VALIDATION_LIMITS.MAX_GENRES} genres reached
+            </p>
           )}
         </div>
 
@@ -308,7 +318,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               id="isPublic"
               name="isPublic"
               checked={formData.isPublic}
-              onChange={(e) => setFormData(prev => ({ ...prev, isPublic: e.target.checked }))}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, isPublic: e.target.checked }))
+              }
             />
             Make this review public (show on homepage)
           </label>
@@ -383,12 +395,17 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           </div>
         )}
         {formData.tags.length >= VALIDATION_LIMITS.MAX_TAGS && (
-          <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_TAGS} tags reached</p>
+          <p className="emoji-warning">
+            Maximum of {VALIDATION_LIMITS.MAX_TAGS} tags reached
+          </p>
         )}
       </div>
 
       <div className="form-group">
-        <label htmlFor="emojis">Emojis * (at least {VALIDATION_LIMITS.MIN_EMOJIS}, up to {VALIDATION_LIMITS.MAX_EMOJIS})</label>
+        <label htmlFor="emojis">
+          Emojis * (at least {VALIDATION_LIMITS.MIN_EMOJIS}, up to{" "}
+          {VALIDATION_LIMITS.MAX_EMOJIS})
+        </label>
         <div className="tags-input-container">
           <input
             type="text"
@@ -425,7 +442,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           </div>
         )}
         {formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS && (
-          <p className="emoji-warning">Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached</p>
+          <p className="emoji-warning">
+            Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached
+          </p>
         )}
       </div>
 

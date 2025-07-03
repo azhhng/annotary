@@ -13,17 +13,20 @@ function BookList({
 }) {
   const formattedDates = useMemo(() => {
     const dateCache = new Map();
-    
-    books.forEach(book => {
+
+    books.forEach((book) => {
       if (book.dateFinished && !dateCache.has(book.dateFinished)) {
-        dateCache.set(book.dateFinished, new Date(book.dateFinished).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }));
+        dateCache.set(
+          book.dateFinished,
+          new Date(book.dateFinished).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        );
       }
     });
-    
+
     return dateCache;
   }, [books]);
   return (
@@ -62,7 +65,10 @@ function BookList({
                     <h3>{book.title}</h3>
                     {showActions && (
                       <div className="book-actions">
-                        <button className="edit-btn" onClick={() => onEditBook(book)}>
+                        <button
+                          className="edit-btn"
+                          onClick={() => onEditBook(book)}
+                        >
                           Edit
                         </button>
                         <button

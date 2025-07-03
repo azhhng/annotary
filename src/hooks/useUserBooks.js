@@ -25,15 +25,16 @@ export function useUserBooks(username) {
 
     try {
       setLoading(true);
-      
-      const journalerData = await journalersApi.getJournalerByUsername(username);
+
+      const journalerData =
+        await journalersApi.getJournalerByUsername(username);
       setUserInfo(journalerData);
 
       const bookData = await booksApi.getPublicBooks(journalerData.user_id);
       const transformedBooks = bookData.map(transformDbToBook);
       setBooks(transformedBooks);
     } catch (error) {
-      console.error('Error fetching user books:', error);
+      console.error("Error fetching user books:", error);
       setUserInfo(null);
       setBooks([]);
     } finally {
@@ -47,15 +48,16 @@ export function useUserBooks(username) {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
-        const journalerData = await journalersApi.getJournalerByUsername(username);
+
+        const journalerData =
+          await journalersApi.getJournalerByUsername(username);
         setUserInfo(journalerData);
 
         const bookData = await booksApi.getPublicBooks(journalerData.user_id);
         const transformedBooks = bookData.map(transformDbToBook);
         setBooks(transformedBooks);
       } catch (error) {
-        console.error('Error fetching user books:', error);
+        console.error("Error fetching user books:", error);
         setUserInfo(null);
         setBooks([]);
       } finally {

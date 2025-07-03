@@ -29,13 +29,15 @@ function AuthPage() {
   }
 
   return (
-    <div style={{
-      maxWidth: "400px",
-      margin: "2rem auto",
-      padding: "2rem",
-      background: "rgba(255, 255, 255, 0.1)",
-      borderRadius: "8px"
-    }}>
+    <div
+      style={{
+        maxWidth: "400px",
+        margin: "2rem auto",
+        padding: "2rem",
+        background: "rgba(255, 255, 255, 0.1)",
+        borderRadius: "8px",
+      }}
+    >
       <AuthForm />
     </div>
   );

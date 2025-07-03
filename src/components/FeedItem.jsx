@@ -33,24 +33,20 @@ function FeedItem({ item }) {
 
         <div className="feed-item-content">
           <div className="feed-item-header">
-            <button 
-              className="username-link" 
+            <button
+              className="username-link"
               onClick={handleUserClick}
               title={`Go to ${item.username}'s journal`}
             >
               @{item.username}
             </button>
-            <span className="feed-item-date">
-              {formatDate(item.createdAt)}
-            </span>
+            <span className="feed-item-date">{formatDate(item.createdAt)}</span>
           </div>
 
           <h3 className="book-title">{item.title}</h3>
-          
+
           {item.authors && item.authors.length > 0 && (
-            <p className="book-authors">
-              by {item.authors.join(", ")}
-            </p>
+            <p className="book-authors">by {item.authors.join(", ")}</p>
           )}
 
           {item.rating && (
@@ -68,7 +64,11 @@ function FeedItem({ item }) {
 
           {item.notes && (
             <div className="book-notes">
-              <p>{item.notes.length > 200 ? `${item.notes.substring(0, 200)}...` : item.notes}</p>
+              <p>
+                {item.notes.length > 200
+                  ? `${item.notes.substring(0, 200)}...`
+                  : item.notes}
+              </p>
             </div>
           )}
 

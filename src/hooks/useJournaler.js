@@ -24,8 +24,14 @@ export const useJournaler = () => {
 
   const updateColors = async (gradientStart, gradientEnd, fontColor) => {
     return updateJournaler({
-      gradient_start_color: getValidColor(gradientStart, COLORS.PRIMARY_GRADIENT_START),
-      gradient_end_color: getValidColor(gradientEnd, COLORS.PRIMARY_GRADIENT_END),
+      gradient_start_color: getValidColor(
+        gradientStart,
+        COLORS.PRIMARY_GRADIENT_START
+      ),
+      gradient_end_color: getValidColor(
+        gradientEnd,
+        COLORS.PRIMARY_GRADIENT_END
+      ),
       font_color: getValidColor(fontColor, COLORS.PRIMARY_FONT),
     });
   };
