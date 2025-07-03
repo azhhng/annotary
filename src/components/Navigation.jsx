@@ -18,6 +18,12 @@ function Navigation({
       } else {
         navigate("/auth");
       }
+    } else if (tab === "settings") {
+      if (user) {
+        navigate("/settings");
+      } else {
+        navigate("/auth");
+      }
     }
   };
 
@@ -36,6 +42,14 @@ function Navigation({
         >
           {journalTitle}
         </button>
+        {user && (
+          <button
+            onClick={() => handleTabClick("settings")}
+            className={`tab ${activeTab === "settings" ? "active" : ""}`}
+          >
+            Settings
+          </button>
+        )}
       </div>
 
       <div className="nav-actions">

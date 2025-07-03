@@ -47,12 +47,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const deleteAccount = async () => {
+    if (!user) {
+      return { error: "No user to delete" };
+    }
+
+    try {
+      const { error } = await authApi.deleteAccount(user.id);
+      if (error) {
+        return { error: error.message || "Failed to delete account" };
+      }
+
+      setUser(null);
+      return { error: null };
+    } catch (error) {
+      console.error("Delete account error:", error);
+      return { error: "Failed to delete account" };
+    }
+  };
+
   const value = {
     user,
     loading,
     signUp,
     signIn,
     signOut,
+    deleteAccount,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

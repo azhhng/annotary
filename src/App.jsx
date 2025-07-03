@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import "./App.css";
 import Homepage from "./pages/Homepage";
 import AuthPage from "./pages/AuthPage";
+import Settings from "./pages/Settings";
 import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
@@ -24,6 +25,7 @@ function AppContent() {
   const getActiveTab = () => {
     if (location.pathname === "/") return "feed";
     if (location.pathname === "/auth") return null;
+    if (location.pathname === "/settings") return "settings";
 
     const username = location.pathname.slice(1);
 
@@ -82,6 +84,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/:username" element={<JournalRouter />} />
         </Routes>
       </main>

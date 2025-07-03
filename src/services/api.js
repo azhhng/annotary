@@ -163,6 +163,32 @@ export const authApi = {
     return { error };
   },
 
+  async deleteAccount(userId) {
+    try {
+      const { error: booksError } = await supabase
+        .from("book_entries")
+        .delete()
+        .eq("user_id", userId);
+
+      if (booksError) throw booksError;
+
+      const { error: journalerError } = await supabase
+        .from("journalers")
+        .delete()
+        .eq("user_id", userId);
+
+      if (journalerError) throw journalerError;
+
+      const { error: deleteUserError } =
+        await supabase.auth.admin.deleteUser(userId);
+      if (deleteUserError) throw deleteUserError;
+
+      return { error: null };
+    } catch (error) {
+      return { error };
+    }
+  },
+
   onAuthStateChange(callback) {
     return supabase.auth.onAuthStateChange(callback);
   },
