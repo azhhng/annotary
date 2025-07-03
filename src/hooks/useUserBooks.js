@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../lib/supabase";
+import { booksApi, journalersApi } from "../services/api";
 
 export function useUserBooks(username) {
   const [books, setBooks] = useState([]);
@@ -26,36 +26,15 @@ export function useUserBooks(username) {
     try {
       setLoading(true);
       
-      // First, get the user info by username
-      const { data: journalerData, error: journalerError } = await supabase
-        .from('journalers')
-        .select('*')
-        .eq('username', username)
-        .single();
-
-      if (journalerError) {
-        console.error('Error fetching journaler:', journalerError);
-        setUserInfo(null);
-        setBooks([]);
-        return;
-      }
-
+      const journalerData = await journalersApi.getJournalerByUsername(username);
       setUserInfo(journalerData);
 
-      // Then fetch their books
-      const { data: bookData, error: bookError } = await supabase
-        .from('book_entries')
-        .select('*')
-        .eq('user_id', journalerData.user_id)
-        .eq('is_public', true) // Only show public books when viewing other users
-        .order('created_at', { ascending: false });
-
-      if (bookError) throw bookError;
-
+      const bookData = await booksApi.getPublicBooks(journalerData.user_id);
       const transformedBooks = bookData.map(transformDbToBook);
       setBooks(transformedBooks);
     } catch (error) {
       console.error('Error fetching user books:', error);
+      setUserInfo(null);
       setBooks([]);
     } finally {
       setLoading(false);

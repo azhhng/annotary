@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabase";
+import { authApi } from "../services/api";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {
@@ -8,9 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const getSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const session = await authApi.getSession();
       setUser(session?.user || null);
       setLoading(false);
     };
@@ -19,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_, session) => {
+    } = authApi.onAuthStateChange(async (_, session) => {
       setUser(session?.user || null);
       setLoading(false);
     });
@@ -28,35 +26,22 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signUp = async (email, password, metadata = {}) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: metadata,
-      },
-    });
-    return { data, error };
+    return await authApi.signUp(email, password, metadata);
   };
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { data, error };
+    return await authApi.signIn(email, password);
   };
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
+      const { error } = await authApi.signOut();
       if (error && error.code !== 'session_not_found') {
         return { error };
       }
-      // If session_not_found, we consider it a successful logout since the session is already gone
       return { error: null };
     } catch (error) {
       console.log('SignOut error:', error);
-      // Even if there's an error, clear the local user state
       setUser(null);
       return { error: null };
     }

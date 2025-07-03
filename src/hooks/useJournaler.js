@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../lib/supabase";
+import { journalersApi } from "../services/api";
 import { useAuth } from "./useAuth";
 
 export const useJournaler = () => {
@@ -15,17 +15,8 @@ export const useJournaler = () => {
     }
 
     try {
-      const { data, error } = await supabase
-        .from("journalers")
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setJournaler(data);
-      }
+      const data = await journalersApi.getJournaler(user.id);
+      setJournaler(data);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -37,23 +28,9 @@ export const useJournaler = () => {
     if (!user || !journaler) return;
 
     try {
-      const { data, error } = await supabase
-        .from("journalers")
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", user.id)
-        .select()
-        .single();
-
-      if (error) {
-        setError(error.message);
-        return { error };
-      } else {
-        setJournaler(data);
-        return { data };
-      }
+      const data = await journalersApi.updateJournaler(user.id, updates);
+      setJournaler(data);
+      return { data };
     } catch (err) {
       setError(err.message);
       return { error: err.message };

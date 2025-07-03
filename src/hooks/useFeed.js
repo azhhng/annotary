@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../lib/supabase";
+import { feedApi } from "../services/api";
 
 export function useFeed() {
   const [feedItems, setFeedItems] = useState([]);
@@ -24,40 +24,19 @@ export function useFeed() {
   const fetchFeed = useCallback(async () => {
     try {
       setLoading(true);
-
-      const { data: bookEntries, error: bookError } = await supabase
-        .from('book_entries')
-        .select(`
-          *,
-          journalers!inner(username)
-        `)
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
-        .limit(50);
-
-      if (bookError) {
-        console.error('Error fetching with journalers:', bookError);
-        // Fallback: try without journalers table
-        const { data: fallbackEntries, error: fallbackError } = await supabase
-          .from('book_entries')
-          .select('*')
-          .eq('is_public', true)
-          .order('created_at', { ascending: false })
-          .limit(50);
-
-        if (fallbackError) throw fallbackError;
-
-        const transformedItems = fallbackEntries.map(item => ({
-          ...transformDbToFeedItem(item),
-          username: 'Anonymous'
-        }));
-        setFeedItems(transformedItems);
-        return;
-      }
-
-      const transformedItems = bookEntries.map(item => transformDbToFeedItem(item));
+      const bookEntries = await feedApi.getFeed(50);
+      
+      const transformedItems = bookEntries.map(item => {
+        if (item.journalers) {
+          return transformDbToFeedItem(item);
+        } else {
+          return {
+            ...transformDbToFeedItem(item),
+            username: 'Anonymous'
+          };
+        }
+      });
       setFeedItems(transformedItems);
-
     } catch (error) {
       console.error('Error fetching feed:', error);
       setFeedItems([]);

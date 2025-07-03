@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "../lib/supabase";
+import { booksApi } from "../services/api";
 import { useAuth } from "./useAuth";
 
 export function useBooks() {
@@ -41,14 +41,7 @@ export function useBooks() {
 
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('book_entries')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
+      const data = await booksApi.getBooks(user.id);
       const transformedBooks = data.map(transformDbToBook);
       setBooks(transformedBooks);
     } catch (error) {
@@ -67,14 +60,7 @@ export function useBooks() {
 
     try {
       const dbBook = transformBookToDb(newBook);
-      const { data, error } = await supabase
-        .from('book_entries')
-        .insert([dbBook])
-        .select()
-        .single();
-
-      if (error) throw error;
-
+      const data = await booksApi.createBook(dbBook);
       const transformedBook = transformDbToBook(data);
       setBooks((prev) => [transformedBook, ...prev]);
     } catch (error) {
@@ -87,16 +73,7 @@ export function useBooks() {
 
     try {
       const dbBook = transformBookToDb(updatedBook);
-      const { data, error } = await supabase
-        .from('book_entries')
-        .update(dbBook)
-        .eq('id', updatedBook.id)
-        .eq('user_id', user.id)
-        .select()
-        .single();
-
-      if (error) throw error;
-
+      const data = await booksApi.updateBook(updatedBook.id, user.id, dbBook);
       const transformedBook = transformDbToBook(data);
       setBooks((prev) =>
         prev.map((book) => (book.id === updatedBook.id ? transformedBook : book))
@@ -112,14 +89,7 @@ export function useBooks() {
 
     if (window.confirm("Are you sure you want to delete this book?")) {
       try {
-        const { error } = await supabase
-          .from('book_entries')
-          .delete()
-          .eq('id', bookId)
-          .eq('user_id', user.id);
-
-        if (error) throw error;
-
+        await booksApi.deleteBook(bookId, user.id);
         setBooks((prev) => prev.filter((book) => book.id !== bookId));
       } catch (error) {
         console.error('Error deleting book:', error);
