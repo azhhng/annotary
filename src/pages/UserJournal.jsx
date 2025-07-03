@@ -5,7 +5,6 @@ import BookList from "../components/BookList";
 import ColorPicker from "../components/ColorPicker";
 import FilterSort from "../components/FilterSort";
 import EditableTitle from "../components/EditableTitle";
-import Navigation from "../components/Navigation";
 import { useBooks } from "../hooks/useBooks";
 import { useBookFilters } from "../hooks/useBookFilters";
 import { useTheme } from "../hooks/useTheme";
@@ -184,28 +183,33 @@ function UserJournal() {
 
   if (loading || booksLoading) {
     return (
-      <div className="app">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "100vh",
-          }}
-        >
-          <p>Loading...</p>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "50vh",
+        }}
+      >
+        <p>Loading...</p>
       </div>
     );
   }
 
   if (!user) {
-    navigate('/');
-    return null;
+    return (
+      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <h2>Sign up to continue</h2>
+        <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
+          Create an account to start your own reading journal.
+        </p>
+        {/* Could add AuthForm here if you want */}
+      </div>
+    );
   }
 
   return (
-    <div className="app">
+    <>
       <ColorPicker
         bgColors={currentBgColors}
         setBgColors={handleBgColorsChange}
@@ -213,84 +217,74 @@ function UserJournal() {
         setFontColor={handleFontColorChange}
       />
 
-      <header className="app-header">
+      <div style={{ marginBottom: "2rem", textAlign: "center" }}>
         <EditableTitle
           title={currentJournalTitle}
           onTitleChange={handleTitleChange}
         />
-      </header>
+      </div>
 
-      <Navigation
-        activeTab="journal"
-        user={user}
-        onLogout={handleLogout}
-        showSearch={false}
-        journalTitle={currentJournalTitle}
-      />
+      {showForm && !editingBook && (
+        <div className="form-section">
+          <h2>Add book</h2>
+          <BookForm
+            onAddBook={handleAddBook}
+            onUpdateBook={handleUpdateBook}
+            onCancel={() => setShowForm(false)}
+            editingBook={null}
+          />
+        </div>
+      )}
 
-      <main className="main-content">
-        {showForm && !editingBook && (
-          <div className="form-section">
-            <h2>Add book</h2>
-            <BookForm
-              onAddBook={handleAddBook}
-              onUpdateBook={handleUpdateBook}
-              onCancel={() => setShowForm(false)}
-              editingBook={null}
-            />
-          </div>
-        )}
+      <div className="books-section">
+        <div className="books-container">
+          <div className="sidebar">
+            <button
+              className="add-book-btn"
+              onClick={() => {
+                if (showForm && !editingBook) {
+                  setShowForm(false);
+                } else if (showForm && editingBook) {
+                  handleCancelEdit();
+                } else {
+                  handleOpenAddForm();
+                }
+              }}
+            >
+              {showForm ? "Cancel" : "Add book"}
+            </button>
 
-        <div className="books-section">
-          <div className="books-container">
-            <div className="sidebar">
-              <button
-                className="add-book-btn"
-                onClick={() => {
-                  if (showForm && !editingBook) {
-                    setShowForm(false);
-                  } else if (showForm && editingBook) {
-                    handleCancelEdit();
-                  } else {
-                    handleOpenAddForm();
-                  }
-                }}
-              >
-                {showForm ? "Cancel" : "Add book"}
-              </button>
-
-              {books.length > 0 && (
-                <FilterSort
-                  filters={filters}
-                  sortBy={sortBy}
-                  filterOptions={filterOptions}
-                  hasActiveFilters={hasActiveFilters}
-                  onFilterChange={handleFilterChange}
-                  onClearFilters={clearFilters}
-                  onSortChange={setSortBy}
-                  onClearSort={clearSort}
-                />
-              )}
-            </div>
-
-            {books.length === 0 ? (
-              <div className="books-grid">
-                <p>No books yet. Add your first book!</p>
-              </div>
-            ) : (
-              <BookList
-                books={sortedBooks}
-                onEditBook={handleEditBook}
-                onDeleteBook={deleteBook}
-                editingBook={editingBook}
-                onUpdateBook={handleUpdateBook}
-                onCancelEdit={handleCancelEdit}
+            {books.length > 0 && (
+              <FilterSort
+                filters={filters}
+                sortBy={sortBy}
+                filterOptions={filterOptions}
+                hasActiveFilters={hasActiveFilters}
+                onFilterChange={handleFilterChange}
+                onClearFilters={clearFilters}
+                onSortChange={setSortBy}
+                onClearSort={clearSort}
               />
             )}
           </div>
+
+          {books.length === 0 ? (
+            <div className="books-grid">
+              <p>No books yet. Add your first book!</p>
+            </div>
+          ) : (
+            <BookList
+              books={sortedBooks}
+              onEditBook={handleEditBook}
+              onDeleteBook={deleteBook}
+              editingBook={editingBook}
+              onUpdateBook={handleUpdateBook}
+              onCancelEdit={handleCancelEdit}
+            />
+          )}
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   );
 }
 
