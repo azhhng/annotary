@@ -7,7 +7,11 @@ function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) 
     if (tab === "feed") {
       navigate("/");
     } else if (tab === "journal") {
-      navigate(`/${user.email.split('@')[0]}`);
+      if (user && user.email) {
+        navigate(`/${user.email.split('@')[0]}`);
+      } else {
+        navigate("/");
+      }
     }
   };
 
@@ -27,7 +31,7 @@ function Navigation({ activeTab, user, onLogout, journalTitle = "My Journal" }) 
           {journalTitle}
         </button>
       </div>
-      
+
       {onLogout && (
         <button className="logout-btn" onClick={onLogout}>
           Logout
