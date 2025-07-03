@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import BookForm from "./BookForm";
 import CollapsibleText from "./CollapsibleText";
 
@@ -10,6 +11,21 @@ function BookList({
   onCancelEdit,
   showActions = true,
 }) {
+  const formattedDates = useMemo(() => {
+    const dateCache = new Map();
+    
+    books.forEach(book => {
+      if (book.dateFinished && !dateCache.has(book.dateFinished)) {
+        dateCache.set(book.dateFinished, new Date(book.dateFinished).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }));
+      }
+    });
+    
+    return dateCache;
+  }, [books]);
   return (
     <div className="books-grid">
       {books.length === 0 ? (
@@ -78,11 +94,7 @@ function BookList({
                     <p>
                       <span className="property-label">Finished</span>
                       <span className="property-content">
-                        {new Date(book.dateFinished).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
+                        {formattedDates.get(book.dateFinished)}
                       </span>
                     </p>
                   )}
