@@ -7,6 +7,7 @@ export function useBooks() {
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  
 
   const transformDbToBook = (dbRow) => ({
     id: dbRow.id,
@@ -36,24 +37,25 @@ export function useBooks() {
     user_id: user?.id,
   });
 
-  const fetchBooks = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      setLoading(true);
-      const data = await booksApi.getBooks(user.id);
-      const transformedBooks = data.map(transformDbToBook);
-      setBooks(transformedBooks);
-    } catch (error) {
-      console.error('Error fetching books:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
-
   useEffect(() => {
-    fetchBooks();
-  }, [fetchBooks]);
+    if (!user?.id) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const data = await booksApi.getBooks(user.id);
+        const transformedBooks = data.map(transformDbToBook);
+        setBooks(transformedBooks);
+      } catch (error) {
+        console.error('Error fetching books:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [user?.id]);
+
 
   const addBook = async (newBook) => {
     if (!user) return;
