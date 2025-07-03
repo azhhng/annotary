@@ -170,6 +170,11 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       return;
     }
 
+    if (formData.emojis.length === 0) {
+      alert(VALIDATION_MESSAGES.EMOJI_REQUIRED);
+      return;
+    }
+
     const bookData = {
       ...formData,
       rating: parseFloat(formData.rating),
@@ -383,7 +388,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       </div>
 
       <div className="form-group">
-        <label htmlFor="emojis">Emojis (up to {VALIDATION_LIMITS.MAX_EMOJIS})</label>
+        <label htmlFor="emojis">Emojis * (at least {VALIDATION_LIMITS.MIN_EMOJIS}, up to {VALIDATION_LIMITS.MAX_EMOJIS})</label>
         <div className="tags-input-container">
           <input
             type="text"
