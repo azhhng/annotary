@@ -1,10 +1,10 @@
 :root {
   --font-color: #ffffff;
-  --font-size-xs: 0.7rem;
-  --font-size-sm: 0.8rem;
-  --font-size-base: 0.9rem;
-  --font-size-lg: 1rem;
-  --font-size-xl: 1.1rem;
+  --font-size-xs: 0.65rem;
+  --font-size-sm: 0.75rem;
+  --font-size-base: 0.85rem;
+  --font-size-lg: 0.95rem;
+  --font-size-xl: 1.05rem;
   --font-size-2xl: 2rem;
 }
 
@@ -104,10 +104,16 @@ body {
   font-weight: normal;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  padding: 0.75rem;
   text-align: center;
   outline: none;
+}
+
+.editable-title-input:focus {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .books-container {
