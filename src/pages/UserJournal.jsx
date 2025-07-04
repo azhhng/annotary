@@ -171,14 +171,7 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
 
   if (loading || booksLoading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
+      <div className="loading-center">
         <p>Loading...</p>
       </div>
     );
@@ -186,9 +179,9 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
 
   if (!user) {
     return (
-      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+      <div className="unauthenticated-message">
         <h2>Sign up to continue</h2>
-        <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
+        <p>
           Create an account to start your own reading journal.
         </p>
       </div>

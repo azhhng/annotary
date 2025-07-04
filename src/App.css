@@ -1620,3 +1620,88 @@ body {
   line-height: 1.5;
   flex: 1;
 }
+
+.loading-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.confirm-delete-button {
+  background: rgba(255, 100, 100, 0.3);
+  border-color: rgba(255, 100, 100, 0.5);
+}
+
+.settings-page {
+  min-height: 100vh;
+}
+
+.settings-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.brand-title {
+  margin: 0;
+  color: var(--font-color);
+  font-size: 1.2rem;
+  font-weight: normal;
+  cursor: pointer;
+  margin-right: 2rem;
+}
+
+.unauthenticated-message {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.unauthenticated-message h2 {
+  margin: 0 0 2rem 0;
+}
+
+.unauthenticated-message p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.journal-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.journal-title {
+  margin: 0;
+  color: var(--font-color);
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.user-not-found {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.user-not-found h2 {
+  margin: 0 0 2rem 0;
+}
+
+.user-not-found p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.auth-page {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}

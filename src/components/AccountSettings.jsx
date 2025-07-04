@@ -115,15 +115,11 @@ function AccountSettings() {
         </div>
       ) : (
         <div className="settings-row">
-          <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
+          <div className="confirmation-buttons">
             <button
               onClick={handleDeleteAccount}
               disabled={isDeleting}
-              className="settings-button"
-              style={{
-                background: "rgba(255, 100, 100, 0.3)",
-                borderColor: "rgba(255, 100, 100, 0.5)",
-              }}
+              className="settings-button confirm-delete-button"
             >
               {isDeleting ? "Deleting..." : "Yes, delete forever"}
             </button>

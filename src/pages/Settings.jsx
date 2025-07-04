@@ -27,14 +27,7 @@ function Settings() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
+      <div className="loading-center">
         <p>Loading...</p>
       </div>
     );
@@ -46,10 +39,7 @@ function Settings() {
 
   return (
     <div className="settings-page">
-      <div
-        className="container"
-        style={{ maxWidth: "600px", margin: "0 auto", padding: "2rem" }}
-      >
+      <div className="settings-container">
         <AccountSettings />
       </div>
     </div>

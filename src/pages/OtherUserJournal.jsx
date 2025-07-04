@@ -51,14 +51,7 @@ function OtherUserJournal() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
+      <div className="loading-center">
         <p>Loading...</p>
       </div>
     );
@@ -66,9 +59,9 @@ function OtherUserJournal() {
 
   if (!userInfo) {
     return (
-      <div style={{ textAlign: "center", marginTop: "2rem" }}>
+      <div className="user-not-found">
         <h2>User not found</h2>
-        <p style={{ marginBottom: "2rem", fontSize: "1.1rem" }}>
+        <p>
           The user "{username}" doesn't exist or hasn't created a journal yet.
         </p>
       </div>
@@ -77,15 +70,8 @@ function OtherUserJournal() {
 
   return (
     <>
-      <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-        <h1
-          style={{
-            margin: 0,
-            color: fontColor,
-            fontSize: "1rem",
-            fontWeight: "normal",
-          }}
-        >
+      <div className="journal-header">
+        <h1 className="journal-title" style={{ color: fontColor }}>
           {userInfo.journal_title}
         </h1>
       </div>

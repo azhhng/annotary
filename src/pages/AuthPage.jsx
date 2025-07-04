@@ -15,29 +15,14 @@ function AuthPage() {
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
+      <div className="loading-center">
         <p>Loading...</p>
       </div>
     );
   }
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "2rem auto",
-        padding: "2rem",
-        background: "rgba(255, 255, 255, 0.1)",
-        borderRadius: "8px",
-      }}
-    >
+    <div className="auth-page">
       <AuthForm />
     </div>
   );

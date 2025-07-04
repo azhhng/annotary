@@ -12,14 +12,7 @@ function JournalRouter() {
 
   if (loading || !user || !journaler) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "50vh",
-        }}
-      >
+      <div className="loading-center">
         <p>Loading...</p>
       </div>
     );
