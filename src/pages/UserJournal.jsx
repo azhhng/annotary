@@ -4,7 +4,6 @@ import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
 import ColorPicker from "../components/ColorPicker";
 import FilterSort from "../components/FilterSort";
-import EditableTitle from "../components/EditableTitle";
 import { useBooks } from "../hooks/useBooks";
 import { useBookFilters } from "../hooks/useBookFilters";
 import { useTheme } from "../hooks/useTheme";
@@ -155,16 +154,6 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     [bgColors, journaler, setFontColor, debouncedColorUpdate]
   );
 
-  const handleTitleChange = useCallback(
-    async (newTitle) => {
-      if (journaler) {
-        await updateJournalTitle(newTitle);
-      } else {
-        setJournalTitle(newTitle);
-      }
-    },
-    [journaler, updateJournalTitle, setJournalTitle]
-  );
 
   const handleFormCancel = useCallback(() => {
     setShowForm(false);
@@ -215,12 +204,6 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
         setFontColor={handleFontColorChange}
       />
 
-      <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-        <EditableTitle
-          title={currentJournalTitle}
-          onTitleChange={handleTitleChange}
-        />
-      </div>
 
       {showForm && !editingBook && (
         <div className="form-section">

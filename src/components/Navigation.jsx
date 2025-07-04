@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
+import { useJournaler } from "../contexts/JournalerContext";
 
 function Navigation({
   activeTab,
   user,
   onLogout,
-  journalTitle = "My Journal",
   currentUsername,
 }) {
   const navigate = useNavigate();
+  const { journaler } = useJournaler();
+  const journalTitle = journaler?.journal_title || "My Journal";
 
   const handleTabClick = (tab) => {
     if (tab === "feed") {

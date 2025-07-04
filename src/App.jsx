@@ -13,7 +13,7 @@ import Settings from "./pages/Settings";
 import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
-import { useJournaler } from "./hooks/useJournaler";
+import { JournalerProvider, useJournaler } from "./contexts/JournalerContext";
 import { COLORS, createGradientBackground } from "./constants/colors";
 
 function AppContent() {
@@ -37,6 +37,7 @@ function AppContent() {
 
     return null;
   };
+
 
   const handleLogout = async () => {
     try {
@@ -68,12 +69,7 @@ function AppContent() {
         activeTab={getActiveTab()}
         user={user}
         onLogout={handleLogout}
-        journalTitle={
-          user && journaler?.journal_title
-            ? journaler.journal_title
-            : "My Journal"
-        }
-        currentUsername={journaler?.username}
+        currentUsername={user ? journaler?.username : null}
       />
 
       <main className="main-content">
@@ -91,7 +87,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <JournalerProvider>
+        <AppContent />
+      </JournalerProvider>
     </BrowserRouter>
   );
 }

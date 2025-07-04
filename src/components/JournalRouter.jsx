@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { useJournaler } from "../hooks/useJournaler";
+import { useJournaler } from "../contexts/JournalerContext";
 import UserJournal from "../pages/UserJournal";
 import OtherUserJournal from "../pages/OtherUserJournal";
 
