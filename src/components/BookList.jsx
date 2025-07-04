@@ -36,7 +36,7 @@ function BookList({
       ) : (
         books.map((book) =>
           editingBook && editingBook.id === book.id ? (
-            <div key={book.id} className="book-card">
+            <div key={book.id} className="book-card card">
               <div className="inline-edit-form">
                 <h3>Edit book</h3>
                 <BookForm
@@ -48,7 +48,7 @@ function BookList({
               </div>
             </div>
           ) : (
-            <div key={book.id} className="book-card">
+            <div key={book.id} className="book-card card">
               <div className="book-card-body">
                 {book.emojis && book.emojis.length > 0 && (
                   <div className="book-card-emojis">
@@ -66,13 +66,13 @@ function BookList({
                     {showActions && (
                       <div className="book-actions">
                         <button
-                          className="edit-btn"
+                          className="btn btn-secondary btn-sm"
                           onClick={() => onEditBook(book)}
                         >
                           Edit
                         </button>
                         <button
-                          className="delete-btn"
+                          className="btn btn-secondary btn-sm btn-danger"
                           onClick={() => onDeleteBook(book.id)}
                         >
                           Delete

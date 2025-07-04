@@ -6,7 +6,7 @@ function Homepage() {
 
   if (feedLoading) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );

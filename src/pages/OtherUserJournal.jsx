@@ -51,7 +51,7 @@ function OtherUserJournal() {
 
   if (loading) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );
@@ -59,7 +59,7 @@ function OtherUserJournal() {
 
   if (!userInfo) {
     return (
-      <div className="user-not-found">
+      <div className="text-center" style={{ marginTop: '2rem' }}>
         <h2>User not found</h2>
         <p>
           The user "{username}" doesn't exist or hasn't created a journal yet.
@@ -70,8 +70,8 @@ function OtherUserJournal() {
 
   return (
     <>
-      <div className="journal-header">
-        <h1 className="journal-title" style={{ color: fontColor }}>
+      <div className="text-center" style={{ marginBottom: '2rem' }}>
+        <h1 style={{ color: fontColor }}>
           {userInfo.journal_title}
         </h1>
       </div>

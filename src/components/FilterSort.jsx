@@ -99,7 +99,7 @@ function FilterSort({
           </div>
 
           {hasActiveFilters && (
-            <button className="clear-filters-btn" onClick={onClearFilters}>
+            <button className="btn btn-secondary btn-sm" onClick={onClearFilters}>
               Clear filters
             </button>
           )}
@@ -123,7 +123,7 @@ function FilterSort({
             </div>
 
             {sortBy && (
-              <button className="clear-filters-btn" onClick={onClearSort}>
+              <button className="btn btn-secondary btn-sm" onClick={onClearSort}>
                 Clear sorting
               </button>
             )}

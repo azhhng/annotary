@@ -15,14 +15,14 @@ function AuthPage() {
 
   if (loading) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="auth-page">
+    <div className="container-xs bg-glass">
       <AuthForm />
     </div>
   );

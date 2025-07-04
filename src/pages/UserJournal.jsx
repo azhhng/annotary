@@ -171,7 +171,7 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
 
   if (loading || booksLoading) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );
@@ -179,7 +179,7 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
 
   if (!user) {
     return (
-      <div className="unauthenticated-message">
+      <div className="text-center" style={{ marginTop: '2rem' }}>
         <h2>Sign up to continue</h2>
         <p>
           Create an account to start your own reading journal.
@@ -213,7 +213,7 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
       <div className="books-section">
         <div className="books-container">
           <div className="sidebar">
-            <button className="add-book-btn" onClick={handleToggleAddForm}>
+            <button className="btn btn-primary" onClick={handleToggleAddForm}>
               {showForm ? "Cancel" : "Add book"}
             </button>
 

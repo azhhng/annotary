@@ -42,11 +42,10 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-form">
-        <h2>{isLogin ? "Sign in" : "Sign up"}</h2>
+    <div>
+      <h2 className="text-center">{isLogin ? "Sign in" : "Sign up"}</h2>
 
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -104,7 +103,7 @@ const AuthForm = () => {
             </div>
           )}
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
             {loading ? "Loading..." : isLogin ? "Sign in" : "Sign up"}
           </button>
         </form>
@@ -123,25 +122,24 @@ const AuthForm = () => {
           </div>
         )}
 
-        <p className="auth-switch">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}
-          <button
-            type="button"
-            className="link-button"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setMessage("");
-              setEmail("");
-              setPassword("");
-              setConfirmPassword("");
-              setUsername("");
-            }}
-            disabled={loading}
-          >
-            {isLogin ? "Sign up" : "Sign in"}
-          </button>
-        </p>
-      </div>
+      <p className="text-center" style={{ marginTop: '1.5rem', fontSize: 'var(--font-size-sm)' }}>
+        {isLogin ? "Don't have an account?" : "Already have an account?"}
+        <button
+          type="button"
+          className="btn-link"
+          onClick={() => {
+            setIsLogin(!isLogin);
+            setMessage("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setUsername("");
+          }}
+          disabled={loading}
+        >
+          {isLogin ? "Sign up" : "Sign in"}
+        </button>
+      </p>
     </div>
   );
 };

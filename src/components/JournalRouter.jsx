@@ -12,7 +12,7 @@ function JournalRouter() {
 
   if (loading || !user || !journaler) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );

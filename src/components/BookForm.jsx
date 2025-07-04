@@ -198,7 +198,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="book-form">
+    <form onSubmit={handleSubmit} className="form">
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="title">Title *</label>
@@ -226,7 +226,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             <button
               type="button"
               onClick={handleAddAuthor}
-              className="add-tag-btn"
+              className="btn btn-secondary btn-sm"
             >
               Add
             </button>
@@ -267,7 +267,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             <button
               type="button"
               onClick={handleAddGenre}
-              className="add-tag-btn"
+              className="btn btn-secondary btn-sm"
             >
               Add
             </button>
@@ -374,7 +374,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             onKeyDown={handleAddTag}
             placeholder="Type a tag and press Enter (e.g., favorite, drama)"
           />
-          <button type="button" onClick={handleAddTag} className="add-tag-btn">
+          <button type="button" onClick={handleAddTag} className="btn btn-secondary btn-sm">
             Add
           </button>
         </div>
@@ -419,7 +419,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           <button
             type="button"
             onClick={handleAddEmoji}
-            className="add-tag-btn"
+            className="btn btn-secondary btn-sm"
             disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
           >
             Add
@@ -449,10 +449,10 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
       </div>
 
       <div className="form-actions">
-        <button type="submit" className="btn-primary">
+        <button type="submit" className="btn btn-primary">
           {editingBook ? "Update book" : "Add book"}
         </button>
-        <button type="button" onClick={onCancel} className="btn-secondary">
+        <button type="button" onClick={onCancel} className="btn btn-secondary">
           Cancel
         </button>
       </div>

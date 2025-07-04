@@ -34,9 +34,10 @@ function FeedItem({ item }) {
         <div className="feed-item-content">
           <div className="feed-item-header">
             <button
-              className="username-link"
+              className="btn-link"
               onClick={handleUserClick}
               title={`Go to ${item.username}'s journal`}
+              style={{ fontWeight: 'bold', textDecoration: 'none' }}
             >
               @{item.username}
             </button>

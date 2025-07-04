@@ -63,11 +63,11 @@ function Navigation({
 
       <div className="nav-actions">
         {user ? (
-          <button className="logout-btn" onClick={onLogout}>
+          <button className="btn btn-secondary btn-sm" onClick={onLogout}>
             Logout
           </button>
         ) : (
-          <button className="signin-btn" onClick={() => navigate("/auth")}>
+          <button className="btn btn-secondary btn-sm" onClick={() => navigate("/auth")}>
             Sign in / Sign up
           </button>
         )}

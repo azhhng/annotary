@@ -27,7 +27,7 @@ function Settings() {
 
   if (loading) {
     return (
-      <div className="loading-center">
+      <div className="loading">
         <p>Loading...</p>
       </div>
     );
@@ -38,10 +38,8 @@ function Settings() {
   }
 
   return (
-    <div className="settings-page">
-      <div className="settings-container">
-        <AccountSettings />
-      </div>
+    <div className="container-sm">
+      <AccountSettings />
     </div>
   );
 }

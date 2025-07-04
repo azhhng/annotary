@@ -20,12 +20,13 @@ function CollapsibleText({ text, maxLength = 100 }) {
         {isExpanded ? text : smartTruncated + "..."}
       </span>
       <button
-        className="toggle-text-btn"
+        className="btn-link"
         onClick={(e) => {
           e.preventDefault();
           setIsExpanded(!isExpanded);
         }}
         type="button"
+        style={{ marginLeft: '0.5rem', fontSize: 'var(--font-size-sm)' }}
       >
         {isExpanded ? "Read less" : "Read more"}
       </button>
