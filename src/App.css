@@ -1,14 +1,18 @@
 :root {
   --font-color: #ffffff;
-  --font-size-xs: 0.8rem;
-  --font-size-sm: 0.9rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.1rem;
-  --font-size-xl: 1.2rem;
-  --font-size-2xl: 2.5rem;
+  --font-size-xs: 0.7rem;
+  --font-size-sm: 0.8rem;
+  --font-size-base: 0.9rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.1rem;
+  --font-size-2xl: 2rem;
 }
 
-body, input, textarea, button, select {
+body,
+input,
+textarea,
+button,
+select {
   font-family: monospace;
   font-weight: normal;
 }
