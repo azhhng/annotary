@@ -1045,3 +1045,51 @@ select:focus {
     font-size: var(--font-size-xl);
   }
 }
+
+/* ============================================
+   SETTINGS PAGE - Consistent layout
+   ============================================ */
+
+.account-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.settings-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.settings-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.settings-description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--font-color);
+  opacity: 0.8;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .settings-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .settings-action {
+    align-items: stretch;
+  }
+}

@@ -69,8 +69,8 @@ function AccountSettings() {
   return (
     <>
       <div className="account-settings">
-        <div className="settings-section">
-          <div className="flex gap-lg">
+        <div className="settings-row">
+          <div className="settings-action">
             <button
               onClick={handleUpdateTitle}
               disabled={
@@ -78,107 +78,91 @@ function AccountSettings() {
                 !titleInput.trim() ||
                 titleInput === journaler?.journal_title
               }
-              className="btn btn-secondary btn-sm"
+              className="btn btn-secondary"
             >
               {isUpdatingTitle ? "Updating..." : "Change name"}
             </button>
-            <div className="flex-col gap-sm">
-              <input
-                type="text"
-                value={titleInput}
-                onChange={(e) => setTitleInput(e.target.value)}
-                placeholder="Enter journal title"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleUpdateTitle();
-                  }
-                }}
-              />
-              <p
-                style={{
-                  fontSize: "var(--font-size-xs)",
-                  opacity: 0.7,
-                  margin: "0.5rem 0 0 0",
-                }}
-              >
-                Current: {journaler?.journal_title || "My Journal"}
-              </p>
-            </div>
+          </div>
+          <div className="settings-content">
+            <input
+              type="text"
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              placeholder="Enter journal title"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleUpdateTitle();
+                }
+              }}
+              style={{ marginBottom: "0.5rem" }}
+            />
+            <p className="settings-description">
+              Current: {journaler?.journal_title || "My Journal"}
+            </p>
           </div>
         </div>
 
-        <div className="settings-section">
-          <div className="flex gap-lg">
+        <div className="settings-row">
+          <div className="settings-action">
             <button
               onClick={() => setShowImport(true)}
-              className="btn btn-secondary btn-sm"
+              className="btn btn-secondary"
             >
-              Import from Goodreads
+              Import
             </button>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "var(--font-size-sm)",
-                lineHeight: 1.5,
-                flex: 1,
-              }}
-            >
-              Import your books from a Goodreads CSV export. Only books that are
-              read will be imported.
+          </div>
+          <div className="settings-content">
+            <p className="settings-description">
+              Import your books from a Goodreads CSV export. Only books that
+              were read will be imported.
             </p>
           </div>
         </div>
 
         {!showConfirmation ? (
-          <div className="flex gap-lg">
-            <button
-              className="btn btn-secondary btn-sm btn-danger"
-              onClick={handleDeleteAccount}
-              disabled={isDeleting}
-            >
-              Delete account
-            </button>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "var(--font-size-sm)",
-                lineHeight: 1.5,
-                flex: 1,
-              }}
-            >
-              This will permanently delete your entire account, including all
-              books, journal data, and profile. This action cannot be undone.
-            </p>
-          </div>
-        ) : (
-          <div className="flex gap-lg">
-            <div className="flex gap-sm">
+          <div className="settings-row">
+            <div className="settings-action">
               <button
+                className="btn btn-secondary btn-danger"
                 onClick={handleDeleteAccount}
                 disabled={isDeleting}
-                className="btn btn-secondary btn-sm btn-danger"
               >
-                {isDeleting ? "Deleting..." : "Yes, delete forever"}
-              </button>
-              <button
-                onClick={handleCancel}
-                disabled={isDeleting}
-                className="btn btn-secondary btn-sm"
-              >
-                Cancel
+                Delete account
               </button>
             </div>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "var(--font-size-sm)",
-                lineHeight: 1.5,
-                flex: 1,
-              }}
-            >
-              Are you absolutely sure? This will permanently delete your account
-              and all data.
-            </p>
+            <div className="settings-content">
+              <p className="settings-description">
+                This will permanently delete your entire account, including all
+                books, journal data, and profile. This action cannot be undone.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="settings-row">
+            <div className="settings-action">
+              <div className="flex gap-sm">
+                <button
+                  onClick={handleDeleteAccount}
+                  disabled={isDeleting}
+                  className="btn btn-secondary btn-danger"
+                >
+                  {isDeleting ? "Deleting..." : "Yes, delete forever"}
+                </button>
+                <button
+                  onClick={handleCancel}
+                  disabled={isDeleting}
+                  className="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+            <div className="settings-content">
+              <p className="settings-description">
+                Are you absolutely sure? This will permanently delete your
+                account and all data.
+              </p>
+            </div>
           </div>
         )}
       </div>
