@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useJournaler } from "../contexts/JournalerContext";
 
 function AccountSettings() {
   const { deleteAccount } = useAuth();
+  const { journaler, updateJournalTitle } = useJournaler();
   const navigate = useNavigate();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [titleInput, setTitleInput] = useState("");
+  const [isUpdatingTitle, setIsUpdatingTitle] = useState(false);
 
   const handleDeleteAccount = async () => {
     if (!showConfirmation) {
@@ -39,101 +43,107 @@ function AccountSettings() {
     setShowConfirmation(false);
   };
 
+  useEffect(() => {
+    if (journaler?.journal_title) {
+      setTitleInput(journaler.journal_title);
+    }
+  }, [journaler?.journal_title]);
+
+  const handleUpdateTitle = async () => {
+    if (!titleInput.trim() || titleInput === journaler?.journal_title) return;
+
+    setIsUpdatingTitle(true);
+    try {
+      const result = await updateJournalTitle(titleInput.trim());
+      if (result?.error) {
+        console.error("Failed to update title:", result.error);
+      }
+    } catch (error) {
+      console.error("Failed to update title:", error);
+    }
+    setIsUpdatingTitle(false);
+  };
+
   return (
     <div className="account-settings">
+      <h3>Account Settings</h3>
+
+      {/* Journal Title Section */}
+      <div className="settings-section">
+        <div className="settings-row">
+          <button
+            onClick={handleUpdateTitle}
+            disabled={
+              isUpdatingTitle ||
+              !titleInput.trim() ||
+              titleInput === journaler?.journal_title
+            }
+            className="settings-button"
+          >
+            {isUpdatingTitle ? "Updating..." : "Change name"}
+          </button>
+          <div className="settings-input-group">
+            <input
+              type="text"
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              placeholder="Enter journal title"
+              className="settings-input"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleUpdateTitle();
+                }
+              }}
+            />
+            <p className="settings-help-text">
+              Current: {journaler?.journal_title || "My Journal"}
+            </p>
+          </div>
+        </div>
+      </div>
 
       {!showConfirmation ? (
-          <div
-            style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}
+        <div className="settings-row">
+          <button
+            className="settings-button delete-button"
+            onClick={handleDeleteAccount}
+            disabled={isDeleting}
           >
+            Delete account
+          </button>
+          <p className="settings-description">
+            This will permanently delete your entire account, including all
+            books, journal data, and profile. This action cannot be undone.
+          </p>
+        </div>
+      ) : (
+        <div className="settings-row">
+          <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
             <button
-              className="delete-account-btn"
               onClick={handleDeleteAccount}
               disabled={isDeleting}
+              className="settings-button"
               style={{
-                background: "rgba(255, 255, 255, 0.1)",
-                color: "var(--font-color)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-                padding: "0.5rem 1rem",
-                borderRadius: "6px",
-                cursor: "pointer",
-                fontSize: "0.875rem",
-                transition: "all 0.2s",
-                flexShrink: 0,
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = "rgba(255, 100, 100, 0.3)";
-                e.target.style.borderColor = "rgba(255, 100, 100, 0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = "rgba(255, 255, 255, 0.1)";
-                e.target.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                background: "rgba(255, 100, 100, 0.3)",
+                borderColor: "rgba(255, 100, 100, 0.5)",
               }}
             >
-              Delete account
+              {isDeleting ? "Deleting..." : "Yes, delete forever"}
             </button>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "0.9rem",
-                lineHeight: "1.5",
-                flex: 1,
-              }}
+            <button
+              onClick={handleCancel}
+              disabled={isDeleting}
+              className="settings-button"
             >
-              This will permanently delete your entire account, including all
-              books, journal data, and profile. This action cannot be undone.
-            </p>
+              Cancel
+            </button>
           </div>
-        ) : (
-          <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
-            <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0 }}>
-              <button
-                onClick={handleDeleteAccount}
-                disabled={isDeleting}
-                style={{
-                  background: "rgba(255, 100, 100, 0.3)",
-                  color: "var(--font-color)",
-                  border: "1px solid rgba(255, 100, 100, 0.5)",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "6px",
-                  cursor: isDeleting ? "not-allowed" : "pointer",
-                  fontSize: "0.875rem",
-                  transition: "all 0.2s",
-                }}
-              >
-                {isDeleting ? "Deleting..." : "Yes, delete forever"}
-              </button>
-              <button
-                onClick={handleCancel}
-                disabled={isDeleting}
-                style={{
-                  background: "rgba(255, 255, 255, 0.1)",
-                  color: "var(--font-color)",
-                  border: "1px solid rgba(255, 255, 255, 0.3)",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "0.875rem",
-                  transition: "all 0.2s",
-                }}
-              >
-                Cancel
-              </button>
-            </div>
-            <p
-              style={{
-                margin: 0,
-                fontSize: "0.9rem",
-                lineHeight: "1.5",
-                flex: 1,
-                color: "var(--font-color)",
-              }}
-            >
-              Are you absolutely sure? This will permanently delete your account
-              and all data.
-            </p>
-          </div>
-        )}
+          <p className="settings-description">
+            Are you absolutely sure? This will permanently delete your account
+            and all data.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
