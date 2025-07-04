@@ -86,12 +86,14 @@ function BookList({
                       {book.authors?.join(", ") || "Unknown"}
                     </span>
                   </p>
-                  <p>
-                    <span className="property-label">Genre(s)</span>
-                    <span className="property-content">
-                      {book.genres?.join(", ") || "Unknown"}
-                    </span>
-                  </p>
+                  {book.genres && book.genres.length > 0 && (
+                    <p>
+                      <span className="property-label">Genre(s)</span>
+                      <span className="property-content">
+                        {book.genres.join(", ")}
+                      </span>
+                    </p>
+                  )}
                   <p>
                     <span className="property-label">Rating</span>
                     <span className="property-content">
