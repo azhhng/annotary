@@ -21,15 +21,15 @@ function FeedItem({ item }) {
   return (
     <div className="feed-item">
       <div className="feed-item-body">
-        {item.emojis && item.emojis.length > 0 && (
-          <div className="feed-item-emojis">
-            {item.emojis.map((emoji, index) => (
+        <div className="feed-item-emojis">
+          {item.emojis && item.emojis.length > 0 && (
+            item.emojis.map((emoji, index) => (
               <span key={index} className="feed-emoji">
                 {emoji}
               </span>
-            ))}
-          </div>
-        )}
+            ))
+          )}
+        </div>
 
         <div className="feed-item-content">
           <div className="feed-item-header">

@@ -50,15 +50,15 @@ function BookList({
           ) : (
             <div key={book.id} className="book-card card">
               <div className="book-card-body">
-                {book.emojis && book.emojis.length > 0 && (
-                  <div className="book-card-emojis">
-                    {book.emojis.map((emoji, index) => (
+                <div className="book-card-emojis">
+                  {book.emojis && book.emojis.length > 0 && (
+                    book.emojis.map((emoji, index) => (
                       <span key={index} className="book-emoji">
                         {emoji}
                       </span>
-                    ))}
-                  </div>
-                )}
+                    ))
+                  )}
+                </div>
 
                 <div className="book-card-content">
                   <div className="book-header">
