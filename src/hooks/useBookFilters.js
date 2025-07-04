@@ -90,9 +90,10 @@ export function useBookFilters(books) {
       const genreMatch =
         !filters.genre || (book.genres && book.genres.includes(filters.genre));
       const ratingMatch =
-        !filters.rating || 
+        !filters.rating ||
         (filters.rating === "Not rated yet" && book.rating === null) ||
-        (filters.rating !== "Not rated yet" && book.rating === parseFloat(filters.rating));
+        (filters.rating !== "Not rated yet" &&
+          book.rating === parseFloat(filters.rating));
       const tagMatch =
         !filters.tag || (book.tags && book.tags.includes(filters.tag));
       const authorMatch =
@@ -111,6 +112,10 @@ export function useBookFilters(books) {
       return names[names.length - 1];
     };
 
+    const getTitleForSorting = (title) => {
+      return title.replace(/^(The\s+)/i, "").trim();
+    };
+
     return [...filteredBooks].sort((a, b) => {
       switch (sortBy) {
         case "rating":
@@ -120,7 +125,9 @@ export function useBookFilters(books) {
           if (b.rating === null) return -1;
           return b.rating - a.rating;
         case "title":
-          return a.title.localeCompare(b.title);
+          return getTitleForSorting(a.title).localeCompare(
+            getTitleForSorting(b.title)
+          );
         case "author": {
           const aAuthor = a.authors?.[0] || "";
           const bAuthor = b.authors?.[0] || "";
