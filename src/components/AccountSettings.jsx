@@ -66,9 +66,6 @@ function AccountSettings() {
 
   return (
     <div className="account-settings">
-      <h3>Account Settings</h3>
-
-      {/* Journal Title Section */}
       <div className="settings-section">
         <div className="settings-row">
           <button

@@ -2,7 +2,7 @@
   --font-color: #ffffff;
 }
 
-* {
+body, input, textarea, button, select {
   font-family: monospace;
   font-weight: normal;
 }
@@ -1538,7 +1538,7 @@ body {
 
 /* Account Settings */
 .account-settings h3 {
-  margin-top: 2rem !important;
+  margin-top: 2rem;
   margin-bottom: 1rem;
 }
 

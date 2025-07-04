@@ -50,7 +50,6 @@ function Settings() {
         className="container"
         style={{ maxWidth: "600px", margin: "0 auto", padding: "2rem" }}
       >
-        <h1 style={{ marginBottom: "2rem", textAlign: "center" }}>Settings</h1>
         <AccountSettings />
       </div>
     </div>
