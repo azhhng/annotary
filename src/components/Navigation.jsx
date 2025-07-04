@@ -29,6 +29,21 @@ function Navigation({
 
   return (
     <div className="tab-navigation">
+      <h1 
+        className="brand-title"
+        onClick={() => navigate("/")}
+        style={{
+          margin: 0,
+          color: "var(--font-color)",
+          fontSize: "1.2rem",
+          fontWeight: "normal",
+          cursor: "pointer",
+          marginRight: "2rem"
+        }}
+      >
+        Annotary
+      </h1>
+
       <div className="tabs">
         <button
           onClick={() => handleTabClick("feed")}

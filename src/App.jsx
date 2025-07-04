@@ -64,10 +64,6 @@ function AppContent() {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <h1>Annotary</h1>
-      </header>
-
       <Navigation
         activeTab={getActiveTab()}
         user={user}
