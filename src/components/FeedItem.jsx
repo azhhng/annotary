@@ -50,6 +50,16 @@ function FeedItem({ item }) {
             <p className="book-authors">by {item.authors.join(", ")}</p>
           )}
 
+          {item.genres && item.genres.length > 0 && (
+            <div className="book-genres">
+              {item.genres.map((genre, index) => (
+                <span key={index} className="genre-tag">
+                  {genre}
+                </span>
+              ))}
+            </div>
+          )}
+
           {item.rating && (
             <div className="book-rating">
               <span className="stars">{renderStars(item.rating)}</span>
@@ -70,16 +80,6 @@ function FeedItem({ item }) {
                   ? `${item.notes.substring(0, 200)}...`
                   : item.notes}
               </p>
-            </div>
-          )}
-
-          {item.genres && item.genres.length > 0 && (
-            <div className="book-genres">
-              {item.genres.map((genre, index) => (
-                <span key={index} className="genre-tag">
-                  {genre}
-                </span>
-              ))}
             </div>
           )}
 
