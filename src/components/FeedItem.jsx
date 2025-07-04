@@ -14,7 +14,7 @@ function FeedItem({ item }) {
   };
 
   const renderStars = (rating) => {
-    if (!rating) return null;
+    if (rating === null || rating === undefined) return null;
     return "★".repeat(rating) + "☆".repeat(5 - rating);
   };
 
@@ -60,7 +60,7 @@ function FeedItem({ item }) {
             </div>
           )}
 
-          {item.rating && (
+          {item.rating !== null && item.rating !== undefined && (
             <div className="book-rating">
               <span className="stars">{renderStars(item.rating)}</span>
               <span className="rating-text">({item.rating}/5)</span>

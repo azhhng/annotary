@@ -94,7 +94,9 @@ function BookList({
                   </p>
                   <p>
                     <span className="property-label">Rating</span>
-                    <span className="property-content">{book.rating}</span>
+                    <span className="property-content">
+                      {book.rating === null ? "Not rated yet" : book.rating}
+                    </span>
                   </p>
                   {book.dateFinished && (
                     <p>

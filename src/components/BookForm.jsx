@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   VALIDATION_LIMITS,
   RATING_OPTIONS,
+  RATING_LABELS,
   DEFAULT_BOOK_FORM,
   VALIDATION_MESSAGES,
 } from "../constants/bookConstants";
@@ -17,7 +18,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         genres: editingBook.genres || [],
         dateStarted: editingBook.dateStarted || "",
         dateFinished: editingBook.dateFinished || "",
-        rating: editingBook.rating || 2.5,
+        rating: editingBook.rating !== undefined ? editingBook.rating : null,
         notes: editingBook.notes || "",
         tags: editingBook.tags || [],
         emojis: editingBook.emojis || [],
@@ -178,7 +179,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
     const bookData = {
       ...formData,
-      rating: parseFloat(formData.rating),
+      rating: formData.rating === null ? null : parseFloat(formData.rating),
     };
 
     if (editingBook) {
@@ -295,12 +296,15 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           <select
             id="rating"
             name="rating"
-            value={formData.rating}
-            onChange={handleChange}
+            value={formData.rating === null ? "" : formData.rating}
+            onChange={(e) => {
+              const value = e.target.value === "" ? null : parseFloat(e.target.value);
+              setFormData((prev) => ({ ...prev, rating: value }));
+            }}
           >
-            {RATING_OPTIONS.map((num) => (
-              <option key={num} value={num}>
-                {num}
+            {RATING_OPTIONS.map((rating) => (
+              <option key={rating || "unrated"} value={rating || ""}>
+                {RATING_LABELS[rating]}
               </option>
             ))}
           </select>

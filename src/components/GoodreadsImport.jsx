@@ -170,7 +170,7 @@ function GoodreadsImport({ onClose }) {
         genres: [], // Goodreads doesn't export genres
         dateStarted: "", // Not available in Goodreads export
         dateFinished: formatDate(dateRead),
-        rating: rating > 0 ? rating : 2.5, // Use 2.5 as default if no rating??
+        rating: rating > 0 ? rating : null, // Use null for unrated books
         notes: myReview,
         tags: [], // Could potentially use Bookshelves data??
         emojis: [],

@@ -54,8 +54,10 @@ export function useBookFilters(books) {
           genreSet.add(genre);
         }
       }
-      if (book.rating !== undefined) {
+      if (book.rating !== undefined && book.rating !== null) {
         ratingSet.add(book.rating);
+      } else if (book.rating === null) {
+        ratingSet.add("Not rated yet");
       }
       if (book.tags) {
         for (const tag of book.tags) {
@@ -88,7 +90,9 @@ export function useBookFilters(books) {
       const genreMatch =
         !filters.genre || (book.genres && book.genres.includes(filters.genre));
       const ratingMatch =
-        !filters.rating || book.rating === parseFloat(filters.rating);
+        !filters.rating || 
+        (filters.rating === "Not rated yet" && book.rating === null) ||
+        (filters.rating !== "Not rated yet" && book.rating === parseFloat(filters.rating));
       const tagMatch =
         !filters.tag || (book.tags && book.tags.includes(filters.tag));
       const authorMatch =
@@ -110,6 +114,10 @@ export function useBookFilters(books) {
     return [...filteredBooks].sort((a, b) => {
       switch (sortBy) {
         case "rating":
+          // Handle null ratings in sorting - put unrated books at the end
+          if (a.rating === null && b.rating === null) return 0;
+          if (a.rating === null) return 1;
+          if (b.rating === null) return -1;
           return b.rating - a.rating;
         case "title":
           return a.title.localeCompare(b.title);
