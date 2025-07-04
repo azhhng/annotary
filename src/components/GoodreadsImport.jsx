@@ -29,6 +29,7 @@ function GoodreadsImport({ onClose }) {
     headers.push(current.trim());
 
     const books = [];
+    let skippedCount = 0;
 
     const titleIndex = headers.findIndex((h) =>
       h.toLowerCase().includes("title")
@@ -75,6 +76,7 @@ function GoodreadsImport({ onClose }) {
 
       const readCount = parseInt(row[readCountIndex]) || 0;
       if (readCount < 1) {
+        skippedCount++;
         continue;
       }
 
@@ -86,6 +88,7 @@ function GoodreadsImport({ onClose }) {
       const myReview = row[myReviewIndex]?.trim() || "";
 
       if (!title || !author) {
+        skippedCount++;
         continue;
       }
 
@@ -139,7 +142,7 @@ function GoodreadsImport({ onClose }) {
       books.push(bookData);
     }
 
-    return books;
+    return { books, skippedCount };
   };
 
   const handleFileChange = (event) => {
@@ -162,13 +165,15 @@ function GoodreadsImport({ onClose }) {
 
     try {
       const text = await file.text();
-      const books = parseCSV(text);
+      const parseResult = parseCSV(text);
+      const { books, skippedCount } = parseResult;
 
       if (books.length === 0) {
         setResults({
           success: 0,
           failed: 0,
           total: 0,
+          skipped: skippedCount,
           message:
             "No importable books found in the CSV file. Make sure the file is a Goodreads export and contains books with a read count of 1 or more.",
         });
@@ -184,6 +189,7 @@ function GoodreadsImport({ onClose }) {
         success: successCount,
         failed: failCount,
         total: books.length,
+        skipped: skippedCount,
         message: `Import completed! ${successCount} books imported successfully${failCount > 0 ? `, ${failCount} failed` : ""}.`,
       });
     } catch (error) {
@@ -192,6 +198,7 @@ function GoodreadsImport({ onClose }) {
         success: 0,
         failed: 0,
         total: 0,
+        skipped: 0,
         message:
           "Failed to parse CSV file. Please make sure it's a valid Goodreads export.",
       });
@@ -202,8 +209,6 @@ function GoodreadsImport({ onClose }) {
 
   return (
     <div className="container-sm bg-glass">
-      <h2>Import from Goodreads</h2>
-
       <div className="form">
         <div className="form-group">
           <label>
@@ -247,7 +252,7 @@ function GoodreadsImport({ onClose }) {
             <strong>Import Results:</strong>
             <br />
             {results.message}
-            {results.total > 0 && (
+            {(results.total > 0 || results.skipped > 0) && (
               <div
                 style={{ marginTop: "0.5rem", fontSize: "var(--font-size-sm)" }}
               >
@@ -255,7 +260,13 @@ function GoodreadsImport({ onClose }) {
                 <br />
                 Successfully imported: {results.success}
                 <br />
-                {results.failed > 0 && `Failed to import: ${results.failed}`}
+                {results.failed > 0 && (
+                  <>
+                    Failed to import: {results.failed}
+                    <br />
+                  </>
+                )}
+                {results.skipped > 0 && `Books skipped: ${results.skipped}`}
               </div>
             )}
           </div>
@@ -267,7 +278,7 @@ function GoodreadsImport({ onClose }) {
             onClick={handleImport}
             disabled={!file || importing}
           >
-            {importing ? "Importing..." : "Import Books"}
+            {importing ? "Importing..." : "Import books"}
           </button>
           <button
             className="btn btn-secondary"
