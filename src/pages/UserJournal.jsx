@@ -10,7 +10,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useAuth } from "../hooks/useAuth";
 import { createGradientBackground } from "../constants/colors";
 
-function UserJournal({ journaler, updateColors, updateJournalTitle }) {
+function UserJournal({ journaler, updateColors }) {
   const [showForm, setShowForm] = useState(false);
   const { username } = useParams();
   const { user, loading } = useAuth();
@@ -154,7 +154,6 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
     [bgColors, journaler, setFontColor, debouncedColorUpdate]
   );
 
-
   const handleFormCancel = useCallback(() => {
     setShowForm(false);
   }, []);
@@ -179,11 +178,9 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
 
   if (!user) {
     return (
-      <div className="text-center" style={{ marginTop: '2rem' }}>
+      <div className="text-center" style={{ marginTop: "2rem" }}>
         <h2>Sign up to continue</h2>
-        <p>
-          Create an account to start your own reading journal.
-        </p>
+        <p>Create an account to start your own reading journal.</p>
       </div>
     );
   }
@@ -196,7 +193,6 @@ function UserJournal({ journaler, updateColors, updateJournalTitle }) {
         fontColor={fontColor}
         setFontColor={handleFontColorChange}
       />
-
 
       {showForm && !editingBook && (
         <div className="form-section">

@@ -35,6 +35,16 @@ export const booksApi = {
     return data;
   },
 
+  async createBooks(booksData) {
+    const { data, error } = await supabase
+      .from("book_entries")
+      .insert(booksData)
+      .select();
+
+    if (error) throw error;
+    return data;
+  },
+
   async updateBook(bookId, userId, bookData) {
     const { data, error } = await supabase
       .from("book_entries")

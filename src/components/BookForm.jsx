@@ -184,7 +184,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
     if (editingBook) {
       onUpdateBook({ ...bookData, id: editingBook.id });
     } else {
-      onAddBook({ ...bookData, id: Date.now() });
+      onAddBook(bookData);
     }
 
     if (!editingBook) {

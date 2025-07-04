@@ -65,6 +65,22 @@ export function useBooks() {
       setBooks((prev) => [transformedBook, ...prev]);
     } catch (error) {
       console.error("Error adding book:", error);
+      throw error;
+    }
+  };
+
+  const addBooks = async (newBooks) => {
+    if (!user) return { success: [], failed: [] };
+
+    try {
+      const dbBooks = newBooks.map(transformBookToDb);
+      const data = await booksApi.createBooks(dbBooks);
+      const transformedBooks = data.map(transformDbToBook);
+      setBooks((prev) => [...transformedBooks, ...prev]);
+      return { success: transformedBooks, failed: [] };
+    } catch (error) {
+      console.error("Error adding books:", error);
+      return { success: [], failed: newBooks };
     }
   };
 
@@ -112,6 +128,7 @@ export function useBooks() {
     editingBook,
     loading,
     addBook,
+    addBooks,
     updateBook,
     deleteBook,
     startEditing,
