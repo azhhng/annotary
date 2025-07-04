@@ -123,8 +123,8 @@ function AccountSettings() {
                 flex: 1,
               }}
             >
-              Import your books from a Goodreads CSV export. Only books marked
-              as "read" will be imported.
+              Import your books from a Goodreads CSV export. Only books that are
+              read will be imported.
             </p>
           </div>
         </div>

@@ -8,13 +8,9 @@ function GoodreadsImport({ onClose }) {
   const { addBooks } = useBooks();
 
   const parseCSV = (csvText) => {
-    console.log("🔍 Starting CSV parsing...");
     const lines = csvText.split("\n");
-    console.log(`📄 Total lines in CSV: ${lines.length}`);
 
     const headerLine = lines[0];
-    console.log("📋 Parsing header line:", headerLine.substring(0, 200) + "...");
-    
     const headers = [];
     let current = "";
     let inQuotes = false;
@@ -31,8 +27,6 @@ function GoodreadsImport({ onClose }) {
       }
     }
     headers.push(current.trim());
-    
-    console.log(`📊 Found ${headers.length} columns:`, headers);
 
     const books = [];
 
@@ -49,36 +43,17 @@ function GoodreadsImport({ onClose }) {
     const dateReadIndex = headers.findIndex((h) =>
       h.toLowerCase().includes("date read")
     );
-    const exclusiveShelfIndex = headers.findIndex((h) =>
-      h.toLowerCase().includes("exclusive shelf")
+    const readCountIndex = headers.findIndex((h) =>
+      h.toLowerCase().includes("read count")
     );
     const myReviewIndex = headers.findIndex((h) =>
       h.toLowerCase().includes("my review")
     );
 
-    console.log("🔢 Column indices found:");
-    console.log(`  Title: ${titleIndex} (${headers[titleIndex]})`);
-    console.log(`  Author: ${authorIndex} (${headers[authorIndex]})`);
-    console.log(`  Additional Authors: ${additionalAuthorsIndex} (${headers[additionalAuthorsIndex]})`);
-    console.log(`  My Rating: ${myRatingIndex} (${headers[myRatingIndex]})`);
-    console.log(`  Date Read: ${dateReadIndex} (${headers[dateReadIndex]})`);
-    console.log(`  Exclusive Shelf: ${exclusiveShelfIndex} (${headers[exclusiveShelfIndex]})`);
-    console.log(`  My Review: ${myReviewIndex} (${headers[myReviewIndex]})`);
-
-    let processedCount = 0;
-    let skippedCount = 0;
-    let readBooksCount = 0;
-
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i].trim();
       if (!line) {
-        skippedCount++;
         continue;
-      }
-
-      processedCount++;
-      if (processedCount <= 5 || processedCount % 10 === 0) {
-        console.log(`📖 Processing line ${i + 1}/${lines.length}: ${line.substring(0, 100)}...`);
       }
 
       const row = [];
@@ -98,16 +73,11 @@ function GoodreadsImport({ onClose }) {
       }
       row.push(current.replace(/^"|"$/g, "").trim());
 
-      // Only import books that have been read
-      const exclusiveShelf = row[exclusiveShelfIndex]?.trim();
-      if (exclusiveShelf !== "read") {
-        if (processedCount <= 5) {
-          console.log(`⏭️ Skipping book on shelf "${exclusiveShelf}" (not "read")`);
-        }
+      const readCount = parseInt(row[readCountIndex]) || 0;
+      if (readCount < 1) {
         continue;
       }
 
-      readBooksCount++;
       const title = row[titleIndex]?.trim();
       const author = row[authorIndex]?.trim();
       const additionalAuthors = row[additionalAuthorsIndex]?.trim();
@@ -115,18 +85,7 @@ function GoodreadsImport({ onClose }) {
       const dateRead = row[dateReadIndex]?.trim();
       const myReview = row[myReviewIndex]?.trim() || "";
 
-      if (readBooksCount <= 5) {
-        console.log(`📚 Found "read" book #${readBooksCount}:`);
-        console.log(`  Title: "${title}"`);
-        console.log(`  Author: "${author}"`);
-        console.log(`  Additional Authors: "${additionalAuthors}"`);
-        console.log(`  Rating: ${rating}`);
-        console.log(`  Date Read: "${dateRead}"`);
-        console.log(`  Review: "${myReview?.substring(0, 50)}${myReview?.length > 50 ? '...' : ''}"`);
-      }
-
       if (!title || !author) {
-        console.log(`⚠️ Skipping book with missing title or author: title="${title}", author="${author}"`);
         continue;
       }
 
@@ -177,18 +136,8 @@ function GoodreadsImport({ onClose }) {
         isPublic: false,
       };
 
-      if (books.length <= 5) {
-        console.log(`✅ Added book #${books.length + 1} to import list:`, bookData);
-      }
-
       books.push(bookData);
     }
-
-    console.log(`🎯 Parsing complete! Statistics:`);
-    console.log(`  Total lines processed: ${processedCount}`);
-    console.log(`  Empty lines skipped: ${skippedCount}`);
-    console.log(`  Books marked as "read": ${readBooksCount}`);
-    console.log(`  Books added to import list: ${books.length}`);
 
     return books;
   };
@@ -208,35 +157,28 @@ function GoodreadsImport({ onClose }) {
       return;
     }
 
-    console.log(`🚀 Starting import process for file: ${file.name}`);
     setImporting(true);
     setResults(null);
 
     try {
       const text = await file.text();
-      console.log(`📄 File read successfully, size: ${text.length} characters`);
-      
       const books = parseCSV(text);
 
       if (books.length === 0) {
-        console.log("❌ No books found to import");
         setResults({
           success: 0,
           failed: 0,
           total: 0,
           message:
-            'No readable books found in the CSV file. Make sure the file is a Goodreads export and contains books marked as "read".',
+            "No importable books found in the CSV file. Make sure the file is a Goodreads export and contains books with a read count of 1 or more.",
         });
         setImporting(false);
         return;
       }
 
-      console.log(`📤 Attempting to import ${books.length} books to database...`);
       const result = await addBooks(books);
       const successCount = result.success.length;
       const failCount = result.failed.length;
-
-      console.log(`✅ Import complete! Success: ${successCount}, Failed: ${failCount}`);
 
       setResults({
         success: successCount,
@@ -245,7 +187,7 @@ function GoodreadsImport({ onClose }) {
         message: `Import completed! ${successCount} books imported successfully${failCount > 0 ? `, ${failCount} failed` : ""}.`,
       });
     } catch (error) {
-      console.error("❌ Import error:", error);
+      console.error("Import error:", error);
       setResults({
         success: 0,
         failed: 0,
@@ -292,9 +234,8 @@ function GoodreadsImport({ onClose }) {
               Selected: {file.name}
             </p>
             <p style={{ fontSize: "var(--font-size-sm)", opacity: 0.7 }}>
-              <strong>Note:</strong> Only books marked as "read" will be
-              imported. Emojis and genres will need to be added manually after
-              import.
+              <strong>Note:</strong> Only books that were read will be imported.
+              Emojis and genres will need to be added manually after import.
             </p>
           </div>
         )}
