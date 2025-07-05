@@ -5,6 +5,8 @@ import {
   RATING_LABELS,
   DEFAULT_BOOK_FORM,
   VALIDATION_MESSAGES,
+  BOOK_STATUS_OPTIONS,
+  BOOK_STATUS_LABELS,
 } from "../constants/bookConstants";
 
 function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
@@ -24,8 +26,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         emojis: editingBook.emojis || [],
         isPublic:
           editingBook.isPublic !== undefined ? editingBook.isPublic : false,
-        currentlyReading:
-          editingBook.currentlyReading !== undefined ? editingBook.currentlyReading : false,
+        status: editingBook.status || "want_to_read",
       });
     }
   }, [editingBook]);
@@ -312,6 +313,22 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           </select>
         </div>
 
+        <div className="form-group">
+          <label htmlFor="status">Status</label>
+          <select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+          >
+            {BOOK_STATUS_OPTIONS.map((status) => (
+              <option key={status} value={status}>
+                {BOOK_STATUS_LABELS[status]}
+              </option>
+            ))}
+          </select>
+        </div>
+
       </div>
 
       <div className="form-row">
@@ -434,22 +451,6 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         )}
       </div>
 
-      <div className="form-group">
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            name="currentlyReading"
-            checked={formData.currentlyReading}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                currentlyReading: e.target.checked,
-              }))
-            }
-          />
-          Currently reading
-        </label>
-      </div>
 
       <div className="form-group">
         <label className="checkbox-label">

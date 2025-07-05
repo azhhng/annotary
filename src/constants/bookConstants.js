@@ -24,6 +24,28 @@ export const RATING_LABELS = {
   5: "5"
 };
 
+// Book status constants
+export const BOOK_STATUS = {
+  WANT_TO_READ: "want_to_read",
+  CURRENTLY_READING: "currently_reading", 
+  READ: "read",
+  DNF: "dnf"
+};
+
+export const BOOK_STATUS_LABELS = {
+  [BOOK_STATUS.WANT_TO_READ]: "Want to read",
+  [BOOK_STATUS.CURRENTLY_READING]: "Currently reading",
+  [BOOK_STATUS.READ]: "Read",
+  [BOOK_STATUS.DNF]: "Did not finish"
+};
+
+export const BOOK_STATUS_OPTIONS = [
+  BOOK_STATUS.WANT_TO_READ,
+  BOOK_STATUS.CURRENTLY_READING,
+  BOOK_STATUS.READ,
+  BOOK_STATUS.DNF
+];
+
 // Default form values
 export const DEFAULT_BOOK_FORM = {
   title: "",
@@ -36,7 +58,7 @@ export const DEFAULT_BOOK_FORM = {
   tags: [],
   emojis: [],
   isPublic: false,
-  currentlyReading: false,
+  status: BOOK_STATUS.WANT_TO_READ, // Default to "Want to read"
 };
 
 // Validation messages

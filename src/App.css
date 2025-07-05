@@ -769,18 +769,37 @@ select:focus {
   font-size: var(--font-size-sm);
 }
 
-.currently-reading-badge {
+.status-badge {
   margin: 0.5rem 0;
 }
 
-.reading-indicator {
-  background: var(--info-bg);
+.status-indicator {
   color: var(--font-color);
   padding: 0.25rem 0.5rem;
-  border: 1px solid var(--info-border);
   border-radius: 12px;
   font-size: var(--font-size-xs);
   font-weight: bold;
+  border: 1px solid;
+}
+
+.status-want_to_read {
+  background: var(--info-bg);
+  border-color: var(--info-border);
+}
+
+.status-currently_reading {
+  background: var(--warning-bg);
+  border-color: var(--warning-border);
+}
+
+.status-read {
+  background: var(--success-bg);
+  border-color: var(--success-border);
+}
+
+.status-dnf {
+  background: var(--error-bg);
+  border-color: var(--error-border);
 }
 
 .book-rating {

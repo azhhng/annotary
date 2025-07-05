@@ -141,6 +141,24 @@ function GoodreadsImport({ onClose }) {
         return "";
       };
 
+      // Determine book status from bookshelves
+      const bookshelves_lower = bookshelves.toLowerCase();
+      let status = "read";
+
+      if (bookshelves_lower.includes("currently-reading")) {
+        status = "currently_reading";
+      } else if (
+        bookshelves_lower.includes("to-read") ||
+        bookshelves_lower.includes("want-to-read")
+      ) {
+        status = "want_to_read";
+      } else if (
+        bookshelves_lower.includes("did-not-finish") ||
+        bookshelves_lower.includes("dnf")
+      ) {
+        status = "dnf";
+      }
+
       const bookData = {
         title,
         authors,
@@ -152,9 +170,7 @@ function GoodreadsImport({ onClose }) {
         tags: [], // Could potentially use Bookshelves data
         emojis: [],
         isPublic: false,
-        currentlyReading: bookshelves
-          .toLowerCase()
-          .includes("currently-reading"),
+        status: status,
       };
 
       books.push(bookData);

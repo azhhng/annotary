@@ -7,6 +7,7 @@ export function useBookFilters(books) {
     tag: "",
     author: "",
     emoji: "",
+    status: "",
   });
   const [sortBy, setSortBy] = useState("");
 
@@ -24,6 +25,7 @@ export function useBookFilters(books) {
       tag: "",
       author: "",
       emoji: "",
+      status: "",
     });
   };
 
@@ -39,6 +41,7 @@ export function useBookFilters(books) {
         tags: [],
         authors: [],
         emojis: [],
+        statuses: [],
       };
     }
 
@@ -47,6 +50,7 @@ export function useBookFilters(books) {
     const tagSet = new Set();
     const authorSet = new Set();
     const emojiSet = new Set();
+    const statusSet = new Set();
 
     for (const book of books) {
       if (book.genres) {
@@ -74,6 +78,9 @@ export function useBookFilters(books) {
           emojiSet.add(emoji);
         }
       }
+      if (book.status) {
+        statusSet.add(book.status);
+      }
     }
 
     return {
@@ -82,6 +89,7 @@ export function useBookFilters(books) {
       tags: Array.from(tagSet),
       authors: Array.from(authorSet).sort(),
       emojis: Array.from(emojiSet),
+      statuses: Array.from(statusSet),
     };
   }, [books]);
 
@@ -101,8 +109,10 @@ export function useBookFilters(books) {
         (book.authors && book.authors.includes(filters.author));
       const emojiMatch =
         !filters.emoji || (book.emojis && book.emojis.includes(filters.emoji));
+      const statusMatch =
+        !filters.status || book.status === filters.status;
 
-      return genreMatch && ratingMatch && tagMatch && authorMatch && emojiMatch;
+      return genreMatch && ratingMatch && tagMatch && authorMatch && emojiMatch && statusMatch;
     });
   }, [books, filters]);
 
@@ -149,7 +159,8 @@ export function useBookFilters(books) {
     filters.rating ||
     filters.tag ||
     filters.author ||
-    filters.emoji;
+    filters.emoji ||
+    filters.status;
 
   return {
     filters,

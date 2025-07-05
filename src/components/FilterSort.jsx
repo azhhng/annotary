@@ -1,4 +1,5 @@
 import { useState, memo } from "react";
+import { BOOK_STATUS_LABELS } from "../constants/bookConstants";
 
 function FilterSort({
   filters,
@@ -23,6 +24,21 @@ function FilterSort({
 
       {showFilters && (
         <div className="filters-content">
+          <div className="filter-group">
+            <label>Status</label>
+            <select
+              value={filters.status}
+              onChange={(e) => onFilterChange("status", e.target.value)}
+            >
+              <option value="">All statuses</option>
+              {filterOptions.statuses.map((status) => (
+                <option key={status} value={status}>
+                  {BOOK_STATUS_LABELS[status]}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="filter-group">
             <label>Genre</label>
             <select

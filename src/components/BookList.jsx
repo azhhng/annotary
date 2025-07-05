@@ -1,6 +1,7 @@
 import { useMemo, memo } from "react";
 import BookForm from "./BookForm";
 import CollapsibleText from "./CollapsibleText";
+import { BOOK_STATUS_LABELS } from "../constants/bookConstants";
 
 function BookList({
   books,
@@ -85,9 +86,15 @@ function BookList({
                     <p className="book-authors">by {book.authors.join(", ")}</p>
                   )}
 
-                  {book.currentlyReading && (
-                    <div className="currently-reading-badge">
-                      <span className="reading-indicator">📖 Currently Reading</span>
+                  {book.status && (
+                    <div className="status-badge">
+                      <span className={`status-indicator status-${book.status}`}>
+                        {book.status === "currently_reading" && "📖 "}
+                        {book.status === "want_to_read" && "📚 "}
+                        {book.status === "read" && "✅ "}
+                        {book.status === "dnf" && "❌ "}
+                        {BOOK_STATUS_LABELS[book.status]}
+                      </span>
                     </div>
                   )}
                   {book.genres && book.genres.length > 0 && (
