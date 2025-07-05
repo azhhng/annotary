@@ -10,6 +10,7 @@ import "./App.css";
 import Homepage from "./pages/Homepage";
 import AuthPage from "./pages/AuthPage";
 import Settings from "./pages/Settings";
+import Achievements from "./components/Achievements";
 import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
@@ -26,6 +27,7 @@ function AppContent() {
     if (location.pathname === "/") return "feed";
     if (location.pathname === "/auth") return null;
     if (location.pathname === "/settings") return "settings";
+    if (location.pathname === "/achievements") return "achievements";
 
     const username = location.pathname.slice(1);
 
@@ -77,6 +79,7 @@ function AppContent() {
           <Route path="/" element={<Homepage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/achievements" element={<Achievements />} />
           <Route path="/:username" element={<JournalRouter />} />
         </Routes>
       </main>

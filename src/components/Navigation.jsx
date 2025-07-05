@@ -20,6 +20,12 @@ function Navigation({
       } else {
         navigate("/auth");
       }
+    } else if (tab === "achievements") {
+      if (user) {
+        navigate("/achievements");
+      } else {
+        navigate("/auth");
+      }
     } else if (tab === "settings") {
       if (user) {
         navigate("/settings");
@@ -52,12 +58,20 @@ function Navigation({
           {journalTitle}
         </button>
         {user && (
-          <button
-            onClick={() => handleTabClick("settings")}
-            className={`tab ${activeTab === "settings" ? "active" : ""}`}
-          >
-            Settings
-          </button>
+          <>
+            <button
+              onClick={() => handleTabClick("achievements")}
+              className={`tab ${activeTab === "achievements" ? "active" : ""}`}
+            >
+              Achievements
+            </button>
+            <button
+              onClick={() => handleTabClick("settings")}
+              className={`tab ${activeTab === "settings" ? "active" : ""}`}
+            >
+              Settings
+            </button>
+          </>
         )}
       </div>
 

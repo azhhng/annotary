@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { booksApi } from "../services/api";
 import { useAuth } from "./useAuth";
+import { useAchievements } from "./useAchievements";
 
 export function useBooks() {
   const [books, setBooks] = useState([]);
   const [editingBook, setEditingBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const { checkAchievements, initializeAchievements } = useAchievements();
 
   const transformDbToBook = (dbRow) => ({
     id: dbRow.id,
@@ -45,6 +47,8 @@ export function useBooks() {
         const data = await booksApi.getBooks(user.id);
         const transformedBooks = data.map(transformDbToBook);
         setBooks(transformedBooks);
+
+        initializeAchievements(transformedBooks);
       } catch (error) {
         console.error("Error fetching books:", error);
       } finally {
@@ -62,7 +66,10 @@ export function useBooks() {
       const dbBook = transformBookToDb(newBook);
       const data = await booksApi.createBook(dbBook);
       const transformedBook = transformDbToBook(data);
-      setBooks((prev) => [transformedBook, ...prev]);
+      const updatedBooks = [transformedBook, ...books];
+      setBooks(updatedBooks);
+
+      checkAchievements(updatedBooks);
     } catch (error) {
       console.error("Error adding book:", error);
       throw error;
@@ -76,7 +83,11 @@ export function useBooks() {
       const dbBooks = newBooks.map(transformBookToDb);
       const data = await booksApi.createBooks(dbBooks);
       const transformedBooks = data.map(transformDbToBook);
-      setBooks((prev) => [...transformedBooks, ...prev]);
+      const updatedBooks = [...transformedBooks, ...books];
+      setBooks(updatedBooks);
+
+      checkAchievements(updatedBooks);
+
       return { success: transformedBooks, failed: [] };
     } catch (error) {
       console.error("Error adding books:", error);
@@ -91,12 +102,13 @@ export function useBooks() {
       const dbBook = transformBookToDb(updatedBook);
       const data = await booksApi.updateBook(updatedBook.id, user.id, dbBook);
       const transformedBook = transformDbToBook(data);
-      setBooks((prev) =>
-        prev.map((book) =>
-          book.id === updatedBook.id ? transformedBook : book
-        )
+      const updatedBooks = books.map((book) =>
+        book.id === updatedBook.id ? transformedBook : book
       );
+      setBooks(updatedBooks);
       setEditingBook(null);
+
+      checkAchievements(updatedBooks);
     } catch (error) {
       console.error("Error updating book:", error);
     }

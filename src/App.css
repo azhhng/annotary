@@ -960,6 +960,236 @@ select:focus {
 }
 
 /* ============================================
+   ACHIEVEMENTS SYSTEM
+   ============================================ */
+
+.achievements-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.achievements-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.achievements-header h2 {
+  margin: 0;
+  color: var(--font-color);
+  font-size: var(--font-size-xl);
+}
+
+.achievements-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.achievement-count {
+  color: var(--font-color);
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+}
+
+.overall-progress {
+  width: 200px;
+}
+
+.achievement-categories {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.category-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--overlay-light);
+  border: 1px solid var(--overlay-medium);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  color: var(--font-color);
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  transition: all 0.2s;
+  opacity: 0.7;
+}
+
+.category-tab:hover,
+.category-tab.active {
+  background: var(--overlay-medium);
+  border-color: var(--border-strong);
+  opacity: 1;
+}
+
+.category-icon {
+  font-size: var(--font-size-base);
+}
+
+.category-name {
+  font-size: var(--font-size-sm);
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.achievement-card {
+  position: relative;
+  transition: all 0.2s;
+}
+
+.achievement-card.unlocked {
+  background: var(--overlay-medium-light);
+}
+
+.achievement-card.locked {
+  opacity: 0.8;
+}
+
+.achievement-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.achievement-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.achievement-name {
+  margin: 0 0 0.5rem 0;
+  color: var(--font-color);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+}
+
+.achievement-description {
+  margin: 0;
+  color: var(--font-color);
+  opacity: 0.8;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.achievement-status {
+  font-size: 1.25rem;
+  color: var(--success-border);
+  flex-shrink: 0;
+}
+
+.achievement-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.achievement-unlocked {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.unlocked-text {
+  color: var(--success-border);
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--overlay-medium);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--overlay-strong);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold), #ffed4e);
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.progress-text {
+  color: var(--font-color);
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* Achievement notifications */
+.achievement-notification {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  border-radius: 12px;
+  padding: 1rem;
+  color: var(--font-color);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  backdrop-filter: blur(10px);
+  max-width: 300px;
+}
+
+.achievement-notification-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.achievement-notification-icon {
+  font-size: 1.5rem;
+}
+
+.achievement-notification-title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  color: var(--font-color);
+}
+
+.achievement-notification-description {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================
    RESPONSIVE DESIGN
    ============================================ */
 
@@ -1075,6 +1305,42 @@ select:focus {
   }
   .book-emoji {
     font-size: var(--font-size-xl);
+  }
+
+  /* Achievements responsive */
+  .achievements-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .achievements-stats {
+    align-items: stretch;
+  }
+
+  .overall-progress {
+    width: 100%;
+  }
+
+  .achievement-categories {
+    justify-content: center;
+  }
+
+  .category-tab {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .achievements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-notification {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
   }
 }
 
