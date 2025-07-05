@@ -36,6 +36,7 @@ export const DEFAULT_BOOK_FORM = {
   tags: [],
   emojis: [],
   isPublic: false,
+  currentlyReading: false,
 };
 
 // Validation messages

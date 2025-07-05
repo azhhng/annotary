@@ -24,6 +24,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         emojis: editingBook.emojis || [],
         isPublic:
           editingBook.isPublic !== undefined ? editingBook.isPublic : false,
+        currentlyReading:
+          editingBook.currentlyReading !== undefined ? editingBook.currentlyReading : false,
       });
     }
   }, [editingBook]);
@@ -310,20 +312,6 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           </select>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="isPublic" className="checkbox-label">
-            <input
-              type="checkbox"
-              id="isPublic"
-              name="isPublic"
-              checked={formData.isPublic}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, isPublic: e.target.checked }))
-              }
-            />
-            Make this review public (show on homepage)
-          </label>
-        </div>
       </div>
 
       <div className="form-row">
@@ -444,6 +432,40 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached
           </p>
         )}
+      </div>
+
+      <div className="form-group">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            name="currentlyReading"
+            checked={formData.currentlyReading}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                currentlyReading: e.target.checked,
+              }))
+            }
+          />
+          Currently reading
+        </label>
+      </div>
+
+      <div className="form-group">
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            name="isPublic"
+            checked={formData.isPublic}
+            onChange={(e) =>
+              setFormData((prev) => ({
+                ...prev,
+                isPublic: e.target.checked,
+              }))
+            }
+          />
+          Make public in community feed
+        </label>
       </div>
 
       <div className="form-actions">

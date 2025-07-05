@@ -50,6 +50,9 @@ function GoodreadsImport({ onClose }) {
     const myReviewIndex = headers.findIndex((h) =>
       h.toLowerCase().includes("my review")
     );
+    const bookshelvesIndex = headers.findIndex((h) =>
+      h.toLowerCase().includes("bookshelves")
+    );
 
     for (let i = 1; i < lines.length; i++) {
       const line = lines[i].trim();
@@ -86,6 +89,7 @@ function GoodreadsImport({ onClose }) {
       const rating = parseFloat(row[myRatingIndex]) || 0;
       const dateRead = row[dateReadIndex]?.trim();
       const myReview = row[myReviewIndex]?.trim() || "";
+      const bookshelves = row[bookshelvesIndex]?.trim() || "";
 
       // Convert HTML characterd
       const convertHtmlToText = (htmlText) => {
@@ -145,9 +149,12 @@ function GoodreadsImport({ onClose }) {
         dateFinished: formatDate(dateRead),
         rating: rating > 0 ? rating : null, // Use null for unrated books
         notes: convertHtmlToText(myReview),
-        tags: [], // Could potentially use Bookshelves data??
+        tags: [], // Could potentially use Bookshelves data
         emojis: [],
         isPublic: false,
+        currentlyReading: bookshelves
+          .toLowerCase()
+          .includes("currently-reading"),
       };
 
       books.push(bookData);

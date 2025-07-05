@@ -769,6 +769,20 @@ select:focus {
   font-size: var(--font-size-sm);
 }
 
+.currently-reading-badge {
+  margin: 0.5rem 0;
+}
+
+.reading-indicator {
+  background: var(--info-bg);
+  color: var(--font-color);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--info-border);
+  border-radius: 12px;
+  font-size: var(--font-size-xs);
+  font-weight: bold;
+}
+
 .book-rating {
   display: flex;
   align-items: center;

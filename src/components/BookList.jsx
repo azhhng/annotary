@@ -84,6 +84,12 @@ function BookList({
                   {book.authors && book.authors.length > 0 && (
                     <p className="book-authors">by {book.authors.join(", ")}</p>
                   )}
+
+                  {book.currentlyReading && (
+                    <div className="currently-reading-badge">
+                      <span className="reading-indicator">📖 Currently Reading</span>
+                    </div>
+                  )}
                   {book.genres && book.genres.length > 0 && (
                     <p>
                       <span className="property-label">Genre(s)</span>
