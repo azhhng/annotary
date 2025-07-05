@@ -40,7 +40,6 @@ function AppContent() {
     return null;
   };
 
-
   const handleLogout = async () => {
     try {
       await signOut();
@@ -52,15 +51,17 @@ function AppContent() {
 
   // handle colors for each page
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (
+      location.pathname === "/" ||
+      location.pathname === "/settings" ||
+      location.pathname === "/achievements" ||
+      location.pathname === "/auth"
+    ) {
       document.body.style.background = createGradientBackground(
         COLORS.PRIMARY_GRADIENT_START,
         COLORS.PRIMARY_GRADIENT_END
       );
-      document.documentElement.style.setProperty(
-        "--font-color",
-        COLORS.PRIMARY_FONT
-      );
+      document.documentElement.style.setProperty("--font-color", "#ffffff");
     }
     document.title = "Annotary";
   }, [location.pathname]);
