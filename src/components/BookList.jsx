@@ -15,24 +15,27 @@ function BookList({
   onAddBook,
   onCancelAddForm,
 }) {
-  const formattedDates = useMemo(() => {
-    const dateCache = new Map();
+  const formatDateRange = useMemo(() => {
+    return (book) => {
+      const formatDate = (dateStr) => {
+        if (!dateStr) return "?";
+        return new Date(dateStr).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      };
 
-    books.forEach((book) => {
-      if (book.dateFinished && !dateCache.has(book.dateFinished)) {
-        dateCache.set(
-          book.dateFinished,
-          new Date(book.dateFinished).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })
-        );
+      if (!book.dateStarted && !book.dateFinished) {
+        return null; // Don't show anything if no dates
       }
-    });
 
-    return dateCache;
-  }, [books]);
+      const startDate = formatDate(book.dateStarted);
+      const endDate = formatDate(book.dateFinished);
+
+      return `${startDate} - ${endDate}`;
+    };
+  }, []);
   return (
     <div className="books-grid">
       {showAddForm && (
@@ -101,19 +104,24 @@ function BookList({
                     <p className="book-authors">by {book.authors.join(", ")}</p>
                   )}
 
-                  {book.status && (
-                    <div className="status-badge">
-                      <span
-                        className={`status-indicator status-${book.status}`}
-                      >
-                        {book.status === "currently_reading" && "📖 "}
-                        {book.status === "want_to_read" && "📚 "}
-                        {book.status === "read" && "✅ "}
-                        {book.status === "dnf" && "❌ "}
-                        {BOOK_STATUS_LABELS[book.status]}
-                      </span>
-                    </div>
-                  )}
+                  <div className="status-and-dates">
+                    {book.status && (
+                      <div className="status-badge">
+                        <span
+                          className={`status-indicator status-${book.status}`}
+                        >
+                          {book.status === "currently_reading" && "📖 "}
+                          {book.status === "want_to_read" && "📚 "}
+                          {book.status === "read" && "✅ "}
+                          {book.status === "dnf" && "❌ "}
+                          {BOOK_STATUS_LABELS[book.status]}
+                        </span>
+                      </div>
+                    )}
+                    {formatDateRange(book) && (
+                      <p className="book-dates">{formatDateRange(book)}</p>
+                    )}
+                  </div>
                   {book.genres && book.genres.length > 0 && (
                     <p>
                       <span className="property-label">Genre(s)</span>
@@ -128,14 +136,6 @@ function BookList({
                       {book.rating === null ? "Not rated yet" : book.rating}
                     </span>
                   </p>
-                  {book.dateFinished && (
-                    <p>
-                      <span className="property-label">Finished</span>
-                      <span className="property-content">
-                        {formattedDates.get(book.dateFinished)}
-                      </span>
-                    </p>
-                  )}
                   {book.tags && book.tags.length > 0 && (
                     <div className="tags-section">
                       <div className="tags-separator"></div>
