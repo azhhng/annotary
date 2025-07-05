@@ -1,27 +1,43 @@
-import { memo, useState } from 'react';
-import { ACHIEVEMENT_CATEGORIES, getAllAchievements, getAchievementsByCategory } from '../constants/achievementConstants';
-import { useAchievements } from '../hooks/useAchievements';
-import { useBooks } from '../hooks/useBooks';
+import { memo, useState } from "react";
+import {
+  ACHIEVEMENT_CATEGORIES,
+  getAllAchievements,
+  getAchievementsByCategory,
+} from "../constants/achievementConstants";
+import { useAchievements } from "../hooks/useAchievements";
+import { useBooks } from "../hooks/useBooks";
 
 function Achievements() {
   const { books } = useBooks();
-  const { userAchievements, isUnlocked, getAchievementProgress } = useAchievements();
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { userAchievements, isUnlocked, getAchievementProgress } =
+    useAchievements();
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const categories = [
-    { key: 'all', name: 'All', icon: '🏆' },
-    { key: ACHIEVEMENT_CATEGORIES.READING, name: 'Reading', icon: '📚' },
-    { key: ACHIEVEMENT_CATEGORIES.EMOJI, name: 'Emojis', icon: '😊' },
-    { key: ACHIEVEMENT_CATEGORIES.GENRE, name: 'Genres', icon: '📖' },
-    { key: ACHIEVEMENT_CATEGORIES.SPEED, name: 'Speed', icon: '⚡' },
-    { key: ACHIEVEMENT_CATEGORIES.SOCIAL, name: 'Social', icon: '✍️' }
+    { key: "all", name: "All", icon: "🏆" },
+    { key: ACHIEVEMENT_CATEGORIES.READING, name: "Reading", icon: "📚" },
+    { key: ACHIEVEMENT_CATEGORIES.EMOJI, name: "Emojis", icon: "😊" },
+    { key: ACHIEVEMENT_CATEGORIES.GENRE, name: "Genres", icon: "📖" },
+    { key: ACHIEVEMENT_CATEGORIES.SPEED, name: "Speed", icon: "⚡" },
+    { key: ACHIEVEMENT_CATEGORIES.SOCIAL, name: "Social", icon: "✍️" },
   ];
 
   const getFilteredAchievements = () => {
-    if (selectedCategory === 'all') {
-      return getAllAchievements();
+    let achievements;
+    if (selectedCategory === "all") {
+      achievements = getAllAchievements();
+    } else {
+      achievements = getAchievementsByCategory(selectedCategory);
     }
-    return getAchievementsByCategory(selectedCategory);
+
+    // Sort achievements: unlocked ones at the bottom
+    return achievements.sort((a, b) => {
+      const aUnlocked = isUnlocked(a.id);
+      const bUnlocked = isUnlocked(b.id);
+
+      if (aUnlocked === bUnlocked) return 0;
+      return aUnlocked ? 1 : -1;
+    });
   };
 
   const getUnlockedCount = () => {
@@ -37,7 +53,9 @@ function Achievements() {
     const progress = getAchievementProgress(achievement.id, books);
 
     return (
-      <div className={`achievement-card card ${unlocked ? 'unlocked' : 'locked'}`}>
+      <div
+        className={`achievement-card card ${unlocked ? "unlocked" : "locked"}`}
+      >
         <div className="achievement-header">
           <span className="achievement-icon">{achievement.icon}</span>
           <div className="achievement-info">
@@ -46,11 +64,11 @@ function Achievements() {
           </div>
           {unlocked && <span className="achievement-status">✅</span>}
         </div>
-        
+
         {!unlocked && (
           <div className="achievement-progress">
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill"
                 style={{ width: `${progress.percentage}%` }}
               />
@@ -60,7 +78,7 @@ function Achievements() {
             </span>
           </div>
         )}
-        
+
         {unlocked && (
           <div className="achievement-unlocked">
             <span className="unlocked-text">Unlocked!</span>
@@ -80,9 +98,11 @@ function Achievements() {
           </span>
           <div className="overall-progress">
             <div className="progress-bar">
-              <div 
+              <div
                 className="progress-fill"
-                style={{ width: `${(getUnlockedCount() / getTotalCount()) * 100}%` }}
+                style={{
+                  width: `${(getUnlockedCount() / getTotalCount()) * 100}%`,
+                }}
               />
             </div>
           </div>
@@ -90,10 +110,10 @@ function Achievements() {
       </div>
 
       <div className="achievement-categories">
-        {categories.map(category => (
+        {categories.map((category) => (
           <button
             key={category.key}
-            className={`category-tab ${selectedCategory === category.key ? 'active' : ''}`}
+            className={`category-tab ${selectedCategory === category.key ? "active" : ""}`}
             onClick={() => setSelectedCategory(category.key)}
           >
             <span className="category-icon">{category.icon}</span>
@@ -103,7 +123,7 @@ function Achievements() {
       </div>
 
       <div className="achievements-grid">
-        {getFilteredAchievements().map(achievement => (
+        {getFilteredAchievements().map((achievement) => (
           <AchievementCard key={achievement.id} achievement={achievement} />
         ))}
       </div>
