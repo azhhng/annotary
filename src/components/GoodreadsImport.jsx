@@ -87,6 +87,17 @@ function GoodreadsImport({ onClose }) {
       const dateRead = row[dateReadIndex]?.trim();
       const myReview = row[myReviewIndex]?.trim() || "";
 
+      // Convert HTML characterd
+      const convertHtmlToText = (htmlText) => {
+        return htmlText
+          .replace(/<br\s*\/?>/gi, "\n") // Replace <br> and <br/> with newlines
+          .replace(/&nbsp;/g, " ") // Replace &nbsp; with spaces
+          .replace(/&amp;/g, "&") // Replace &amp; with &
+          .replace(/&lt;/g, "<") // Replace &lt; with <
+          .replace(/&gt;/g, ">") // Replace &gt; with >
+          .replace(/&quot;/g, '"'); // Replace &quot; with "
+      };
+
       if (!title || !author) {
         skippedCount++;
         continue;
@@ -133,7 +144,7 @@ function GoodreadsImport({ onClose }) {
         dateStarted: "", // Not available in Goodreads export
         dateFinished: formatDate(dateRead),
         rating: rating > 0 ? rating : null, // Use null for unrated books
-        notes: myReview,
+        notes: convertHtmlToText(myReview),
         tags: [], // Could potentially use Bookshelves data??
         emojis: [],
         isPublic: false,
