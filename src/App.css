@@ -6,6 +6,35 @@
   --font-size-lg: 0.95rem;
   --font-size-xl: 1.05rem;
   --font-size-2xl: 2rem;
+
+  /* Colors */
+  --primary-gradient-start: #2e2828;
+  --primary-gradient-end: #0c0c0c;
+  --color-gold: #ffd700;
+  
+  /* Transparent overlays */
+  --overlay-lighter: rgba(255, 255, 255, 0.05);
+  --overlay-light: rgba(255, 255, 255, 0.1);
+  --overlay-medium-light: rgba(255, 255, 255, 0.15);
+  --overlay-medium: rgba(255, 255, 255, 0.2);
+  --overlay-medium-strong: rgba(255, 255, 255, 0.25);
+  --overlay-strong: rgba(255, 255, 255, 0.3);
+  --overlay-dark: rgba(0, 0, 0, 0.5);
+  --border-light: rgba(255, 255, 255, 0.2);
+  --border-medium: rgba(255, 255, 255, 0.3);
+  --border-medium-light: rgba(255, 255, 255, 0.4);
+  --border-strong: rgba(255, 255, 255, 0.5);
+  --border-extra-strong: rgba(255, 255, 255, 0.6);
+  
+  /* Colored overlays */
+  --error-bg: rgba(255, 100, 100, 0.3);
+  --error-border: rgba(255, 100, 100, 0.5);
+  --warning-bg: rgba(255, 165, 0, 0.2);
+  --warning-border: rgba(255, 165, 0, 0.5);
+  --success-bg: rgba(0, 255, 0, 0.2);
+  --success-border: rgba(0, 255, 0, 0.4);
+  --info-bg: rgba(100, 200, 255, 0.2);
+  --info-border: rgba(100, 200, 255, 0.3);
 }
 
 /* ============================================
@@ -25,7 +54,11 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-start) 0%,
+    var(--primary-gradient-end) 100%
+  );
 }
 
 h1,
@@ -62,10 +95,10 @@ input,
 textarea,
 select {
   padding: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--overlay-strong);
   border-radius: 8px;
   font-size: var(--font-size-base);
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-light);
   color: var(--font-color);
   outline: none;
 }
@@ -79,8 +112,8 @@ textarea::placeholder {
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--border-strong);
+  background: var(--overlay-medium-light);
 }
 
 /* ============================================
@@ -128,15 +161,15 @@ select:focus {
 }
 
 .bg-glass {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--overlay-light);
+  border: 1px solid var(--overlay-medium);
   border-radius: 12px;
   backdrop-filter: blur(10px);
 }
 
 .bg-glass-light {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--overlay-lighter);
+  border: 1px solid var(--overlay-light);
   border-radius: 12px;
 }
 
@@ -174,7 +207,7 @@ select:focus {
    ============================================ */
 
 .btn {
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--overlay-strong);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
@@ -190,27 +223,27 @@ select:focus {
 }
 
 .btn-primary {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--overlay-medium);
+  border-color: var(--border-medium-light);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: var(--overlay-strong);
+  border-color: var(--border-extra-strong);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-light);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: var(--overlay-medium);
+  border-color: var(--border-strong);
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: rgba(255, 100, 100, 0.3);
-  border-color: rgba(255, 100, 100, 0.5);
+  background: var(--error-bg);
+  border-color: var(--error-border);
 }
 
 .btn-sm {
@@ -237,8 +270,8 @@ select:focus {
    ============================================ */
 
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--overlay-light);
+  border: 1px solid var(--overlay-medium);
   border-radius: 12px;
   padding: 2rem;
   transition: all 0.2s;
@@ -246,8 +279,8 @@ select:focus {
 }
 
 .card:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--overlay-medium-light);
+  border-color: var(--overlay-strong);
 }
 
 .card-sm {
@@ -288,10 +321,10 @@ select:focus {
 }
 
 .form-section {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-light);
   padding: 2rem;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--overlay-medium);
   margin-bottom: 2rem;
   text-align: center;
 }
@@ -329,7 +362,7 @@ select:focus {
 .color-picker input[type="color"] {
   width: 30px;
   height: 30px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 2px solid var(--overlay-strong);
   border-radius: 50%;
   cursor: pointer;
   background: none;
@@ -352,7 +385,7 @@ select:focus {
   align-items: center;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .brand-title {
@@ -451,7 +484,7 @@ select:focus {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--overlay-medium);
 }
 
 .book-card-emojis {
@@ -507,7 +540,7 @@ select:focus {
 }
 
 .tags-separator {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border-light);
   margin: 1rem 0;
 }
 
@@ -516,7 +549,7 @@ select:focus {
 }
 
 .notes-separator {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border-light);
   margin-bottom: 1rem;
 }
 
@@ -530,10 +563,10 @@ select:focus {
 
 .property-label {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--overlay-medium-light);
   color: var(--font-color);
   padding: 0.2rem 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--overlay-medium-strong);
   border-radius: 8px;
   font-size: var(--font-size-xs);
   font-weight: normal;
@@ -580,10 +613,10 @@ select:focus {
   color: var(--font-color);
   margin-top: 0.5rem;
   margin-bottom: 0;
-  background: rgba(255, 165, 0, 0.2);
+  background: var(--warning-bg);
   padding: 0.5rem;
   border-radius: 6px;
-  border: 1px solid rgba(255, 165, 0, 0.5);
+  border: 1px solid var(--warning-border);
 }
 
 .checkbox-label {
@@ -632,44 +665,44 @@ select:focus {
 }
 
 .message.success {
-  background: rgba(0, 255, 0, 0.2);
-  border: 1px solid rgba(0, 255, 0, 0.4);
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
   color: var(--font-color);
 }
 
 .message.error {
-  background: rgba(255, 0, 0, 0.2);
-  border: 1px solid rgba(255, 0, 0, 0.4);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
   color: var(--font-color);
 }
 
 .tag {
   display: inline-flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--overlay-medium);
   color: var(--font-color);
   padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--overlay-strong);
   border-radius: 6px;
   font-size: var(--font-size-sm);
   gap: 0.25rem;
 }
 
 .genre-tag {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--overlay-medium-light);
   color: var(--font-color);
   padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--overlay-medium-strong);
   border-radius: 12px;
   font-size: var(--font-size-xs);
   opacity: 0.9;
 }
 
 .user-tag {
-  background: rgba(100, 200, 255, 0.2);
+  background: var(--info-bg);
   color: var(--font-color);
   padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(100, 200, 255, 0.3);
+  border: 1px solid var(--info-border);
   border-radius: 12px;
   font-size: var(--font-size-xs);
 }
@@ -683,8 +716,8 @@ select:focus {
 .no-reviews {
   text-align: center;
   padding: 3rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--overlay-lighter);
+  border: 1px solid var(--overlay-light);
   border-radius: 12px;
 }
 
@@ -701,8 +734,8 @@ select:focus {
 }
 
 .feed-item {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--overlay-light);
+  border: 1px solid var(--overlay-medium);
   border-radius: 12px;
   padding: 1.5rem;
   backdrop-filter: blur(10px);
@@ -710,8 +743,8 @@ select:focus {
 }
 
 .feed-item:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--overlay-medium-light);
+  border-color: var(--overlay-strong);
 }
 
 .feed-item-header {
@@ -720,7 +753,7 @@ select:focus {
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--overlay-light);
 }
 
 .feed-item-date {
@@ -742,7 +775,7 @@ select:focus {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--overlay-medium);
 }
 
 .feed-item-emojis {
@@ -837,8 +870,8 @@ select:focus {
 }
 
 .filters {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--overlay-light);
+  border: 1px solid var(--overlay-medium);
   border-radius: 12px;
   padding: 1rem;
   backdrop-filter: blur(10px);
@@ -881,21 +914,21 @@ select:focus {
 
 .filter-group select {
   padding: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid var(--overlay-strong);
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--overlay-light);
   color: var(--font-color);
   font-size: var(--font-size-sm);
 }
 
 .filter-group select:focus {
   outline: none;
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--border-strong);
+  background: var(--overlay-medium-light);
 }
 
 .sort-section {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid var(--overlay-medium);
   padding-top: 1rem;
   margin-top: 1rem;
 }
@@ -909,7 +942,7 @@ select:focus {
 
 /* Stars */
 .stars {
-  color: #ffd700;
+  color: var(--color-gold);
   font-size: var(--font-size-lg);
 }
 
@@ -920,7 +953,7 @@ select:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--overlay-dark);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1018,7 +1051,7 @@ select:focus {
     min-width: auto;
     gap: 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--border-light);
     margin-top: 0;
   }
   .feed-emoji {
@@ -1037,7 +1070,7 @@ select:focus {
     min-width: auto;
     gap: 1rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid var(--border-light);
     margin-top: 0;
     padding-right: 0;
   }
@@ -1088,7 +1121,7 @@ select:focus {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .settings-action {
     align-items: stretch;
   }

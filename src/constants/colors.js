@@ -1,7 +1,21 @@
+const getCSSVariable = (variableName) =>
+  getComputedStyle(document.documentElement)
+    .getPropertyValue(variableName)
+    .trim();
+
 export const COLORS = {
-  PRIMARY_GRADIENT_START: "#667eea",
-  PRIMARY_GRADIENT_END: "#764ba2",
-  PRIMARY_FONT: "#ffffff",
+  get PRIMARY_GRADIENT_START() {
+    return getCSSVariable("--primary-gradient-start");
+  },
+  get PRIMARY_GRADIENT_END() {
+    return getCSSVariable("--primary-gradient-end");
+  },
+  get PRIMARY_FONT() {
+    return getCSSVariable("--font-color");
+  },
+  get GOLD() {
+    return getCSSVariable("--color-gold");
+  },
 };
 
 export const createGradientBackground = (startColor, endColor) =>
