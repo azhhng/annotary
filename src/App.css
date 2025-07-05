@@ -1218,10 +1218,6 @@ select:focus {
    ============================================ */
 
 @media (max-width: 768px) {
-  .container {
-    padding: 0.5rem;
-    padding-top: 4rem;
-  }
   .books-container {
     flex-direction: column;
     align-items: center;
@@ -1365,12 +1361,13 @@ select:focus {
 
   .achievement-categories {
     justify-content: center;
+    flex-wrap: wrap;
   }
 
   .category-tab {
-    flex: 1;
+    flex: none;
     justify-content: center;
-    min-width: 0;
+    min-width: auto;
   }
 
   .achievements-grid {
