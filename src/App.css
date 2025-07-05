@@ -11,7 +11,7 @@
   --primary-gradient-start: #2e2828;
   --primary-gradient-end: #0c0c0c;
   --color-gold: #ffd700;
-  
+
   /* Transparent overlays */
   --overlay-lighter: rgba(255, 255, 255, 0.05);
   --overlay-light: rgba(255, 255, 255, 0.1);
@@ -25,7 +25,7 @@
   --border-medium-light: rgba(255, 255, 255, 0.4);
   --border-strong: rgba(255, 255, 255, 0.5);
   --border-extra-strong: rgba(255, 255, 255, 0.6);
-  
+
   /* Colored overlays */
   --error-bg: rgba(255, 100, 100, 0.3);
   --error-border: rgba(255, 100, 100, 0.5);
@@ -457,7 +457,6 @@ select:focus {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
 }
 
 .book-header h3 {
@@ -508,7 +507,7 @@ select:focus {
   min-width: 0;
 }
 
-.book-card p {
+.book-card p:has(.property-label) {
   margin: 1rem 0;
   color: var(--font-color);
   line-height: 1.6;
@@ -801,14 +800,14 @@ select:focus {
 }
 
 .book-title {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0;
   color: var(--font-color);
   font-size: var(--font-size-xl);
   font-weight: normal;
 }
 
 .book-authors {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.75rem 0;
   color: var(--font-color);
   opacity: 0.8;
   font-size: var(--font-size-sm);

@@ -62,7 +62,7 @@ function BookList({
 
                 <div className="book-card-content">
                   <div className="book-header">
-                    <h3>{book.title}</h3>
+                    <h3 className="book-title">{book.title}</h3>
                     {showActions && (
                       <div className="book-actions">
                         <button
@@ -80,12 +80,10 @@ function BookList({
                       </div>
                     )}
                   </div>
-                  <p>
-                    <span className="property-label">Author(s)</span>
-                    <span className="property-content">
-                      {book.authors?.join(", ") || "Unknown"}
-                    </span>
-                  </p>
+                  
+                  {book.authors && book.authors.length > 0 && (
+                    <p className="book-authors">by {book.authors.join(", ")}</p>
+                  )}
                   {book.genres && book.genres.length > 0 && (
                     <p>
                       <span className="property-label">Genre(s)</span>
