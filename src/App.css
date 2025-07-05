@@ -597,6 +597,12 @@ select:focus {
   display: block;
 }
 
+.inline-edit-form .form-row:has(select[name="rating"]) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 .inline-edit-form .form-row .form-group {
   margin-bottom: 1rem;
 }

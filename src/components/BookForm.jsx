@@ -294,6 +294,9 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           )}
         </div>
 
+      </div>
+
+      <div className="form-row">
         <div className="form-group">
           <label htmlFor="rating">Rating</label>
           <select
