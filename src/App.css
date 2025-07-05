@@ -597,7 +597,9 @@ select:focus {
   display: block;
 }
 
-.inline-edit-form .form-row:has(select[name="rating"]) {
+.inline-edit-form .form-row:has(select[name="rating"]),
+.inline-edit-form .form-row:has(input[id="genres"]),
+.inline-edit-form .form-row:has(input[id="tags"]) {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -605,6 +607,12 @@ select:focus {
 
 .inline-edit-form .form-row .form-group {
   margin-bottom: 1rem;
+}
+
+.inline-edit-form .form-row .form-group:has(.checkbox-label) {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
 }
 
 .inline-edit-form .form-row:has(input[type="date"]) {

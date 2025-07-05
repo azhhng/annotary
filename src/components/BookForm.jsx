@@ -198,55 +198,53 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
 
   return (
     <form onSubmit={handleSubmit} className="form">
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="title">Title *</label>
+      <div className="form-group">
+        <label htmlFor="title">Title *</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="authors">Author(s) *</label>
+        <div className="tags-input-container">
           <input
             type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
+            id="authors"
+            value={authorInput}
+            onChange={(e) => setAuthorInput(e.target.value)}
+            onKeyDown={handleAddAuthor}
+            placeholder="Add an author and press Enter"
           />
+          <button
+            type="button"
+            onClick={handleAddAuthor}
+            className="btn btn-secondary btn-sm"
+          >
+            Add
+          </button>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="authors">Author(s) *</label>
-          <div className="tags-input-container">
-            <input
-              type="text"
-              id="authors"
-              value={authorInput}
-              onChange={(e) => setAuthorInput(e.target.value)}
-              onKeyDown={handleAddAuthor}
-              placeholder="Add an author and press Enter"
-            />
-            <button
-              type="button"
-              onClick={handleAddAuthor}
-              className="btn btn-secondary btn-sm"
-            >
-              Add
-            </button>
+        {formData.authors.length > 0 && (
+          <div className="tags-display">
+            {formData.authors.map((author, index) => (
+              <span key={index} className="tag">
+                {author}
+                <button
+                  type="button"
+                  onClick={() => removeAuthor(author)}
+                  className="remove-tag"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
           </div>
-          {formData.authors.length > 0 && (
-            <div className="tags-display">
-              {formData.authors.map((author, index) => (
-                <span key={index} className="tag">
-                  {author}
-                  <button
-                    type="button"
-                    onClick={() => removeAuthor(author)}
-                    className="remove-tag"
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
 
       <div className="form-row">
@@ -261,7 +259,7 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
               value={genreInput}
               onChange={(e) => setGenreInput(e.target.value)}
               onKeyDown={handleAddGenre}
-              placeholder="Add a genre and press Enter"
+              placeholder="Add a genre"
             />
             <button
               type="button"
@@ -294,6 +292,19 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
           )}
         </div>
 
+        <div className="form-group">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              name="isPublic"
+              checked={formData.isPublic}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, isPublic: e.target.checked }))
+              }
+            />
+            Make public in community feed
+          </label>
+        </div>
       </div>
 
       <div className="form-row">
@@ -304,7 +315,8 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             name="rating"
             value={formData.rating === null ? "" : formData.rating}
             onChange={(e) => {
-              const value = e.target.value === "" ? null : parseFloat(e.target.value);
+              const value =
+                e.target.value === "" ? null : parseFloat(e.target.value);
               setFormData((prev) => ({ ...prev, rating: value }));
             }}
           >
@@ -331,7 +343,6 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
             ))}
           </select>
         </div>
-
       </div>
 
       <div className="form-row">
@@ -370,106 +381,96 @@ function BookForm({ onAddBook, onUpdateBook, onCancel, editingBook = null }) {
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="tags">Tags (up to {VALIDATION_LIMITS.MAX_TAGS})</label>
-        <div className="tags-input-container">
-          <input
-            type="text"
-            id="tags"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={handleAddTag}
-            placeholder="Type a tag and press Enter (e.g., favorite, drama)"
-          />
-          <button type="button" onClick={handleAddTag} className="btn btn-secondary btn-sm">
-            Add
-          </button>
-        </div>
-        {formData.tags.length > 0 && (
-          <div className="tags-display">
-            {formData.tags.map((tag, index) => (
-              <span key={index} className="tag">
-                {tag}
-                <button
-                  type="button"
-                  onClick={() => removeTag(tag)}
-                  className="remove-tag"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
+      <div className="form-row">
+        <div className="form-group">
+          <label htmlFor="tags">
+            Tags (up to {VALIDATION_LIMITS.MAX_TAGS})
+          </label>
+          <div className="tags-input-container">
+            <input
+              type="text"
+              id="tags"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={handleAddTag}
+              placeholder="(e.g., sad, fav)"
+            />
+            <button
+              type="button"
+              onClick={handleAddTag}
+              className="btn btn-secondary btn-sm"
+            >
+              Add
+            </button>
           </div>
-        )}
-        {formData.tags.length >= VALIDATION_LIMITS.MAX_TAGS && (
-          <p className="emoji-warning">
-            Maximum of {VALIDATION_LIMITS.MAX_TAGS} tags reached
-          </p>
-        )}
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="emojis">
-          Emojis (up to {VALIDATION_LIMITS.MAX_EMOJIS})
-        </label>
-        <div className="tags-input-container">
-          <input
-            type="text"
-            id="emojis"
-            value={emojiInput}
-            onChange={(e) => setEmojiInput(e.target.value)}
-            onKeyDown={handleAddEmoji}
-            placeholder="Add an emoji and press Enter (e.g., 📚, 💕, 🌟)"
-            disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
-          />
-          <button
-            type="button"
-            onClick={handleAddEmoji}
-            className="btn btn-secondary btn-sm"
-            disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
-          >
-            Add
-          </button>
+          {formData.tags.length > 0 && (
+            <div className="tags-display">
+              {formData.tags.map((tag, index) => (
+                <span key={index} className="tag">
+                  {tag}
+                  <button
+                    type="button"
+                    onClick={() => removeTag(tag)}
+                    className="remove-tag"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          {formData.tags.length >= VALIDATION_LIMITS.MAX_TAGS && (
+            <p className="emoji-warning">
+              Maximum of {VALIDATION_LIMITS.MAX_TAGS} tags reached
+            </p>
+          )}
         </div>
-        {formData.emojis.length > 0 && (
-          <div className="tags-display">
-            {formData.emojis.map((emoji, index) => (
-              <span key={index} className="tag">
-                {emoji}
-                <button
-                  type="button"
-                  onClick={() => removeEmoji(emoji)}
-                  className="remove-tag"
-                >
-                  ×
-                </button>
-              </span>
-            ))}
+
+        <div className="form-group">
+          <label htmlFor="emojis">
+            Emojis (up to {VALIDATION_LIMITS.MAX_EMOJIS})
+          </label>
+          <div className="tags-input-container">
+            <input
+              type="text"
+              id="emojis"
+              value={emojiInput}
+              onChange={(e) => setEmojiInput(e.target.value)}
+              onKeyDown={handleAddEmoji}
+              placeholder="(e.g., 📚, 💕, 🌟)"
+              disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
+            />
+            <button
+              type="button"
+              onClick={handleAddEmoji}
+              className="btn btn-secondary btn-sm"
+              disabled={formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS}
+            >
+              Add
+            </button>
           </div>
-        )}
-        {formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS && (
-          <p className="emoji-warning">
-            Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached
-          </p>
-        )}
-      </div>
-
-
-      <div className="form-group">
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            name="isPublic"
-            checked={formData.isPublic}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                isPublic: e.target.checked,
-              }))
-            }
-          />
-          Make public in community feed
-        </label>
+          {formData.emojis.length > 0 && (
+            <div className="tags-display">
+              {formData.emojis.map((emoji, index) => (
+                <span key={index} className="tag">
+                  {emoji}
+                  <button
+                    type="button"
+                    onClick={() => removeEmoji(emoji)}
+                    className="remove-tag"
+                  >
+                    ×
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
+          {formData.emojis.length >= VALIDATION_LIMITS.MAX_EMOJIS && (
+            <p className="emoji-warning">
+              Maximum of {VALIDATION_LIMITS.MAX_EMOJIS} emojis reached
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="form-actions">
