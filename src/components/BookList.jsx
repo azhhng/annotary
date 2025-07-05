@@ -130,12 +130,14 @@ function BookList({
                       </span>
                     </p>
                   )}
-                  <p>
-                    <span className="property-label">Rating</span>
-                    <span className="property-content">
-                      {book.rating === null ? "Not rated yet" : book.rating}
-                    </span>
-                  </p>
+                  {book.rating !== null && (
+                    <p>
+                      <span className="property-label">Rating</span>
+                      <span className="property-content">
+                        {book.rating}
+                      </span>
+                    </p>
+                  )}
                   {book.tags && book.tags.length > 0 && (
                     <div className="tags-section">
                       <div className="tags-separator"></div>

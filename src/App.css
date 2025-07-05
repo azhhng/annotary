@@ -437,8 +437,9 @@ select:focus {
 }
 
 .book-header h3 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   flex: 1;
+  line-height: 1.3;
 }
 
 .book-actions {
@@ -770,10 +771,11 @@ select:focus {
 }
 
 .book-title {
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
   color: var(--font-color);
   font-size: var(--font-size-xl);
   font-weight: normal;
+  line-height: 1.3;
 }
 
 .book-authors {
