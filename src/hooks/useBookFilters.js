@@ -1,15 +1,52 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+
+const STORAGE_KEYS = {
+  FILTERS: "reading-journal-filters",
+  SORT: "reading-journal-sort",
+};
+
+const defaultFilters = {
+  genre: "",
+  rating: "",
+  tag: "",
+  author: "",
+  emoji: "",
+  status: "",
+};
+
+const loadFromStorage = (key, defaultValue) => {
+  try {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : defaultValue;
+  } catch (error) {
+    console.warn(`Failed to load ${key} from localStorage:`, error);
+    return defaultValue;
+  }
+};
+
+const saveToStorage = (key, value) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn(`Failed to save ${key} to localStorage:`, error);
+  }
+};
 
 export function useBookFilters(books) {
-  const [filters, setFilters] = useState({
-    genre: "",
-    rating: "",
-    tag: "",
-    author: "",
-    emoji: "",
-    status: "",
-  });
-  const [sortBy, setSortBy] = useState("");
+  const [filters, setFilters] = useState(() =>
+    loadFromStorage(STORAGE_KEYS.FILTERS, defaultFilters)
+  );
+  const [sortBy, setSortBy] = useState(() =>
+    loadFromStorage(STORAGE_KEYS.SORT, "")
+  );
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.FILTERS, filters);
+  }, [filters]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.SORT, sortBy);
+  }, [sortBy]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters((prev) => ({
@@ -19,14 +56,7 @@ export function useBookFilters(books) {
   };
 
   const clearFilters = () => {
-    setFilters({
-      genre: "",
-      rating: "",
-      tag: "",
-      author: "",
-      emoji: "",
-      status: "",
-    });
+    setFilters(defaultFilters);
   };
 
   const clearSort = () => {
@@ -109,10 +139,16 @@ export function useBookFilters(books) {
         (book.authors && book.authors.includes(filters.author));
       const emojiMatch =
         !filters.emoji || (book.emojis && book.emojis.includes(filters.emoji));
-      const statusMatch =
-        !filters.status || book.status === filters.status;
+      const statusMatch = !filters.status || book.status === filters.status;
 
-      return genreMatch && ratingMatch && tagMatch && authorMatch && emojiMatch && statusMatch;
+      return (
+        genreMatch &&
+        ratingMatch &&
+        tagMatch &&
+        authorMatch &&
+        emojiMatch &&
+        statusMatch
+      );
     });
   }, [books, filters]);
 
