@@ -754,8 +754,8 @@ select:focus {
   gap: 2.5rem;
   flex-shrink: 0;
   min-width: 60px;
-  padding-right: 1.5rem;
   justify-content: center;
+  padding-right: 1.5rem;
 }
 
 .feed-emoji {
@@ -1239,7 +1239,7 @@ select:focus {
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   /* Force all inline-edit-form rows to stack on mobile */
   .inline-edit-form .form-row:has(select[name="rating"]),
   .inline-edit-form .form-row:has(input[id="genres"]),
@@ -1247,11 +1247,11 @@ select:focus {
   .inline-edit-form .form-row:has(input[type="date"]) {
     display: block !important;
   }
-  
+
   .inline-edit-form .form-row .form-group:has(.checkbox-label) {
     margin-top: 0;
   }
-  
+
   .inline-edit-form .form-row .form-group:has(input[id="dateFinished"]) {
     margin-top: 1.5rem;
   }
@@ -1320,6 +1320,7 @@ select:focus {
     min-width: auto;
     gap: 1rem;
     padding-bottom: 0.75rem;
+    padding-right: 0;
     border-bottom: 1px solid var(--border-light);
     margin-top: 0;
   }
