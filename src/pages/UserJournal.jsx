@@ -194,17 +194,6 @@ function UserJournal({ journaler, updateColors }) {
         setFontColor={handleFontColorChange}
       />
 
-      {showForm && !editingBook && (
-        <div className="form-section">
-          <h2>Add book</h2>
-          <BookForm
-            onAddBook={handleAddBook}
-            onUpdateBook={handleUpdateBook}
-            onCancel={handleFormCancel}
-            editingBook={null}
-          />
-        </div>
-      )}
 
       <div className="books-section">
         <div className="books-container">
@@ -227,7 +216,7 @@ function UserJournal({ journaler, updateColors }) {
             )}
           </div>
 
-          {books.length === 0 ? (
+          {books.length === 0 && !showForm ? (
             <div className="books-grid">
               <p>No books yet. Add your first book!</p>
             </div>
@@ -240,6 +229,9 @@ function UserJournal({ journaler, updateColors }) {
               onUpdateBook={handleUpdateBook}
               onCancelEdit={handleCancelEdit}
               showActions={true}
+              showAddForm={showForm && !editingBook}
+              onAddBook={handleAddBook}
+              onCancelAddForm={handleFormCancel}
             />
           )}
         </div>

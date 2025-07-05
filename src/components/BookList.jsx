@@ -11,6 +11,9 @@ function BookList({
   onUpdateBook,
   onCancelEdit,
   showActions = true,
+  showAddForm = false,
+  onAddBook,
+  onCancelAddForm,
 }) {
   const formattedDates = useMemo(() => {
     const dateCache = new Map();
@@ -32,14 +35,26 @@ function BookList({
   }, [books]);
   return (
     <div className="books-grid">
-      {books.length === 0 ? (
+      {showAddForm && (
+        <div key="add-book-form" className="book-card card">
+          <div className="inline-edit-form">
+            <BookForm
+              onAddBook={onAddBook}
+              onUpdateBook={() => {}} // not used in add mode
+              onCancel={onCancelAddForm}
+              editingBook={null}
+            />
+          </div>
+        </div>
+      )}
+
+      {books.length === 0 && !showAddForm ? (
         <p>No books match your filters.</p>
       ) : (
         books.map((book) =>
           editingBook && editingBook.id === book.id ? (
             <div key={book.id} className="book-card card">
               <div className="inline-edit-form">
-                <h3>Edit book</h3>
                 <BookForm
                   onAddBook={() => {}} // not used in edit mode
                   onUpdateBook={onUpdateBook}
@@ -52,13 +67,13 @@ function BookList({
             <div key={book.id} className="book-card card">
               <div className="book-card-body">
                 <div className="book-card-emojis">
-                  {book.emojis && book.emojis.length > 0 && (
+                  {book.emojis &&
+                    book.emojis.length > 0 &&
                     book.emojis.map((emoji, index) => (
                       <span key={index} className="book-emoji">
                         {emoji}
                       </span>
-                    ))
-                  )}
+                    ))}
                 </div>
 
                 <div className="book-card-content">
@@ -81,14 +96,16 @@ function BookList({
                       </div>
                     )}
                   </div>
-                  
+
                   {book.authors && book.authors.length > 0 && (
                     <p className="book-authors">by {book.authors.join(", ")}</p>
                   )}
 
                   {book.status && (
                     <div className="status-badge">
-                      <span className={`status-indicator status-${book.status}`}>
+                      <span
+                        className={`status-indicator status-${book.status}`}
+                      >
                         {book.status === "currently_reading" && "📖 "}
                         {book.status === "want_to_read" && "📚 "}
                         {book.status === "read" && "✅ "}
