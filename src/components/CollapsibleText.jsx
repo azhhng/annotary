@@ -16,7 +16,10 @@ function CollapsibleText({ text, maxLength = 100 }) {
 
   return (
     <span className="collapsible-text">
-      <span className={`text-content ${isExpanded ? "expanded" : "collapsed"}`}>
+      <span 
+        className={`text-content ${isExpanded ? "expanded" : "collapsed"}`}
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
         {isExpanded ? text : smartTruncated + "..."}
       </span>
       <button

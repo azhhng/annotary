@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
+import CollapsibleText from "./CollapsibleText";
 
 function FeedItem({ item }) {
   const navigate = useNavigate();
@@ -76,9 +77,7 @@ function FeedItem({ item }) {
           {item.notes && (
             <div className="book-notes">
               <p>
-                {item.notes.length > 200
-                  ? `${item.notes.substring(0, 200)}...`
-                  : item.notes}
+                <CollapsibleText text={item.notes} maxLength={200} />
               </p>
             </div>
           )}
