@@ -784,8 +784,8 @@ select:focus {
   gap: 2.5rem;
   flex-shrink: 0;
   min-width: 60px;
-  margin-top: 3rem;
   padding-right: 1.5rem;
+  justify-content: center;
 }
 
 .feed-emoji {
