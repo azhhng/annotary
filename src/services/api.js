@@ -6,6 +6,7 @@ export const booksApi = {
       .from("book_entries")
       .select("*")
       .eq("user_id", userId)
+      .order("updated_at", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false });
 
     if (error) throw error;
@@ -18,6 +19,7 @@ export const booksApi = {
       .select("*")
       .eq("user_id", userId)
       .eq("is_public", true)
+      .order("updated_at", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false });
 
     if (error) throw error;
@@ -27,7 +29,10 @@ export const booksApi = {
   async createBook(bookData) {
     const { data, error } = await supabase
       .from("book_entries")
-      .insert([bookData])
+      .insert([{
+        ...bookData,
+        updated_at: new Date().toISOString(),
+      }])
       .select()
       .single();
 
@@ -36,9 +41,15 @@ export const booksApi = {
   },
 
   async createBooks(booksData) {
+    const timestamp = new Date().toISOString();
+    const booksWithTimestamp = booksData.map(book => ({
+      ...book,
+      updated_at: timestamp,
+    }));
+    
     const { data, error } = await supabase
       .from("book_entries")
-      .insert(booksData)
+      .insert(booksWithTimestamp)
       .select();
 
     if (error) throw error;
@@ -48,7 +59,10 @@ export const booksApi = {
   async updateBook(bookId, userId, bookData) {
     const { data, error } = await supabase
       .from("book_entries")
-      .update(bookData)
+      .update({
+        ...bookData,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", bookId)
       .eq("user_id", userId)
       .select()
