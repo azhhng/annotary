@@ -796,6 +796,10 @@ select:focus {
   font-size: var(--font-size-sm);
 }
 
+.collapsible-text {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .book-genres {
   display: flex;
   flex-wrap: wrap;
