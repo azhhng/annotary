@@ -9,8 +9,7 @@ import { useEffect } from "react";
 import "./App.css";
 import Homepage from "./pages/Homepage";
 import AuthPage from "./pages/AuthPage";
-import Settings from "./pages/Settings";
-import Achievements from "./components/Achievements";
+import More from "./pages/More";
 import JournalRouter from "./components/JournalRouter";
 import Navigation from "./components/Navigation";
 import { useAuth } from "./hooks/useAuth";
@@ -26,8 +25,7 @@ function AppContent() {
   const getActiveTab = () => {
     if (location.pathname === "/") return "feed";
     if (location.pathname === "/auth") return null;
-    if (location.pathname === "/settings") return "settings";
-    if (location.pathname === "/achievements") return "achievements";
+    if (location.pathname === "/more") return "more";
 
     const username = location.pathname.slice(1);
 
@@ -53,8 +51,7 @@ function AppContent() {
   useEffect(() => {
     if (
       location.pathname === "/" ||
-      location.pathname === "/settings" ||
-      location.pathname === "/achievements" ||
+      location.pathname === "/more" ||
       location.pathname === "/auth"
     ) {
       document.body.style.background = createGradientBackground(
@@ -75,15 +72,12 @@ function AppContent() {
         currentUsername={user ? journaler?.username : null}
       />
 
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/achievements" element={<Achievements />} />
-          <Route path="/:username" element={<JournalRouter />} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/more" element={<More />} />
+        <Route path="/:username" element={<JournalRouter />} />
+      </Routes>
     </div>
   );
 }
