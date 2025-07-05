@@ -61,17 +61,15 @@ function Navigation({
         )}
       </div>
 
-      <div className="nav-actions">
-        {user ? (
-          <button className="btn btn-secondary btn-sm" onClick={onLogout}>
-            Logout
-          </button>
-        ) : (
-          <button className="btn btn-secondary btn-sm" onClick={() => navigate("/auth")}>
-            Sign in / Sign up
-          </button>
-        )}
-      </div>
+      {user ? (
+        <button className="btn btn-secondary btn-sm" onClick={onLogout}>
+          Logout
+        </button>
+      ) : (
+        <button className="btn btn-secondary btn-sm" onClick={() => navigate("/auth")}>
+          Sign in / Sign up
+        </button>
+      )}
     </div>
   );
 }
