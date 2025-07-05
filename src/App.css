@@ -1214,6 +1214,22 @@ select:focus {
   .form-row {
     grid-template-columns: 1fr;
   }
+  
+  /* Force all inline-edit-form rows to stack on mobile */
+  .inline-edit-form .form-row:has(select[name="rating"]),
+  .inline-edit-form .form-row:has(input[id="genres"]),
+  .inline-edit-form .form-row:has(input[id="tags"]),
+  .inline-edit-form .form-row:has(input[type="date"]) {
+    display: block !important;
+  }
+  
+  .inline-edit-form .form-row .form-group:has(.checkbox-label) {
+    margin-top: 0;
+  }
+  
+  .inline-edit-form .form-row .form-group:has(input[id="dateFinished"]) {
+    margin-top: 1.5rem;
+  }
   .books-grid {
     min-width: auto;
     width: 100%;
