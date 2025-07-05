@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import BookForm from "../components/BookForm";
 import BookList from "../components/BookList";
 import ColorPicker from "../components/ColorPicker";
 import FilterSort from "../components/FilterSort";
@@ -195,8 +194,7 @@ function UserJournal({ journaler, updateColors }) {
       />
 
 
-      <div className="books-section">
-        <div className="books-container">
+      <div className="books-container">
           <div className="sidebar">
             <button className="btn btn-primary" onClick={handleToggleAddForm}>
               {showForm ? "Cancel" : "Add book"}
@@ -235,7 +233,6 @@ function UserJournal({ journaler, updateColors }) {
             />
           )}
         </div>
-      </div>
     </>
   );
 }

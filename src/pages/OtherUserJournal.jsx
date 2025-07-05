@@ -76,9 +76,8 @@ function OtherUserJournal() {
         </h1>
       </div>
 
-      <div className="books-section">
-        <div className="books-container">
-          <div className="sidebar">
+      <div className="books-container">
+        <div className="sidebar">
             {books.length > 0 && (
               <FilterSort
                 filters={filters}
@@ -109,7 +108,6 @@ function OtherUserJournal() {
             />
           )}
         </div>
-      </div>
     </>
   );
 }

@@ -22,7 +22,7 @@ function AuthPage() {
   }
 
   return (
-    <div className="container-xs bg-glass">
+    <div className="container-sm bg-glass">
       <AuthForm />
     </div>
   );

@@ -398,6 +398,11 @@ select:focus {
   border-bottom-color: var(--font-color);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
 .books-container {
   display: flex;
   gap: 2rem;
