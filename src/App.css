@@ -846,13 +846,6 @@ select:focus {
   opacity: 0.8;
 }
 
-.completion-date {
-  margin: 0 0 1rem 0;
-  color: var(--font-color);
-  font-size: var(--font-size-sm);
-  opacity: 0.7;
-}
-
 .book-dates {
   margin: 0;
   color: var(--font-color);
@@ -1318,7 +1311,7 @@ select:focus {
     margin-top: 0;
   }
   .feed-emoji {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-2xl);
   }
   .book-card-body {
     flex-direction: column;
@@ -1338,7 +1331,7 @@ select:focus {
     padding-right: 0;
   }
   .book-emoji {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
   }
 
   /* Achievements responsive */

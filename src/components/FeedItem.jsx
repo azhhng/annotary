@@ -23,13 +23,13 @@ function FeedItem({ item }) {
     <div className="feed-item">
       <div className="feed-item-body">
         <div className="feed-item-emojis">
-          {item.emojis && item.emojis.length > 0 && (
+          {item.emojis &&
+            item.emojis.length > 0 &&
             item.emojis.map((emoji, index) => (
               <span key={index} className="feed-emoji">
                 {emoji}
               </span>
-            ))
-          )}
+            ))}
         </div>
 
         <div className="feed-item-content">
@@ -38,7 +38,7 @@ function FeedItem({ item }) {
               className="btn-link"
               onClick={handleUserClick}
               title={`Go to ${item.username}'s journal`}
-              style={{ fontWeight: 'bold', textDecoration: 'none' }}
+              style={{ fontWeight: "bold", textDecoration: "none" }}
             >
               @{item.username}
             </button>
@@ -66,12 +66,6 @@ function FeedItem({ item }) {
               <span className="stars">{renderStars(item.rating)}</span>
               <span className="rating-text">({item.rating}/5)</span>
             </div>
-          )}
-
-          {item.dateFinished && (
-            <p className="completion-date">
-              Finished: {formatDate(item.dateFinished)}
-            </p>
           )}
 
           {item.notes && (
