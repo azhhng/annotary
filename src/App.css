@@ -1252,12 +1252,6 @@ select:focus {
     max-width: none;
     margin: 0;
   }
-  .book-header {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
-  }
   .book-actions {
     margin-left: 0;
     width: 100%;
