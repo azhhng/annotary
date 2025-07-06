@@ -82,22 +82,6 @@ function BookList({
                 <div className="book-card-content">
                   <div className="book-header">
                     <h3 className="book-title">{book.title}</h3>
-                    {showActions && (
-                      <div className="book-actions">
-                        <button
-                          className="btn btn-secondary btn-sm"
-                          onClick={() => onEditBook(book)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-secondary btn-sm btn-danger"
-                          onClick={() => onDeleteBook(book.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
                   </div>
 
                   {book.authors && book.authors.length > 0 && (
@@ -133,9 +117,7 @@ function BookList({
                   {book.rating !== null && (
                     <p>
                       <span className="property-label">Rating</span>
-                      <span className="property-content">
-                        {book.rating}
-                      </span>
+                      <span className="property-content">{book.rating}</span>
                     </p>
                   )}
                   {book.tags && book.tags.length > 0 && (
@@ -159,6 +141,22 @@ function BookList({
                           <CollapsibleText text={book.notes} maxLength={250} />
                         </span>
                       </p>
+                    </div>
+                  )}
+                  {showActions && (
+                    <div className="book-actions">
+                      <button
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => onEditBook(book)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-secondary btn-sm btn-danger"
+                        onClick={() => onDeleteBook(book.id)}
+                      >
+                        Delete
+                      </button>
                     </div>
                   )}
                 </div>
