@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
-import Homepage from "./pages/Homepage";
+import LandingPage from "./pages/LandingPage";
+import CommunityFeed from "./pages/CommunityFeed";
 import AuthPage from "./pages/AuthPage";
 import More from "./pages/More";
 import JournalRouter from "./components/JournalRouter";
@@ -23,7 +24,8 @@ function AppContent() {
   const { journaler } = useJournaler();
 
   const getActiveTab = () => {
-    if (location.pathname === "/") return "feed";
+    if (location.pathname === "/") return null;
+    if (location.pathname === "/home") return "feed";
     if (location.pathname === "/auth") return null;
     if (location.pathname === "/more") return "more";
 
@@ -51,6 +53,7 @@ function AppContent() {
   useEffect(() => {
     if (
       location.pathname === "/" ||
+      location.pathname === "/home" ||
       location.pathname === "/more" ||
       location.pathname === "/auth"
     ) {
@@ -73,7 +76,8 @@ function AppContent() {
       />
 
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/home" element={<CommunityFeed />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/more" element={<More />} />
         <Route path="/:username" element={<JournalRouter />} />

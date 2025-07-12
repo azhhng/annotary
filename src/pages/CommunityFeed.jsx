@@ -1,7 +1,7 @@
 import { useFeed } from "../hooks/useFeed";
 import FeedItem from "../components/FeedItem";
 
-function Homepage() {
+function CommunityFeed() {
   const { feedItems, loading: feedLoading } = useFeed();
 
   if (feedLoading) {
@@ -29,4 +29,4 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default CommunityFeed;

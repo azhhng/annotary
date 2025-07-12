@@ -13,7 +13,7 @@ function Navigation({
 
   const handleTabClick = (tab) => {
     if (tab === "feed") {
-      navigate("/");
+      navigate("/home");
     } else if (tab === "journal") {
       if (user && currentUsername) {
         navigate(`/${currentUsername}`);
@@ -31,9 +31,9 @@ function Navigation({
 
   return (
     <div className="tab-navigation">
-      <h1 
+      <h1
         className="brand-title"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
       >
         Annotary
       </h1>

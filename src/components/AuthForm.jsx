@@ -123,7 +123,7 @@ const AuthForm = () => {
         )}
 
       <p className="text-center" style={{ marginTop: '1.5rem', fontSize: 'var(--font-size-sm)' }}>
-        {isLogin ? "Don't have an account?" : "Already have an account?"}
+        {isLogin ? "Don't have an account? " : "Already have an account? "}
         <button
           type="button"
           className="btn-link"
