@@ -24,23 +24,7 @@ function LandingPage() {
         <p className="hero-subtitle">
           Your personal reading journal and community for book lovers.
         </p>
-
-        <div className="cta-buttons">
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={handleGetStarted}
-          >
-            {user ? "Go to community" : "Get started"}
-          </button>
-          <button
-            className="btn btn-secondary btn-lg"
-            onClick={handleViewCommunity}
-          >
-            View community
-          </button>
-        </div>
       </div>
-
       <div className="features-section">
         <div className="features-grid">
           <div className="feature-card">

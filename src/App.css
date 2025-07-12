@@ -1489,13 +1489,6 @@ select:focus {
   max-width: 600px;
 }
 
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: var(--font-size-base);
