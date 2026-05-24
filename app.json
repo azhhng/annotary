@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "Annotary",
+    "slug": "annotary",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "annotary",
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": []
+  }
+}
