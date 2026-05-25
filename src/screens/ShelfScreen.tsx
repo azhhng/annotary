@@ -13,6 +13,7 @@ import {
   tintedTextStyle,
 } from "../constants/personalityColors";
 import { traitQuestions } from "../constants/traits";
+import { formatTraitValue } from "../lib/formatTraitValue";
 import {
   getMySelfProfile,
   getMyShelf,
@@ -312,18 +313,24 @@ export function ShelfScreen({
             <>
               <View style={[styles.chipRow, styles.sectionContent]}>
                 {traitQuestions
-                  .map((question) => selfAnswers?.[question.key])
-                  .filter((value): value is string => Boolean(value))
-                  .map((answer) => (
+                  .map((question) => ({
+                    key: question.key,
+                    value: selfAnswers?.[question.key],
+                  }))
+                  .filter(
+                    (item): item is { key: typeof item.key; value: string } =>
+                      Boolean(item.value),
+                  )
+                  .map(({ key, value }) => (
                     <Text
-                      key={answer}
+                      key={key}
                       style={[
                         styles.chipStrong,
-                        tintedPillStyle(answer),
-                        tintedTextStyle(answer),
+                        tintedPillStyle(value),
+                        tintedTextStyle(value),
                       ]}
                     >
-                      {answer}
+                      {formatTraitValue(key, value)}
                     </Text>
                   ))}
               </View>

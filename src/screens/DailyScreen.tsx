@@ -14,6 +14,7 @@ import {
 } from "../constants/personalityColors";
 import { emptyOthersQuotes } from "../constants/quotes";
 import { othersTraitQuestions } from "../constants/traits";
+import { formatTraitValue } from "../lib/formatTraitValue";
 import {
   getProfileReveal,
   getProfileToDescribe,
@@ -549,7 +550,7 @@ function RevealComparison({
                     tintedTextStyle(submittedAnswer),
                   ]}
                 >
-                  {submittedAnswer}
+                  {formatTraitValue(question.key, submittedAnswer)}
                 </Text>
               </View>
               <View style={styles.resultRow}>
@@ -561,7 +562,7 @@ function RevealComparison({
                     tintedTextStyle(actualAnswer),
                   ]}
                 >
-                  {actualAnswer}
+                  {formatTraitValue(question.key, actualAnswer)}
                 </Text>
               </View>
             </View>

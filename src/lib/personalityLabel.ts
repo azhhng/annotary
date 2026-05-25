@@ -1,4 +1,5 @@
 import type { TraitAnswerKey, TraitAnswers } from "../types";
+import { formatTraitValue } from "./formatTraitValue";
 
 const traitOrder: TraitAnswerKey[] = [
   "socialEnergy",
@@ -33,9 +34,12 @@ export function buildPersonalityLabel(
   if (!answers) return null;
 
   const slugs = traitOrder
-    .map((key) => answers[key])
-    .filter((value): value is string => Boolean(value && value.trim()))
-    .map(slugify);
+    .map((key) => {
+      const value = answers[key];
+      if (!value || !value.trim()) return null;
+      return slugify(formatTraitValue(key, value));
+    })
+    .filter((slug): slug is string => slug !== null);
 
   if (slugs.length === 0) return null;
 
