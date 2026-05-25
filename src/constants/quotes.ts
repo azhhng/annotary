@@ -32,10 +32,6 @@ export const emptyEssenceQuotes: EmptyStateQuote[] = [
     attribution: "- Lewis Carroll, Alice in Wonderland",
   },
   {
-    text: '"Perhaps one did not want to be loved so much as to be understood."',
-    attribution: "- George Orwell, 1984",
-  },
-  {
     text: '"Rather than love, than money, than fame, give me truth."',
     attribution: "- Henry David Thoreau, Walden",
   },
