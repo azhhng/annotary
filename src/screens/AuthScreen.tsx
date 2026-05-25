@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 
 import { BrandLogo } from "../components/BrandLogo";
 import { Button } from "../components/Button";
 import { supabase } from "../lib/supabase";
+import { LegalScreen, type LegalPage } from "./LegalScreen";
 import { colors, styles } from "../styles";
 
 type AuthMode = "login" | "signup";
 
 export function AuthScreen() {
   const [mode, setMode] = useState<AuthMode>("login");
+  const [legalPage, setLegalPage] = useState<LegalPage | null>(null);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +28,7 @@ export function AuthScreen() {
     email.trim().length > 0 &&
     password.length >= minimumPasswordLength &&
     (!isSignup || usernameIsValid) &&
+    (!isSignup || ageConfirmed) &&
     !busy;
 
   const handleSubmit = async () => {
@@ -67,10 +71,29 @@ export function AuthScreen() {
   };
 
   const switchMode = () => {
-    setMode(isSignup ? "login" : "signup");
+    const nextMode = isSignup ? "login" : "signup";
+
+    setMode(nextMode);
+    setAgeConfirmed(false);
     setError(null);
     setMessage(null);
   };
+
+  if (legalPage) {
+    return (
+      <ScrollView
+        nativeID="app-scroll"
+        style={styles.content}
+        contentContainerStyle={styles.contentInner}
+      >
+        <LegalScreen
+          page={legalPage}
+          onBack={() => setLegalPage(null)}
+          onOpenPage={setLegalPage}
+        />
+      </ScrollView>
+    );
+  }
 
   return (
     <View style={styles.authShell}>
@@ -133,6 +156,57 @@ export function AuthScreen() {
               value={password}
             />
           </View>
+
+          {isSignup && (
+            <Pressable
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: ageConfirmed }}
+              onPress={() => setAgeConfirmed((confirmed) => !confirmed)}
+              style={styles.checkboxRow}
+            >
+              <View
+                style={[
+                  styles.checkboxBox,
+                  ageConfirmed && styles.checkboxBoxChecked,
+                ]}
+              >
+                {ageConfirmed && <Text style={styles.checkboxMark}>✓</Text>}
+              </View>
+              <Text style={styles.checkboxLabel}>
+                I confirm that I am at least 16 years old.
+              </Text>
+            </Pressable>
+          )}
+
+          {isSignup && (
+            <Text style={styles.legalConsentText}>
+              By creating an account, you agree to the{" "}
+              <Text
+                accessibilityRole="link"
+                onPress={() => setLegalPage("terms")}
+                style={styles.inlineLink}
+              >
+                Terms of Service
+              </Text>
+              ,{" "}
+              <Text
+                accessibilityRole="link"
+                onPress={() => setLegalPage("privacy")}
+                style={styles.inlineLink}
+              >
+                Privacy Policy
+              </Text>
+              , and{" "}
+              <Text
+                accessibilityRole="link"
+                onPress={() => setLegalPage("community")}
+                style={styles.inlineLink}
+              >
+                Community Guidelines
+              </Text>
+              .
+            </Text>
+          )}
 
           {error && <Text style={styles.errorText}>{error}</Text>}
           {message && <Text style={styles.successText}>{message}</Text>}

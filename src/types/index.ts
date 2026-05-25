@@ -1,4 +1,12 @@
-export type Screen = "shelf" | "daily" | "essence" | "about" | "settings";
+export type Screen =
+  | "shelf"
+  | "daily"
+  | "essence"
+  | "about"
+  | "settings"
+  | "privacy"
+  | "terms"
+  | "community";
 
 export type BookSlot =
   | "love_1"

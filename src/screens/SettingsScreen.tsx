@@ -3,6 +3,7 @@ import { Image, Linking, Text, View } from "react-native";
 import { Button } from "../components/Button";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { SectionHeader } from "../components/SectionHeader";
+import type { LegalPage } from "./LegalScreen";
 import { styles } from "../styles";
 
 const pompomeloLogo = require("../assets/pompomelo_no_border.png");
@@ -15,6 +16,7 @@ export function SettingsScreen({
   onCancelDelete,
   onDeleteAccount,
   onLogout,
+  onOpenLegalPage,
 }: {
   accountLabel: string;
   authError: string | null;
@@ -23,6 +25,7 @@ export function SettingsScreen({
   onCancelDelete: () => void;
   onDeleteAccount: () => void;
   onLogout: () => void;
+  onOpenLegalPage: (page: LegalPage) => void;
 }) {
   return (
     <View style={styles.screen}>
@@ -73,6 +76,29 @@ export function SettingsScreen({
             mimibrews@gmail.com
           </Text>
           .
+        </Text>
+      </View>
+      <View style={styles.legalLinkRow}>
+        <Text
+          accessibilityRole="link"
+          onPress={() => onOpenLegalPage("privacy")}
+          style={styles.inlineLink}
+        >
+          Privacy Policy
+        </Text>
+        <Text
+          accessibilityRole="link"
+          onPress={() => onOpenLegalPage("terms")}
+          style={styles.inlineLink}
+        >
+          Terms of Service
+        </Text>
+        <Text
+          accessibilityRole="link"
+          onPress={() => onOpenLegalPage("community")}
+          style={styles.inlineLink}
+        >
+          Community Guidelines
         </Text>
       </View>
       <View style={styles.developerCredit}>

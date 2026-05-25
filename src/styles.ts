@@ -221,6 +221,14 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 17,
   },
+  inlineLink: {
+    fontFamily: fonts.app,
+    color: colors.accent,
+    fontSize: 13,
+    lineHeight: 20,
+    fontWeight: "600",
+    textDecorationLine: "underline",
+  },
   authShell: {
     flex: 1,
     alignItems: "center",
@@ -273,6 +281,46 @@ export const styles = StyleSheet.create({
   authSwitch: {
     alignSelf: "center",
     paddingVertical: 6,
+  },
+  checkboxRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    paddingVertical: 2,
+  },
+  checkboxBox: {
+    width: 20,
+    height: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.faint,
+    backgroundColor: colors.background,
+  },
+  checkboxBoxChecked: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accent,
+  },
+  checkboxMark: {
+    fontFamily: fonts.app,
+    color: colors.surface,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "600",
+  },
+  checkboxLabel: {
+    fontFamily: fonts.app,
+    flex: 1,
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 20,
+  },
+  legalConsentText: {
+    fontFamily: fonts.app,
+    color: colors.muted,
+    fontSize: 12,
+    lineHeight: 18,
   },
   onboardingShell: {
     flex: 1,
@@ -346,6 +394,41 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     flexWrap: "wrap",
+    gap: 10,
+  },
+  backActionRow: {
+    alignSelf: "stretch",
+    alignItems: "flex-end",
+  },
+  legalLinkRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  legalLinkPill: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.faint,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+    backgroundColor: colors.background,
+  },
+  legalLinkPillActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentSoft,
+  },
+  legalLinkPillText: {
+    fontFamily: fonts.app,
+    color: colors.muted,
+    fontSize: 13,
+    fontWeight: "500",
+  },
+  legalLinkPillTextActive: {
+    color: colors.accent,
+  },
+  legalSectionBody: {
+    marginTop: 12,
     gap: 10,
   },
   instructionsList: {

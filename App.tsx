@@ -19,6 +19,7 @@ import { AboutScreen } from "./src/screens/AboutScreen";
 import { AuthScreen } from "./src/screens/AuthScreen";
 import { DailyScreen } from "./src/screens/DailyScreen";
 import { EssenceScreen } from "./src/screens/EssenceScreen";
+import { LegalScreen, type LegalPage } from "./src/screens/LegalScreen";
 import { SettingsScreen } from "./src/screens/SettingsScreen";
 import { ShelfSetupScreen } from "./src/screens/ShelfSetupScreen";
 import { ShelfScreen } from "./src/screens/ShelfScreen";
@@ -73,6 +74,7 @@ function ShelfSetupRequiredNotice() {
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("shelf");
+  const [legalReturnScreen, setLegalReturnScreen] = useState<Screen>("about");
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
@@ -273,6 +275,11 @@ export default function App() {
     }
   };
 
+  const openLegalPage = (page: LegalPage, returnScreen: Screen) => {
+    setLegalReturnScreen(returnScreen);
+    setScreen(page);
+  };
+
   if (authLoading || (session && (shelfComplete === null || banned === null))) {
     return (
       <SafeAreaView style={styles.safeArea}>
@@ -429,7 +436,11 @@ export default function App() {
                 <ShelfSetupRequiredNotice />
               </View>
             ))}
-          {screen === "about" && <AboutScreen />}
+          {screen === "about" && (
+            <AboutScreen
+              onOpenLegalPage={(page) => openLegalPage(page, "about")}
+            />
+          )}
           {screen === "settings" && (
             <SettingsScreen
               accountLabel={accountLabel}
@@ -439,6 +450,16 @@ export default function App() {
               onCancelDelete={() => setDeleteConfirming(false)}
               onDeleteAccount={handleDeleteAccount}
               onLogout={handleLogout}
+              onOpenLegalPage={(page) => openLegalPage(page, "settings")}
+            />
+          )}
+          {(screen === "privacy" ||
+            screen === "terms" ||
+            screen === "community") && (
+            <LegalScreen
+              page={screen}
+              onBack={() => setScreen(legalReturnScreen)}
+              onOpenPage={(page) => setScreen(page)}
             />
           )}
         </ScrollView>
