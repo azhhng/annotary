@@ -1,4 +1,4 @@
-import type { TraitAnswerKey, TraitAnswers, TraitQuestion } from "../types";
+import type { TraitAnswerKey, TraitQuestion } from "../types";
 
 export const zodiacSigns = [
   "Aries",
@@ -22,14 +22,16 @@ export const traitQuestions: TraitQuestion[] = [
     options: ["Introverted", "Ambiverted", "Extroverted"],
   },
   {
+    key: "birthOrder",
+    title: "Birth order",
+    selfTitle: "What birth order are you?",
+    othersTitle: "What birth order are they?",
+    options: ["Only", "Youngest", "Middle", "Eldest"],
+  },
+  {
     key: "lifePerspective",
     title: "Life perspective",
     options: ["Optimistic", "Realistic", "Pessimistic"],
-  },
-  {
-    key: "emotionalOutlook",
-    title: "Emotional outlook",
-    options: ["Romantic", "Idealistic", "Cynical"],
   },
   {
     key: "reasoningStyle",
@@ -61,7 +63,7 @@ export const traitQuestions: TraitQuestion[] = [
 // trait that requires meeting the person. Keep both orderings co-located.
 const othersTraitOrder: TraitAnswerKey[] = [
   "lifePerspective",
-  "emotionalOutlook",
+  "birthOrder",
   "reasoningStyle",
   "personalityType",
   "socialEnergy",
@@ -72,13 +74,3 @@ const othersTraitOrder: TraitAnswerKey[] = [
 export const othersTraitQuestions: TraitQuestion[] = othersTraitOrder
   .map((key) => traitQuestions.find((question) => question.key === key))
   .filter((question): question is TraitQuestion => question !== undefined);
-
-export const defaultTraitAnswers: TraitAnswers = {
-  socialEnergy: "Introverted",
-  lifePerspective: "Realistic",
-  emotionalOutlook: "Romantic",
-  reasoningStyle: "Emotional",
-  personalityType: "Type B",
-  favoriteSeason: "Autumn",
-  zodiacSign: "Cancer",
-};

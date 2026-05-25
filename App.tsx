@@ -11,8 +11,11 @@ import {
 import type { Session } from "@supabase/supabase-js";
 
 import { BrandLogo } from "./src/components/BrandLogo";
+import { Button } from "./src/components/Button";
+import { ScreenHeader } from "./src/components/ScreenHeader";
 import { brandIcon } from "./src/constants/brandAssets";
 import { supabase } from "./src/lib/supabase";
+import { AboutScreen } from "./src/screens/AboutScreen";
 import { AuthScreen } from "./src/screens/AuthScreen";
 import { DailyScreen } from "./src/screens/DailyScreen";
 import { EssenceScreen } from "./src/screens/EssenceScreen";
@@ -23,8 +26,8 @@ import { styles } from "./src/styles";
 import type { Screen } from "./src/types";
 import {
   deleteMyAccount,
+  getMyAccountStatus,
   getMySelfProfile,
-  hasCompletedShelf,
 } from "./src/data/annotaryRepository";
 import { buildPersonalityLabel } from "./src/lib/personalityLabel";
 
@@ -32,10 +35,17 @@ const screens: Array<{ id: Screen; label: string }> = [
   { id: "shelf", label: "Self" },
   { id: "daily", label: "Strangers" },
   { id: "essence", label: "Essence" },
+  { id: "about", label: "About" },
   { id: "settings", label: "Settings" },
 ];
 
 const gearIcon = require("./src/emoji-assets/gear.svg");
+const orangeBook = require("./src/emoji-assets/orange_book.svg");
+
+const iconScreens: Partial<Record<Screen, number>> = {
+  about: orangeBook,
+  settings: gearIcon,
+};
 
 function getAssetUri(asset: unknown) {
   if (typeof asset === "string") {
@@ -51,12 +61,23 @@ function getAssetUri(asset: unknown) {
   return null;
 }
 
+function ShelfSetupRequiredNotice() {
+  return (
+    <View style={styles.disclaimerBanner}>
+      <Text style={styles.disclaimerText}>
+        You must finish setting up your shelf in the Self tab before continuing.
+      </Text>
+    </View>
+  );
+}
+
 export default function App() {
   const [screen, setScreen] = useState<Screen>("shelf");
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
   const [shelfComplete, setShelfComplete] = useState<boolean | null>(null);
+  const [banned, setBanned] = useState<boolean | null>(null);
   const [deleteConfirming, setDeleteConfirming] = useState(false);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [selectedAdjectives, setSelectedAdjectives] = useState([
@@ -77,7 +98,9 @@ export default function App() {
     document.title = "Annotary";
     document.documentElement.style.setProperty("scrollbar-gutter", "stable");
 
-    const existingStyle = document.getElementById("annotary-scrollbar-stability");
+    const existingStyle = document.getElementById(
+      "annotary-scrollbar-stability",
+    );
 
     if (!existingStyle) {
       const style = document.createElement("style");
@@ -144,6 +167,7 @@ export default function App() {
 
     if (!userId) {
       setShelfComplete(null);
+      setBanned(null);
       setPersonalityLabel(null);
       return () => {
         active = false;
@@ -151,10 +175,16 @@ export default function App() {
     }
 
     setShelfComplete(null);
-    hasCompletedShelf(userId)
-      .then((complete) => {
+    setBanned(null);
+    getMyAccountStatus(userId)
+      .then((status) => {
         if (active) {
-          setShelfComplete(complete);
+          setShelfComplete(status.shelfComplete);
+          setBanned(status.banned);
+
+          if (!status.shelfComplete && !status.banned) {
+            setScreen("about");
+          }
         }
       })
       .catch((caughtError) => {
@@ -165,6 +195,7 @@ export default function App() {
               : "Could not load your profile.",
           );
           setShelfComplete(false);
+          setBanned(false);
         }
       });
 
@@ -228,6 +259,7 @@ export default function App() {
       await supabase.auth.signOut();
       setSession(null);
       setShelfComplete(null);
+      setBanned(null);
       setDeleteConfirming(false);
       setScreen("shelf");
     } catch (caughtError) {
@@ -241,7 +273,7 @@ export default function App() {
     }
   };
 
-  if (authLoading || (session && shelfComplete === null)) {
+  if (authLoading || (session && (shelfComplete === null || banned === null))) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="dark" />
@@ -264,19 +296,29 @@ export default function App() {
   const username = session.user.user_metadata?.username;
   const accountLabel = username
     ? `@${username}`
-    : session.user.email ?? "Your account";
+    : (session.user.email ?? "Your account");
 
-  if (!shelfComplete) {
+  if (banned) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="dark" />
-        <ShelfSetupScreen
-          onComplete={() => {
-            setShelfComplete(true);
-            setScreen("shelf");
-          }}
-          onLogout={handleLogout}
-        />
+        <View style={styles.authShell}>
+          <View style={styles.authPanel}>
+            <BrandLogo />
+            <Text style={styles.authTitle}>Account banned</Text>
+            <Text style={styles.screenBody}>
+              This account has been permanently banned from Annotary. Your
+              account still exists, but your shelf is no longer shown to other
+              readers and you cannot use the app.
+            </Text>
+            {authError && <Text style={styles.errorText}>{authError}</Text>}
+            <View style={styles.settingsActions}>
+              <Button variant="secondary" onPress={handleLogout}>
+                Log out
+              </Button>
+            </View>
+          </View>
+        </View>
       </SafeAreaView>
     );
   }
@@ -301,35 +343,38 @@ export default function App() {
             )}
           </View>
           <View style={styles.nav}>
-            {screens.map((item) => (
-              <Pressable
-                key={item.id}
-                accessibilityLabel={item.id === "settings" ? "Settings" : item.label}
-                onPress={() => setScreen(item.id)}
-                style={[
-                  styles.navButton,
-                  item.id === "settings" && styles.navIconButton,
-                  screen === item.id && styles.navButtonActive,
-                ]}
-              >
-                {item.id === "settings" ? (
-                  <Image
-                    accessibilityIgnoresInvertColors
-                    source={gearIcon}
-                    style={styles.navIcon}
-                  />
-                ) : (
-                  <Text
-                    style={[
-                      styles.navText,
-                      screen === item.id && styles.navTextActive,
-                    ]}
-                  >
-                    {item.label}
-                  </Text>
-                )}
-              </Pressable>
-            ))}
+            {screens.map((item) => {
+              const icon = iconScreens[item.id];
+              return (
+                <Pressable
+                  key={item.id}
+                  accessibilityLabel={item.label}
+                  onPress={() => setScreen(item.id)}
+                  style={[
+                    styles.navButton,
+                    icon !== undefined && styles.navIconButton,
+                    screen === item.id && styles.navButtonActive,
+                  ]}
+                >
+                  {icon !== undefined ? (
+                    <Image
+                      accessibilityIgnoresInvertColors
+                      source={icon}
+                      style={styles.navIcon}
+                    />
+                  ) : (
+                    <Text
+                      style={[
+                        styles.navText,
+                        screen === item.id && styles.navTextActive,
+                      ]}
+                    >
+                      {item.label}
+                    </Text>
+                  )}
+                </Pressable>
+              );
+            })}
           </View>
         </View>
 
@@ -338,22 +383,53 @@ export default function App() {
           style={styles.content}
           contentContainerStyle={styles.contentInner}
         >
-          {screen === "shelf" && (
-            <ShelfScreen
-              userId={userId}
-              onSelfPortraitUpdated={() =>
-                setLabelRefreshToken((token) => token + 1)
-              }
-            />
-          )}
-          {screen === "daily" && (
-            <DailyScreen
-              userId={userId}
-              selected={selectedAdjectives}
-              onToggle={setSelectedAdjectives}
-            />
-          )}
-          {screen === "essence" && <EssenceScreen userId={userId} />}
+          {screen === "shelf" &&
+            (shelfComplete ? (
+              <ShelfScreen
+                userId={userId}
+                onSelfPortraitUpdated={() =>
+                  setLabelRefreshToken((token) => token + 1)
+                }
+              />
+            ) : (
+              <ShelfSetupScreen
+                embedded
+                onComplete={() => {
+                  setShelfComplete(true);
+                  setScreen("shelf");
+                }}
+                onLogout={handleLogout}
+              />
+            ))}
+          {screen === "daily" &&
+            (shelfComplete ? (
+              <DailyScreen
+                userId={userId}
+                selected={selectedAdjectives}
+                onToggle={setSelectedAdjectives}
+              />
+            ) : (
+              <View style={styles.screen}>
+                <ScreenHeader
+                  title="Strangers"
+                  body="read someone else's shelf, then make a quick anonymous guess"
+                />
+                <ShelfSetupRequiredNotice />
+              </View>
+            ))}
+          {screen === "essence" &&
+            (shelfComplete ? (
+              <EssenceScreen userId={userId} />
+            ) : (
+              <View style={styles.screen}>
+                <ScreenHeader
+                  title="Essence"
+                  body="impressions will appear here once strangers describe your shelf"
+                />
+                <ShelfSetupRequiredNotice />
+              </View>
+            ))}
+          {screen === "about" && <AboutScreen />}
           {screen === "settings" && (
             <SettingsScreen
               accountLabel={accountLabel}

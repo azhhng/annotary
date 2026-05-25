@@ -5,7 +5,7 @@ export const colors = {
   surface: "#ffffff",
   ink: "#252326",
   muted: "#716b72",
-  faint: "#ece7df",
+  faint: "#eae0d1", // #ece7df
   accent: "#7d4f63",
   accentSoft: "#f4edf0",
   success: "#2f684f",
@@ -651,8 +651,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.faint,
   },
-  pillActive: {
-  },
+  pillActive: {},
   pillText: {
     fontFamily: fonts.app,
     color: colors.muted,
@@ -764,5 +763,64 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "500",
     textAlign: "right",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+    backgroundColor: "rgba(37, 35, 38, 0.42)",
+  },
+  reportDialog: {
+    width: "100%",
+    maxWidth: 480,
+    gap: 14,
+    padding: 20,
+    borderRadius: 16,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.faint,
+  },
+  reportReasonGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  reportReasonButton: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.faint,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    backgroundColor: colors.background,
+  },
+  reportReasonButtonActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accentSoft,
+  },
+  reportReasonText: {
+    fontFamily: fonts.app,
+    color: colors.muted,
+    fontSize: 13,
+    fontWeight: "500",
+  },
+  reportReasonTextActive: {
+    color: colors.accent,
+  },
+  reportTextInput: {
+    minHeight: 104,
+    textAlignVertical: "top",
+  },
+  reportHelperRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 12,
+  },
+  reportDialogActions: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+    gap: 10,
   },
 });

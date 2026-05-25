@@ -86,6 +86,10 @@ const colorByWord: Record<string, PersonalityColor> = {
   Philosophical: personalityColors.lilac,
   Academic: personalityColors.slate,
   Analytical: personalityColors.frost,
+  Only: personalityColors.lilac,
+  Youngest: personalityColors.sun,
+  Middle: personalityColors.sage,
+  Eldest: personalityColors.slate,
 };
 
 export function getPersonalityColor(word: string) {

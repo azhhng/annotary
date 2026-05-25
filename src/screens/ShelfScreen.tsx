@@ -12,7 +12,7 @@ import {
   tintedPillStyle,
   tintedTextStyle,
 } from "../constants/personalityColors";
-import { defaultTraitAnswers, traitQuestions } from "../constants/traits";
+import { traitQuestions } from "../constants/traits";
 import {
   getMySelfProfile,
   getMyShelf,
@@ -40,8 +40,7 @@ export function ShelfScreen({
   const [selfAnswers, setSelfAnswers] = useState<TraitAnswers | null>(null);
   const [selfAdjectives, setSelfAdjectives] = useState<string[]>([]);
   const [editingSelf, setEditingSelf] = useState(false);
-  const [draftAnswers, setDraftAnswers] =
-    useState<TraitAnswers>(defaultTraitAnswers);
+  const [draftAnswers, setDraftAnswers] = useState<TraitAnswers | null>(null);
   const [draftAdjectives, setDraftAdjectives] = useState<string[]>([]);
   const [savingSelf, setSavingSelf] = useState(false);
   const [selfError, setSelfError] = useState<string | null>(null);
@@ -94,7 +93,12 @@ export function ShelfScreen({
   }, [userId]);
 
   const startEditingSelf = () => {
-    setDraftAnswers({ ...defaultTraitAnswers, ...(selfAnswers ?? {}) });
+    if (!selfAnswers) {
+      setSelfError("Could not load your saved essence answers.");
+      return;
+    }
+
+    setDraftAnswers(selfAnswers);
     setDraftAdjectives(selfAdjectives.slice(0, 3));
     setSelfError(null);
     setEditingSelf(true);
@@ -105,10 +109,11 @@ export function ShelfScreen({
     setEditingSelf(false);
   };
 
-  const canSaveSelf = draftAdjectives.length === 3 && !savingSelf;
+  const canSaveSelf =
+    draftAnswers !== null && draftAdjectives.length === 3 && !savingSelf;
 
   const saveSelf = async () => {
-    if (!canSaveSelf || !userId) {
+    if (!canSaveSelf || !userId || !draftAnswers) {
       return;
     }
 
@@ -272,7 +277,7 @@ export function ShelfScreen({
               </View>
             }
           />
-          {editingSelf ? (
+          {editingSelf && draftAnswers ? (
             <>
               <View style={[styles.formPanel, styles.sectionContent]}>
                 {traitQuestions.map((question) => (
@@ -283,10 +288,14 @@ export function ShelfScreen({
                     active={draftAnswers[question.key]}
                     wide={question.wide}
                     onSelect={(answer) =>
-                      setDraftAnswers((current) => ({
-                        ...current,
-                        [question.key]: answer,
-                      }))
+                      setDraftAnswers((current) =>
+                        current
+                          ? {
+                              ...current,
+                              [question.key]: answer,
+                            }
+                          : current,
+                      )
                     }
                   />
                 ))}

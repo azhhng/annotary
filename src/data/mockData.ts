@@ -52,7 +52,7 @@ export const strangerAdjectives: AdjectiveCount[] = [
   { word: "Whimsical", count: 8 },
   { word: "Introspective", count: 7 },
   { word: "Dramatic", count: 6 },
-  { word: "Romantic", count: 5 },
+  { word: "Charming", count: 5 },
   { word: "Perceptive", count: 4 },
   { word: "Restless", count: 3 },
   { word: "Gentle", count: 3 },
@@ -79,12 +79,12 @@ export const essenceAnswers: TraitAnswerResult[] = [
     ],
   },
   {
-    question: "Emotional outlook",
-    self: "Romantic",
+    question: "Birth order",
+    self: "Only",
     strangers: [
-      { value: "Romantic", count: 7 },
-      { value: "Idealistic", count: 3 },
-      { value: "Cynical", count: 1 },
+      { value: "Only", count: 7 },
+      { value: "Youngest", count: 3 },
+      { value: "Middle", count: 1 },
     ],
   },
   {

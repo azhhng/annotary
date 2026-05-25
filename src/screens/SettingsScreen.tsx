@@ -7,13 +7,6 @@ import { styles } from "../styles";
 
 const pompomeloLogo = require("../assets/pompomelo_no_border.png");
 
-const instructions = [
-  "Create your shelf.",
-  "Try to read others in the Strangers tab.",
-  "Skip profiles you do not want to review right now, and remove profiles you never want to see again.",
-  "View how others see you in the Essence tab.",
-];
-
 export function SettingsScreen({
   accountLabel,
   authError,
@@ -35,17 +28,6 @@ export function SettingsScreen({
     <View style={styles.screen}>
       <ScreenHeader title="Settings" body="manage your account and session" />
       {authError && <Text style={styles.errorText}>{authError}</Text>}
-      <View style={styles.section}>
-        <SectionHeader title="How the website works" />
-        <View style={styles.instructionsList}>
-          {instructions.map((instruction, index) => (
-            <View key={instruction} style={styles.instructionsRow}>
-              <Text style={styles.instructionsNumber}>{index + 1}.</Text>
-              <Text style={styles.instructionsText}>{instruction}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
       <View style={styles.section}>
         <SectionHeader title="Account" body={accountLabel} />
         <View style={styles.settingsActions}>
@@ -79,6 +61,19 @@ export function SettingsScreen({
             reads you submitted will remain in aggregate results.
           </Text>
         )}
+      </View>
+      <View style={styles.disclaimerBanner}>
+        <Text style={styles.disclaimerText}>
+          Found a bug or have a question? Email{" "}
+          <Text
+            accessibilityRole="link"
+            style={styles.disclaimerTitle}
+            onPress={() => Linking.openURL("mailto:mimibrews@gmail.com")}
+          >
+            mimibrews@gmail.com
+          </Text>
+          .
+        </Text>
       </View>
       <View style={styles.developerCredit}>
         <Image

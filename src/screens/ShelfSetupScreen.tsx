@@ -31,15 +31,16 @@ const initialBooks: ShelfBookInput[] = bookSlots.map((slot) => ({
 }));
 
 export function ShelfSetupScreen({
+  embedded = false,
   onComplete,
   onLogout,
 }: {
+  embedded?: boolean;
   onComplete: () => void;
   onLogout: () => void;
 }) {
   const [books, setBooks] = useState(initialBooks);
-  const [traitAnswers, setTraitAnswers] =
-    useState<Partial<TraitAnswers>>({});
+  const [traitAnswers, setTraitAnswers] = useState<Partial<TraitAnswers>>({});
   const [selectedAdjectives, setSelectedAdjectives] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,22 +97,8 @@ export function ShelfSetupScreen({
     }
   };
 
-  return (
-    <View style={styles.onboardingShell}>
-      <View style={styles.onboardingHeader}>
-        <View style={styles.brandRow}>
-          <BrandLogo />
-          <Text style={styles.tagline}>build your six-book shelf</Text>
-        </View>
-        <Button variant="secondary" onPress={onLogout}>
-          Log out
-        </Button>
-      </View>
-
-      <ScrollView
-        style={styles.onboardingScroll}
-        contentContainerStyle={styles.onboardingContent}
-      >
+  const content = (
+    <>
         <ScreenHeader
           title="Start with your shelf"
           body="Add six books and do a quick questionnaire so other readers have something real to compare their impressions against."
@@ -119,8 +106,8 @@ export function ShelfSetupScreen({
 
         <View style={styles.disclaimerBanner}>
           <Text style={styles.disclaimerText}>
-            Once you submit your answers, your shelf will be sent out into the
-            world for strangers to review.
+            Do not include important plot spoilers in your notes, it may result
+            in an account ban.
           </Text>
         </View>
 
@@ -166,12 +153,43 @@ export function ShelfSetupScreen({
           />
         </View>
 
+        <View style={styles.disclaimerBanner}>
+          <Text style={styles.disclaimerText}>
+            Once you submit your answers, your shelf will be sent out into the
+            world for strangers to review.
+          </Text>
+        </View>
+
         <View style={styles.readFooterActions}>
           {error && <Text style={styles.errorText}>{error}</Text>}
           <Button disabled={!canSubmit} onPress={handleSave}>
             {busy ? "Saving..." : "Save shelf"}
           </Button>
         </View>
+    </>
+  );
+
+  if (embedded) {
+    return <View style={styles.screen}>{content}</View>;
+  }
+
+  return (
+    <View style={styles.onboardingShell}>
+      <View style={styles.onboardingHeader}>
+        <View style={styles.brandRow}>
+          <BrandLogo />
+          <Text style={styles.tagline}>build your six-book shelf</Text>
+        </View>
+        <Button variant="secondary" onPress={onLogout}>
+          Log out
+        </Button>
+      </View>
+
+      <ScrollView
+        style={styles.onboardingScroll}
+        contentContainerStyle={styles.onboardingContent}
+      >
+        {content}
       </ScrollView>
     </View>
   );

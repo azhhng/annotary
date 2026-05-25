@@ -1,4 +1,4 @@
-export type Screen = "shelf" | "daily" | "essence" | "settings";
+export type Screen = "shelf" | "daily" | "essence" | "about" | "settings";
 
 export type BookSlot =
   | "love_1"
@@ -33,7 +33,7 @@ export type ShelfSetupInput = {
 export type TraitAnswerKey =
   | "socialEnergy"
   | "lifePerspective"
-  | "emotionalOutlook"
+  | "birthOrder"
   | "reasoningStyle"
   | "personalityType"
   | "favoriteSeason"
@@ -66,6 +66,14 @@ export type DescriptionInput = {
   answers: TraitAnswers;
   adjectives: string[];
 };
+
+export type ReportReason =
+  | "adult_content"
+  | "harassment"
+  | "plot_spoilers"
+  | "self_promotion"
+  | "solicitation"
+  | "other";
 
 export type ProfileReveal = {
   answers: TraitAnswers;

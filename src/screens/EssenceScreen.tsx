@@ -126,7 +126,7 @@ export function EssenceScreen({ userId }: EssenceScreenProps) {
       ) : (
         <>
           <View style={styles.section}>
-            <SectionHeader title="What your shelf emanates" />
+            <SectionHeader title="The read on you" />
             <View style={[styles.chipRow, styles.sectionContent]}>
               {visibleStrangerAdjectives.map((item) => (
                 <Text

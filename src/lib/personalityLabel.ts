@@ -3,7 +3,7 @@ import type { TraitAnswerKey, TraitAnswers } from "../types";
 const traitOrder: TraitAnswerKey[] = [
   "socialEnergy",
   "lifePerspective",
-  "emotionalOutlook",
+  "birthOrder",
   "reasoningStyle",
   "personalityType",
   "favoriteSeason",

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import { Modal, Pressable, Text, TextInput, View } from "react-native";
 
 import { AdjectivePicker } from "../components/AdjectivePicker";
 import { BookRow } from "../components/BookRow";
@@ -18,16 +18,33 @@ import {
   getProfileReveal,
   getProfileToDescribe,
   removeProfile,
+  reportProfile,
   skipProfile,
   submitDescription,
 } from "../data/annotaryRepository";
-import { styles } from "../styles";
-import type { ProfileReveal, ProfileToDescribe, TraitAnswers } from "../types";
+import { colors, styles } from "../styles";
+import type {
+  ProfileReveal,
+  ProfileToDescribe,
+  ReportReason,
+  TraitAnswers,
+} from "../types";
+
+const reportReasons: Array<{ label: string; value: ReportReason }> = [
+  { label: "Adult content", value: "adult_content" },
+  { label: "Harassment", value: "harassment" },
+  { label: "Plot spoilers", value: "plot_spoilers" },
+  { label: "Self promotion", value: "self_promotion" },
+  { label: "Solicitation", value: "solicitation" },
+  { label: "Other", value: "other" },
+];
+
+const reportExplanationLimit = 500;
 
 const emptyTraitAnswers: TraitAnswers = {
   socialEnergy: "",
   lifePerspective: "",
-  emotionalOutlook: "",
+  birthOrder: "",
   reasoningStyle: "",
   personalityType: "",
   favoriteSeason: "",
@@ -153,6 +170,11 @@ function DescribePanel({
   const canSubmit = selected.length === 3 && allTraitsAnswered;
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [skipConfirming, setSkipConfirming] = useState(false);
+  const [removeConfirming, setRemoveConfirming] = useState(false);
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [reportReason, setReportReason] = useState<ReportReason>("other");
+  const [reportExplanation, setReportExplanation] = useState("");
   const [comparison, setComparison] = useState<{
     submitted: {
       answers: TraitAnswers;
@@ -165,6 +187,11 @@ function DescribePanel({
     onToggle([]);
     setTraitAnswers(emptyTraitAnswers);
     setError(null);
+    setSkipConfirming(false);
+    setRemoveConfirming(false);
+    setReportModalVisible(false);
+    setReportReason("other");
+    setReportExplanation("");
     setComparison(null);
   };
 
@@ -177,6 +204,14 @@ function DescribePanel({
   }, [comparison, onComparisonChange]);
 
   const handleSkip = async () => {
+    if (!skipConfirming) {
+      setError(null);
+      setSkipConfirming(true);
+      setRemoveConfirming(false);
+      setReportModalVisible(false);
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
@@ -194,6 +229,14 @@ function DescribePanel({
   };
 
   const handleRemove = async () => {
+    if (!removeConfirming) {
+      setError(null);
+      setSkipConfirming(false);
+      setRemoveConfirming(true);
+      setReportModalVisible(false);
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
@@ -207,6 +250,32 @@ function DescribePanel({
           ? caughtError.message
           : "Could not remove.",
       );
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleReport = async () => {
+    setError(null);
+    setSkipConfirming(false);
+    setRemoveConfirming(false);
+    setReportModalVisible(true);
+  };
+
+  const handleSubmitReport = async () => {
+    setBusy(true);
+    setError(null);
+
+    try {
+      await reportProfile(profileId, userId, reportReason, reportExplanation);
+      resetForm();
+      await onDone();
+    } catch (caughtError) {
+      setError(
+        caughtError instanceof Error
+          ? caughtError.message
+          : "Could not report this shelf.",
+        );
     } finally {
       setBusy(false);
     }
@@ -305,17 +374,132 @@ function DescribePanel({
       </View>
       <View style={styles.readFooterActions}>
         {error && <Text style={styles.errorText}>{error}</Text>}
+        {skipConfirming && (
+          <Text style={styles.errorText}>Review this shelf later?</Text>
+        )}
+        {removeConfirming && (
+          <Text style={styles.errorText}>Never see this shelf again?</Text>
+        )}
         <Button variant="secondary" disabled={busy} onPress={handleSkip}>
-          Skip
+          {skipConfirming ? "Confirm skip" : "Skip"}
         </Button>
         <Button variant="danger" disabled={busy} onPress={handleRemove}>
-          Remove
+          {removeConfirming ? "Confirm remove" : "Remove"}
+        </Button>
+        <Button variant="danger" disabled={busy} onPress={handleReport}>
+          Report
         </Button>
         <Button disabled={!canSubmit || busy} onPress={handleSubmit}>
           {busy ? "Submitting..." : "Submit"}
         </Button>
       </View>
+      <ReportProfileModal
+        busy={busy}
+        explanation={reportExplanation}
+        reason={reportReason}
+        visible={reportModalVisible}
+        onCancel={() => setReportModalVisible(false)}
+        onChangeExplanation={setReportExplanation}
+        onChangeReason={setReportReason}
+        onSubmit={handleSubmitReport}
+      />
     </>
+  );
+}
+
+function ReportProfileModal({
+  busy,
+  explanation,
+  reason,
+  visible,
+  onCancel,
+  onChangeExplanation,
+  onChangeReason,
+  onSubmit,
+}: {
+  busy: boolean;
+  explanation: string;
+  reason: ReportReason;
+  visible: boolean;
+  onCancel: () => void;
+  onChangeExplanation: (next: string) => void;
+  onChangeReason: (next: ReportReason) => void;
+  onSubmit: () => Promise<void>;
+}) {
+  return (
+    <Modal
+      animationType="fade"
+      transparent
+      visible={visible}
+      onRequestClose={onCancel}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.reportDialog}>
+          <Text style={styles.authTitle}>Report profile</Text>
+          <Text style={styles.screenBody}>
+            Choose the closest reason and add anything a reviewer should check.
+          </Text>
+
+          <View style={styles.reportReasonGrid}>
+            {reportReasons.map((option) => {
+              const active = option.value === reason;
+
+              return (
+                <Pressable
+                  key={option.value}
+                  disabled={busy}
+                  onPress={() => onChangeReason(option.value)}
+                  style={[
+                    styles.reportReasonButton,
+                    active && styles.reportReasonButtonActive,
+                    busy && styles.buttonDisabled,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.reportReasonText,
+                      active && styles.reportReasonTextActive,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>What should we look at?</Text>
+            <TextInput
+              editable={!busy}
+              maxLength={reportExplanationLimit}
+              multiline
+              onChangeText={onChangeExplanation}
+              placeholder="Optional"
+              placeholderTextColor={colors.placeholder}
+              style={[styles.textInput, styles.reportTextInput]}
+              textAlignVertical="top"
+              value={explanation}
+            />
+            <View style={styles.reportHelperRow}>
+              <Text style={styles.helperText}>Do not include private info.</Text>
+              <Text style={styles.characterCounter}>
+                {explanation.length}/{reportExplanationLimit}
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.reportDialogActions}>
+            <Button variant="secondary" disabled={busy} onPress={onCancel}>
+              Cancel
+            </Button>
+            <Button variant="danger" disabled={busy} onPress={onSubmit}>
+              {busy ? "Reporting..." : "Submit report"}
+            </Button>
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }
 

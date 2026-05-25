@@ -10,6 +10,7 @@ import type {
   EssenceResults,
   ProfileReveal,
   ProfileToDescribe,
+  ReportReason,
   ShelfBookInput,
   ShelfSetupInput,
   TraitAnswerResult,
@@ -54,6 +55,11 @@ type ProfileRow = {
   id: string;
   self_answers: Record<string, string> | null;
   self_adjectives: string[] | null;
+};
+
+type AccountStatusRow = {
+  profile_complete: boolean;
+  is_banned: boolean | null;
 };
 
 type ProfileRevealRow = {
@@ -183,15 +189,35 @@ export async function getMyShelf(knownUserId?: string): Promise<Book[]> {
   return request;
 }
 
-async function fetchCompletedShelf(userId: string): Promise<boolean> {
+async function ensureProfileIsNotBanned(userId: string) {
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
-    .select("profile_complete")
+    .select("is_banned")
     .eq("id", userId)
     .maybeSingle();
 
   if (profileError) {
     throw profileError;
+  }
+
+  if ((profile as { is_banned?: boolean } | null)?.is_banned) {
+    throw new Error("This account has been permanently banned.");
+  }
+}
+
+async function fetchCompletedShelf(userId: string): Promise<boolean> {
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("profile_complete,is_banned")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  if ((profile as AccountStatusRow | null)?.is_banned) {
+    return true;
   }
 
   if (!profile?.profile_complete) {
@@ -209,6 +235,51 @@ async function fetchCompletedShelf(userId: string): Promise<boolean> {
   }
 
   return (books ?? []).length >= bookSlotOrder.length;
+}
+
+export async function getMyAccountStatus(
+  knownUserId?: string,
+): Promise<{ shelfComplete: boolean; banned: boolean }> {
+  const userId = knownUserId ?? (await getCurrentUserId());
+
+  if (!userId) {
+    return { shelfComplete: false, banned: false };
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("profile_complete,is_banned")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  const typedProfile = profile as AccountStatusRow | null;
+
+  if (typedProfile?.is_banned) {
+    return { shelfComplete: true, banned: true };
+  }
+
+  if (!typedProfile?.profile_complete) {
+    return { shelfComplete: false, banned: false };
+  }
+
+  const { data: books, error: booksError } = await supabase
+    .from("books")
+    .select("slot")
+    .eq("profile_id", userId)
+    .limit(bookSlotOrder.length);
+
+  if (booksError) {
+    throw booksError;
+  }
+
+  return {
+    shelfComplete: (books ?? []).length >= bookSlotOrder.length,
+    banned: false,
+  };
 }
 
 export async function hasCompletedShelf(
@@ -245,6 +316,8 @@ export async function saveMyShelf(input: ShelfSetupInput) {
   const userId = user.id;
   const { books, selfAnswers, selfAdjectives } = input;
   const username = getUsernameFromUser(user);
+
+  await ensureProfileIsNotBanned(userId);
 
   if (selfAdjectives.length !== 3) {
     throw new Error("Please choose exactly three adjectives.");
@@ -314,6 +387,8 @@ export async function updateMyShelfBooks(
     throw new Error("You must be logged in to edit your shelf.");
   }
 
+  await ensureProfileIsNotBanned(userId);
+
   const preparedBooks = prepareShelfBooks(userId, books);
 
   const { error: deleteError } = await supabase
@@ -355,6 +430,8 @@ export async function updateMySelfPortrait(
   if (!userId) {
     throw new Error("You must be logged in to edit your essence.");
   }
+
+  await ensureProfileIsNotBanned(userId);
 
   if (input.selfAdjectives.length !== 3) {
     throw new Error("Please choose exactly three adjectives.");
@@ -591,6 +668,30 @@ export async function submitDescription(
     target_profile_id: input.profileId,
     submitted_answers: input.answers,
     submitted_adjectives: input.adjectives,
+  });
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function reportProfile(
+  profileId: string,
+  knownUserId?: string,
+  reason: ReportReason = "other",
+  explanation = "",
+) {
+  const userId = knownUserId ?? (await getCurrentUserId());
+
+  if (!userId || profileId === "mock-profile") {
+    console.log("Mock reportProfile", { explanation, profileId, reason });
+    return;
+  }
+
+  const { error } = await supabase.rpc("report_profile", {
+    report_explanation: explanation.trim() || null,
+    report_reason: reason,
+    target_profile_id: profileId,
   });
 
   if (error) {
