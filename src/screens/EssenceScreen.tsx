@@ -44,9 +44,9 @@ export function EssenceScreen({ userId }: EssenceScreenProps) {
 
       try {
         setLoading(true);
-          setError(null);
-          setShowAllWords(false);
-          const nextResults = await getEssenceResults(userId);
+        setError(null);
+        setShowAllWords(false);
+        const nextResults = await getEssenceResults(userId);
 
         if (active) {
           setResults(nextResults);
@@ -126,7 +126,7 @@ export function EssenceScreen({ userId }: EssenceScreenProps) {
       ) : (
         <>
           <View style={styles.section}>
-            <SectionHeader title="What Readers Notice" />
+            <SectionHeader title="What your shelf emanates" />
             <View style={[styles.chipRow, styles.sectionContent]}>
               {visibleStrangerAdjectives.map((item) => (
                 <Text

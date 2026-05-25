@@ -327,6 +327,30 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 10,
   },
+  instructionsList: {
+    marginTop: 16,
+    gap: 10,
+  },
+  instructionsRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 8,
+  },
+  instructionsNumber: {
+    fontFamily: fonts.app,
+    minWidth: 20,
+    color: colors.accent,
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: "600",
+  },
+  instructionsText: {
+    fontFamily: fonts.app,
+    flex: 1,
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 21,
+  },
   developerCredit: {
     alignSelf: "flex-start",
     flexDirection: "row",

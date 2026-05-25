@@ -11,6 +11,7 @@ import {
 import type { Session } from "@supabase/supabase-js";
 
 import { BrandLogo } from "./src/components/BrandLogo";
+import { brandIcon } from "./src/constants/brandAssets";
 import { supabase } from "./src/lib/supabase";
 import { AuthScreen } from "./src/screens/AuthScreen";
 import { DailyScreen } from "./src/screens/DailyScreen";
@@ -34,7 +35,6 @@ const screens: Array<{ id: Screen; label: string }> = [
   { id: "settings", label: "Settings" },
 ];
 
-const paperclipIcon = require("./src/emoji-assets/linked_paperclip.svg");
 const gearIcon = require("./src/emoji-assets/gear.svg");
 
 function getAssetUri(asset: unknown) {
@@ -88,9 +88,9 @@ export default function App() {
       document.head.appendChild(style);
     }
 
-    const paperclipIconUri = getAssetUri(paperclipIcon);
+    const brandIconUri = getAssetUri(brandIcon);
 
-    if (!paperclipIconUri) {
+    if (!brandIconUri) {
       return;
     }
 
@@ -101,7 +101,7 @@ export default function App() {
 
     iconLink.rel = "icon";
     iconLink.type = "image/svg+xml";
-    iconLink.href = paperclipIconUri;
+    iconLink.href = brandIconUri;
 
     if (!existingIcon) {
       document.head.appendChild(iconLink);
