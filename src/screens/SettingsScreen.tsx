@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native";
+import { Image, Linking, Text, View } from "react-native";
 
 import { Button } from "../components/Button";
 import { ScreenHeader } from "../components/ScreenHeader";
@@ -9,7 +9,7 @@ const pompomeloLogo = require("../assets/pompomelo_no_border.png");
 
 const instructions = [
   "Create your shelf.",
-  "Try to read others in the Others tab.",
+  "Try to read others in the Strangers tab.",
   "Skip profiles you do not want to review right now, and remove profiles you never want to see again.",
   "View how others see you in the Essence tab.",
 ];
@@ -88,7 +88,13 @@ export function SettingsScreen({
         />
         <View style={styles.developerCreditCopy}>
           <Text style={styles.developerCreditText}>developed by</Text>
-          <Text style={styles.developerCreditPill}>pompomelo</Text>
+          <Text
+            accessibilityRole="link"
+            style={styles.developerCreditPill}
+            onPress={() => Linking.openURL("https://pompomelo.netlify.app/")}
+          >
+            pompomelo ↗
+          </Text>
           <Text style={styles.developerCreditText}>
             (me! a solo dev living in toronto)
           </Text>

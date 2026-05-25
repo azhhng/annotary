@@ -9,7 +9,7 @@ import { ScreenHeader } from "../components/ScreenHeader";
 import { SectionHeader } from "../components/SectionHeader";
 import { SegmentQuestion } from "../components/SegmentQuestion";
 import { bookQuestions } from "../constants/books";
-import { defaultTraitAnswers, traitQuestions } from "../constants/traits";
+import { traitQuestions } from "../constants/traits";
 import { saveMyShelf } from "../data/annotaryRepository";
 import { styles } from "../styles";
 import type { BookSlot, ShelfBookInput, TraitAnswers } from "../types";
@@ -39,7 +39,7 @@ export function ShelfSetupScreen({
 }) {
   const [books, setBooks] = useState(initialBooks);
   const [traitAnswers, setTraitAnswers] =
-    useState<TraitAnswers>(defaultTraitAnswers);
+    useState<Partial<TraitAnswers>>({});
   const [selectedAdjectives, setSelectedAdjectives] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,9 +52,10 @@ export function ShelfSetupScreen({
           book.author.trim().length > 0 &&
           book.why.trim().length > 0,
       ) &&
+      traitQuestions.every((question) => traitAnswers[question.key]) &&
       selectedAdjectives.length === 3 &&
       !busy,
-    [books, selectedAdjectives.length, busy],
+    [books, selectedAdjectives.length, traitAnswers, busy],
   );
 
   const updateBook = (
@@ -80,7 +81,7 @@ export function ShelfSetupScreen({
     try {
       await saveMyShelf({
         books,
-        selfAnswers: traitAnswers,
+        selfAnswers: traitAnswers as TraitAnswers,
         selfAdjectives: selectedAdjectives,
       });
       onComplete();
@@ -115,6 +116,13 @@ export function ShelfSetupScreen({
           title="Start with your shelf"
           body="Add six books and do a quick questionnaire so other readers have something real to compare their impressions against."
         />
+
+        <View style={styles.disclaimerBanner}>
+          <Text style={styles.disclaimerText}>
+            Once you submit your answers, your shelf will be sent out into the
+            world for strangers to review.
+          </Text>
+        </View>
 
         <View style={styles.list}>
           {books.map((book) => (

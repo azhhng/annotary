@@ -29,8 +29,8 @@ import {
 import { buildPersonalityLabel } from "./src/lib/personalityLabel";
 
 const screens: Array<{ id: Screen; label: string }> = [
-  { id: "shelf", label: "Shelf" },
-  { id: "daily", label: "Others" },
+  { id: "shelf", label: "Self" },
+  { id: "daily", label: "Strangers" },
   { id: "essence", label: "Essence" },
   { id: "settings", label: "Settings" },
 ];

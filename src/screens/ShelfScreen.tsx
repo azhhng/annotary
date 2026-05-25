@@ -205,7 +205,7 @@ export function ShelfScreen({
     <View style={styles.screen}>
       <ScreenHeader
         title="Your shelf"
-        body="six books that make a small portrait of you."
+        body="six books that make a small portrait of you"
         accessory={
           <View style={styles.headerActionSlot}>
             {!loading && !editing && shelf.length > 0 && (
@@ -261,7 +261,7 @@ export function ShelfScreen({
         <View style={styles.section}>
           <SectionHeader
             title="Your essence"
-            body="how you see yourself."
+            body="how you see yourself"
             accessory={
               <View style={styles.headerActionSlot}>
                 {!editingSelf && (
@@ -298,7 +298,6 @@ export function ShelfScreen({
                   onChange={setDraftAdjectives}
                 />
               </View>
-
             </>
           ) : (
             <>

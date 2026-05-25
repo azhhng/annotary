@@ -16,7 +16,7 @@ export function SegmentQuestion({
 }: {
   title: string;
   options: string[];
-  active: string;
+  active?: string;
   wide?: boolean;
   onSelect: (option: string) => void;
 }) {

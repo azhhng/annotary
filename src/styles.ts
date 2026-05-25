@@ -194,6 +194,27 @@ export const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 20,
   },
+  disclaimerBanner: {
+    gap: 4,
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: colors.accentSoft,
+    borderWidth: 1,
+    borderColor: colors.faint,
+  },
+  disclaimerTitle: {
+    fontFamily: fonts.app,
+    color: colors.ink,
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: "600",
+  },
+  disclaimerText: {
+    fontFamily: fonts.app,
+    color: colors.muted,
+    fontSize: 12,
+    lineHeight: 18,
+  },
   helperText: {
     fontFamily: fonts.app,
     color: colors.muted,
@@ -390,6 +411,7 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 17,
     fontWeight: "600",
+    textDecorationLine: "underline",
   },
   emptyState: {
     padding: 22,

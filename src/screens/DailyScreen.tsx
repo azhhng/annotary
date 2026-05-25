@@ -49,9 +49,7 @@ export function DailyScreen({
   const [showingComparison, setShowingComparison] = useState(false);
   const emptyOthersQuote = useMemo(
     () =>
-      emptyOthersQuotes[
-        Math.floor(Math.random() * emptyOthersQuotes.length)
-      ],
+      emptyOthersQuotes[Math.floor(Math.random() * emptyOthersQuotes.length)],
     [],
   );
 
@@ -101,7 +99,7 @@ export function DailyScreen({
   return (
     <View style={styles.screen}>
       <ScreenHeader
-        title="Others"
+        title="Strangers"
         body="read someone else's shelf, then make a quick anonymous guess"
       />
 
@@ -282,7 +280,7 @@ function DescribePanel({
       <View style={styles.section}>
         <SectionHeader
           title="What does this shelf make you suspect?"
-          body="Your response is anonymous."
+          body="your response is anonymous"
         />
         <View style={[styles.formPanel, styles.sectionContent]}>
           {othersTraitQuestions.map((question) => (
@@ -342,89 +340,89 @@ function RevealComparison({
         body="Your judgement is saved. Here is what they said about themself."
       />
       <View style={styles.list}>
-          {othersTraitQuestions.map((question) => {
-            const submittedAnswer = submitted.answers[question.key];
-            const actualAnswer = actual.answers[question.key];
-            const matched = submittedAnswer === actualAnswer;
+        {othersTraitQuestions.map((question) => {
+          const submittedAnswer = submitted.answers[question.key];
+          const actualAnswer = actual.answers[question.key];
+          const matched = submittedAnswer === actualAnswer;
 
-            return (
-              <View
-                key={question.key}
-                style={[styles.section, styles.resultBlockGrid]}
-              >
-                <View style={styles.resultHeader}>
-                  <Text style={styles.resultTitle}>{question.title}</Text>
-                  <Text style={styles.counter}>
-                    {matched ? "match" : "different"}
-                  </Text>
-                </View>
-                <View style={styles.resultRow}>
-                  <Text style={styles.resultLabel}>You</Text>
-                  <Text
-                    style={[
-                      styles.chip,
-                      tintedPillStyle(submittedAnswer),
-                      tintedTextStyle(submittedAnswer),
-                    ]}
-                  >
-                    {submittedAnswer}
-                  </Text>
-                </View>
-                <View style={styles.resultRow}>
-                  <Text style={styles.resultLabel}>Them</Text>
-                  <Text
-                    style={[
-                      styles.chip,
-                      tintedPillStyle(actualAnswer),
-                      tintedTextStyle(actualAnswer),
-                    ]}
-                  >
-                    {actualAnswer}
-                  </Text>
-                </View>
+          return (
+            <View
+              key={question.key}
+              style={[styles.section, styles.resultBlockGrid]}
+            >
+              <View style={styles.resultHeader}>
+                <Text style={styles.resultTitle}>{question.title}</Text>
+                <Text style={styles.counter}>
+                  {matched ? "match" : "different"}
+                </Text>
               </View>
-            );
-          })}
-        </View>
-        <View style={[styles.section, { marginTop: 28 }]}>
-          <SectionHeader title="Words" />
-          <View style={[styles.wordsColumns, styles.sectionContent]}>
-            <View style={styles.wordsColumn}>
-              <Text style={styles.resultLabel}>You</Text>
-              <View style={styles.wordsChipStack}>
-                {submitted.adjectives.map((word) => (
-                  <Text
-                    key={word}
-                    style={[
-                      styles.chip,
-                      tintedPillStyle(word),
-                      tintedTextStyle(word),
-                    ]}
-                  >
-                    {word}
-                  </Text>
-                ))}
+              <View style={styles.resultRow}>
+                <Text style={styles.resultLabel}>You</Text>
+                <Text
+                  style={[
+                    styles.chip,
+                    tintedPillStyle(submittedAnswer),
+                    tintedTextStyle(submittedAnswer),
+                  ]}
+                >
+                  {submittedAnswer}
+                </Text>
+              </View>
+              <View style={styles.resultRow}>
+                <Text style={styles.resultLabel}>Them</Text>
+                <Text
+                  style={[
+                    styles.chip,
+                    tintedPillStyle(actualAnswer),
+                    tintedTextStyle(actualAnswer),
+                  ]}
+                >
+                  {actualAnswer}
+                </Text>
               </View>
             </View>
-            <View style={styles.wordsColumn}>
-              <Text style={styles.resultLabel}>Them</Text>
-              <View style={styles.wordsChipStack}>
-                {actual.adjectives.map((word) => (
-                  <Text
-                    key={word}
-                    style={[
-                      styles.chip,
-                      tintedPillStyle(word),
-                      tintedTextStyle(word),
-                    ]}
-                  >
-                    {word}
-                  </Text>
-                ))}
-              </View>
+          );
+        })}
+      </View>
+      <View style={[styles.section, { marginTop: 28 }]}>
+        <SectionHeader title="Words" />
+        <View style={[styles.wordsColumns, styles.sectionContent]}>
+          <View style={styles.wordsColumn}>
+            <Text style={styles.resultLabel}>You</Text>
+            <View style={styles.wordsChipStack}>
+              {submitted.adjectives.map((word) => (
+                <Text
+                  key={word}
+                  style={[
+                    styles.chip,
+                    tintedPillStyle(word),
+                    tintedTextStyle(word),
+                  ]}
+                >
+                  {word}
+                </Text>
+              ))}
+            </View>
+          </View>
+          <View style={styles.wordsColumn}>
+            <Text style={styles.resultLabel}>Them</Text>
+            <View style={styles.wordsChipStack}>
+              {actual.adjectives.map((word) => (
+                <Text
+                  key={word}
+                  style={[
+                    styles.chip,
+                    tintedPillStyle(word),
+                    tintedTextStyle(word),
+                  ]}
+                >
+                  {word}
+                </Text>
+              ))}
             </View>
           </View>
         </View>
+      </View>
       <View style={styles.readFooterActions}>
         <Button disabled={busy} onPress={onNext}>
           {busy ? "Loading..." : "Next shelf"}
