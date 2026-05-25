@@ -48,6 +48,30 @@ const iconScreens: Partial<Record<Screen, number>> = {
   settings: gearIcon,
 };
 
+const legalPathByPage: Record<LegalPage, string> = {
+  privacy: "/privacy",
+  terms: "/terms",
+  community: "/community",
+};
+
+function getLegalPageFromPath(pathname: string): LegalPage | null {
+  const normalizedPath = pathname.replace(/\/+$/, "") || "/";
+
+  if (normalizedPath === "/privacy") return "privacy";
+  if (normalizedPath === "/terms") return "terms";
+  if (normalizedPath === "/community") return "community";
+
+  return null;
+}
+
+function getCurrentLegalPage() {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  return getLegalPageFromPath(window.location.pathname);
+}
+
 function getAssetUri(asset: unknown) {
   if (typeof asset === "string") {
     return asset;
@@ -74,6 +98,10 @@ function ShelfSetupRequiredNotice() {
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>("shelf");
+  const [routeLegalPage, setRouteLegalPage] = useState<LegalPage | null>(
+    getCurrentLegalPage,
+  );
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [legalReturnScreen, setLegalReturnScreen] = useState<Screen>("about");
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -131,6 +159,22 @@ export default function App() {
     if (!existingIcon) {
       document.head.appendChild(iconLink);
     }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const handlePopState = () => {
+      setRouteLegalPage(getCurrentLegalPage());
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
   }, []);
 
   useEffect(() => {
@@ -277,8 +321,43 @@ export default function App() {
 
   const openLegalPage = (page: LegalPage, returnScreen: Screen) => {
     setLegalReturnScreen(returnScreen);
-    setScreen(page);
+    setRouteLegalPage(page);
+
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", legalPathByPage[page]);
+    }
   };
+
+  const closeLegalPage = () => {
+    setRouteLegalPage(null);
+
+    if (typeof window !== "undefined") {
+      window.history.pushState(null, "", "/");
+    }
+
+    if (session) {
+      setScreen(legalReturnScreen);
+    }
+  };
+
+  if (routeLegalPage) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar style="dark" />
+        <ScrollView
+          nativeID="app-scroll"
+          style={styles.content}
+          contentContainerStyle={styles.contentInner}
+        >
+          <LegalScreen
+            page={routeLegalPage}
+            onBack={closeLegalPage}
+            onOpenPage={(page) => openLegalPage(page, legalReturnScreen)}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
   if (authLoading || (session && (shelfComplete === null || banned === null))) {
     return (
@@ -295,7 +374,11 @@ export default function App() {
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="dark" />
-        <AuthScreen />
+        <AuthScreen
+          mode={authMode}
+          onModeChange={setAuthMode}
+          onOpenLegalPage={(page) => openLegalPage(page, "about")}
+        />
       </SafeAreaView>
     );
   }
@@ -451,15 +534,6 @@ export default function App() {
               onDeleteAccount={handleDeleteAccount}
               onLogout={handleLogout}
               onOpenLegalPage={(page) => openLegalPage(page, "settings")}
-            />
-          )}
-          {(screen === "privacy" ||
-            screen === "terms" ||
-            screen === "community") && (
-            <LegalScreen
-              page={screen}
-              onBack={() => setScreen(legalReturnScreen)}
-              onOpenPage={(page) => setScreen(page)}
             />
           )}
         </ScrollView>

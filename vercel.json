@@ -1,4 +1,18 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/privacy/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/terms/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/community/:path*",
+      "destination": "/index.html"
+    }
+  ]
 }

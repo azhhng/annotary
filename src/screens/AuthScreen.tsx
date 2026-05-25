@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 import { BrandLogo } from "../components/BrandLogo";
 import { Button } from "../components/Button";
 import { supabase } from "../lib/supabase";
-import { LegalScreen, type LegalPage } from "./LegalScreen";
+import type { LegalPage } from "./LegalScreen";
 import { colors, styles } from "../styles";
 
 type AuthMode = "login" | "signup";
 
-export function AuthScreen() {
-  const [mode, setMode] = useState<AuthMode>("login");
-  const [legalPage, setLegalPage] = useState<LegalPage | null>(null);
+export function AuthScreen({
+  mode,
+  onModeChange,
+  onOpenLegalPage,
+}: {
+  mode: AuthMode;
+  onModeChange: (mode: AuthMode) => void;
+  onOpenLegalPage: (page: LegalPage) => void;
+}) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -73,27 +79,11 @@ export function AuthScreen() {
   const switchMode = () => {
     const nextMode = isSignup ? "login" : "signup";
 
-    setMode(nextMode);
+    onModeChange(nextMode);
     setAgeConfirmed(false);
     setError(null);
     setMessage(null);
   };
-
-  if (legalPage) {
-    return (
-      <ScrollView
-        nativeID="app-scroll"
-        style={styles.content}
-        contentContainerStyle={styles.contentInner}
-      >
-        <LegalScreen
-          page={legalPage}
-          onBack={() => setLegalPage(null)}
-          onOpenPage={setLegalPage}
-        />
-      </ScrollView>
-    );
-  }
 
   return (
     <View style={styles.authShell}>
@@ -183,7 +173,7 @@ export function AuthScreen() {
               By creating an account, you agree to the{" "}
               <Text
                 accessibilityRole="link"
-                onPress={() => setLegalPage("terms")}
+                onPress={() => onOpenLegalPage("terms")}
                 style={styles.inlineLink}
               >
                 Terms of Service
@@ -191,7 +181,7 @@ export function AuthScreen() {
               ,{" "}
               <Text
                 accessibilityRole="link"
-                onPress={() => setLegalPage("privacy")}
+                onPress={() => onOpenLegalPage("privacy")}
                 style={styles.inlineLink}
               >
                 Privacy Policy
@@ -199,7 +189,7 @@ export function AuthScreen() {
               , and{" "}
               <Text
                 accessibilityRole="link"
-                onPress={() => setLegalPage("community")}
+                onPress={() => onOpenLegalPage("community")}
                 style={styles.inlineLink}
               >
                 Community Guidelines

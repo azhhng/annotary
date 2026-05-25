@@ -72,11 +72,7 @@ export function DailyScreen({
   );
 
   async function loadProfile() {
-    console.log("[Others] loadProfile start", { userId });
-
     if (!userId) {
-      console.log("[Others] loadProfile stopped; no userId");
-
       setProfile(null);
       setLoading(false);
       return;
@@ -87,19 +83,8 @@ export function DailyScreen({
       setError(null);
       const nextProfile = await getProfileToDescribe(userId);
 
-      console.log("[Others] loadProfile result", {
-        bookCount: nextProfile?.books.length ?? 0,
-        profileId: nextProfile?.id ?? null,
-        userId,
-      });
-
       setProfile(nextProfile);
     } catch (caughtError) {
-      console.log("[Others] loadProfile error", {
-        error: caughtError,
-        userId,
-      });
-
       setError(
         caughtError instanceof Error
           ? caughtError.message

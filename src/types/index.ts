@@ -3,10 +3,7 @@ export type Screen =
   | "daily"
   | "essence"
   | "about"
-  | "settings"
-  | "privacy"
-  | "terms"
-  | "community";
+  | "settings";
 
 export type BookSlot =
   | "love_1"

@@ -16,12 +16,6 @@ import type {
   TraitAnswerResult,
   TraitAnswers,
 } from "../types";
-import {
-  essenceAnswers,
-  selfAdjectives,
-  shelf as mockShelf,
-  strangerAdjectives,
-} from "./mockData";
 
 const bookSlotOrder: BookSlot[] = [
   "love_1",
@@ -118,14 +112,6 @@ function sortBooks(books: Book[]) {
   );
 }
 
-function mockEssenceResults(): EssenceResults {
-  return {
-    answers: essenceAnswers,
-    selfAdjectives,
-    strangerAdjectives,
-  };
-}
-
 function prepareShelfBooks(userId: string, books: ShelfBookInput[]) {
   if (books.length !== bookSlotOrder.length) {
     throw new Error("Please fill out all six book prompts.");
@@ -171,7 +157,7 @@ export async function getMyShelf(knownUserId?: string): Promise<Book[]> {
   const userId = knownUserId ?? (await getCurrentUserId());
 
   if (!userId) {
-    return mockShelf;
+    return [];
   }
 
   const pendingRequest = shelfRequests.get(userId);
@@ -455,27 +441,14 @@ export async function getProfileToDescribe(
 ): Promise<ProfileToDescribe | null> {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  console.log("[Others] getProfileToDescribe", { knownUserId, userId });
-
   if (!userId) {
-    console.log("[Others] no user id; using mock profile");
-
-    return {
-      id: "mock-profile",
-      books: mockShelf,
-    };
+    return null;
   }
 
   const { data: profiles, error: profilesError } = await supabase.rpc(
     "get_next_profile_to_describe",
     { viewer_id: userId },
   );
-
-  console.log("[Others] get_next_profile_to_describe response", {
-    profiles,
-    profilesError,
-    userId,
-  });
 
   if (profilesError) {
     throw profilesError;
@@ -484,27 +457,13 @@ export async function getProfileToDescribe(
   const nextProfile = (profiles as NextProfileRow[] | null)?.[0] ?? null;
 
   if (!nextProfile) {
-    console.log("[Others] no next profile returned", { userId });
-
     return null;
   }
-
-  console.log("[Others] selected profile", {
-    profileId: nextProfile.id,
-    userId,
-  });
 
   const { data: books, error: booksError } = await supabase
     .from("books")
     .select("slot,title,author,why")
     .eq("profile_id", nextProfile.id);
-
-  console.log("[Others] books response", {
-    booksCount: books?.length ?? 0,
-    booksError,
-    profileId: nextProfile.id,
-    userId,
-  });
 
   if (booksError) {
     throw booksError;
@@ -553,7 +512,7 @@ export async function getEssenceResults(
   const userId = knownUserId ?? (await getCurrentUserId());
 
   if (!userId) {
-    return mockEssenceResults();
+    throw new Error("You must be logged in to view your essence.");
   }
 
   const { data: profile, error: profileError } = await supabase
@@ -567,7 +526,7 @@ export async function getEssenceResults(
   }
 
   if (!profile) {
-    return mockEssenceResults();
+    throw new Error("Could not load your profile.");
   }
 
   const typedProfile = profile as ProfileRow;
@@ -619,18 +578,8 @@ export async function getProfileReveal(
 ): Promise<ProfileReveal> {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  if (!userId || profileId === "mock-profile") {
-    return {
-      answers: essenceAnswers.reduce(
-        (currentAnswers, answer) => ({
-          ...currentAnswers,
-          [traitQuestions.find((question) => question.title === answer.question)
-            ?.key ?? "socialEnergy"]: answer.self,
-        }),
-        {} as TraitAnswers,
-      ),
-      adjectives: selfAdjectives,
-    };
+  if (!userId) {
+    throw new Error("You must be logged in to reveal a profile.");
   }
 
   const { data, error } = await supabase.rpc("get_profile_reveal", {
@@ -659,9 +608,8 @@ export async function submitDescription(
 ) {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  if (!userId || input.profileId === "mock-profile") {
-    console.log("Mock submitDescription", input);
-    return;
+  if (!userId) {
+    throw new Error("You must be logged in to submit a description.");
   }
 
   const { error } = await supabase.rpc("submit_description", {
@@ -683,9 +631,8 @@ export async function reportProfile(
 ) {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  if (!userId || profileId === "mock-profile") {
-    console.log("Mock reportProfile", { explanation, profileId, reason });
-    return;
+  if (!userId) {
+    throw new Error("You must be logged in to report a profile.");
   }
 
   const { error } = await supabase.rpc("report_profile", {
@@ -702,9 +649,8 @@ export async function reportProfile(
 export async function skipProfile(profileId: string, knownUserId?: string) {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  if (!userId || profileId === "mock-profile") {
-    console.log("Mock skipProfile", profileId);
-    return;
+  if (!userId) {
+    throw new Error("You must be logged in to skip a profile.");
   }
 
   const { error } = await supabase.from("profile_interactions").upsert(
@@ -724,9 +670,8 @@ export async function skipProfile(profileId: string, knownUserId?: string) {
 export async function removeProfile(profileId: string, knownUserId?: string) {
   const userId = knownUserId ?? (await getCurrentUserId());
 
-  if (!userId || profileId === "mock-profile") {
-    console.log("Mock removeProfile", profileId);
-    return;
+  if (!userId) {
+    throw new Error("You must be logged in to remove a profile.");
   }
 
   const { error } = await supabase.from("profile_interactions").upsert(
