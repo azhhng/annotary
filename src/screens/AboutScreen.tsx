@@ -7,10 +7,10 @@ import type { LegalPage } from "./LegalScreen";
 import { styles } from "../styles";
 
 const instructions = [
-  "Create your shelf.",
-  "Try to read others in the Strangers tab.",
+  "Curate your shelf and identify your essence in the Self tab.",
+  "Read others in the Strangers tab.",
   "Skip profiles you do not want to review right now, and remove profiles you never want to see again.",
-  "View how others see you in the Essence tab.",
+  "View how others have read you in the Essence tab.",
 ];
 
 const rules = [

@@ -31,6 +31,7 @@ const legalContent: Record<LegalPage, LegalContent> = {
         title: "Information we collect",
         body: [
           "When you create an account, Annotary collects your email address, username, password credentials handled by Supabase Auth, bookshelf entries, profile answers, selected adjectives, profile reports, skips, removals, and account status information.",
+          "Supabase may store authentication/session information on your device so you can stay logged in between visits. You can clear this by logging out or clearing your browser/app storage.",
           "Other users may see your bookshelf entries and may submit anonymous impressions about your shelf. Your email address and password are not shown to other users.",
         ],
       },
@@ -44,7 +45,9 @@ const legalContent: Record<LegalPage, LegalContent> = {
       {
         title: "Service providers",
         body: [
-          "Annotary uses Supabase for authentication, database hosting, account management, and related infrastructure. Supabase processes data needed to provide those services.",
+          "Annotary uses third-party services to operate the app, including Supabase for authentication, database hosting, account management, and infrastructure; Vercel for hosting and deployment; and GitHub for code storage and development workflows.",
+          "Your use of Annotary may depend on these providers. We are not responsible for outages, security incidents, policy changes, or other issues caused by third-party services outside our control.",
+          "These providers may process information as needed to provide their services to Annotary, and their own terms and privacy policies may also apply.",
         ],
       },
       {
@@ -77,6 +80,8 @@ const legalContent: Record<LegalPage, LegalContent> = {
         body: [
           "By creating an account or using Annotary, you agree to these terms. If you do not agree, do not use the app.",
           "You must be at least 16 years old to use Annotary.",
+          "Do not use bots, scrapers, crawlers, scripts, or other automated tools to collect information from Annotary or interact with the app without permission.",
+          "Do not use automation to create accounts, submit reads, send reports, manipulate results, overload the app, evade moderation, or interfere with how Annotary works.",
         ],
       },
       {
