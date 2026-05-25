@@ -40,7 +40,8 @@ const reportReasons: Array<{ label: string; value: ReportReason }> = [
   { label: "Other", value: "other" },
 ];
 
-const reportExplanationLimit = 500;
+const reportExplanationLimit = 250;
+const reportExplanationMinimum = 50;
 
 const emptyTraitAnswers: TraitAnswers = {
   socialEnergy: "",
@@ -249,6 +250,10 @@ function DescribePanel({
   };
 
   const handleSubmitReport = async () => {
+    if (reportExplanation.trim().length < reportExplanationMinimum) {
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
@@ -412,6 +417,10 @@ function ReportProfileModal({
   onChangeReason: (next: ReportReason) => void;
   onSubmit: () => Promise<void>;
 }) {
+  const trimmedExplanationLength = explanation.trim().length;
+  const canSubmitReport =
+    trimmedExplanationLength >= reportExplanationMinimum && !busy;
+
   return (
     <Modal
       animationType="fade"
@@ -461,16 +470,19 @@ function ReportProfileModal({
               maxLength={reportExplanationLimit}
               multiline
               onChangeText={onChangeExplanation}
-              placeholder="Optional"
+              placeholder="A short note helps me review it"
               placeholderTextColor={colors.placeholder}
               style={[styles.textInput, styles.reportTextInput]}
               textAlignVertical="top"
               value={explanation}
             />
             <View style={styles.reportHelperRow}>
-              <Text style={styles.helperText}>Do not include private info.</Text>
+              <Text style={styles.helperText}>
+                Minimum {reportExplanationMinimum} characters. Do not include
+                private info.
+              </Text>
               <Text style={styles.characterCounter}>
-                {explanation.length}/{reportExplanationLimit}
+                {trimmedExplanationLength}/{reportExplanationLimit}
               </Text>
             </View>
           </View>
@@ -479,7 +491,7 @@ function ReportProfileModal({
             <Button variant="secondary" disabled={busy} onPress={onCancel}>
               Cancel
             </Button>
-            <Button variant="danger" disabled={busy} onPress={onSubmit}>
+            <Button variant="danger" disabled={!canSubmitReport} onPress={onSubmit}>
               {busy ? "Reporting..." : "Submit report"}
             </Button>
           </View>
