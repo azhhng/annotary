@@ -110,7 +110,7 @@ export function AboutScreen({
           <Text
             accessibilityRole="link"
             style={styles.developerCreditPill}
-            onPress={() => Linking.openURL("https://pompomelo.netlify.app/")}
+            onPress={() => Linking.openURL("https://pompomelo.dev/")}
           >
             pompomelo ↗
           </Text>
