@@ -398,14 +398,68 @@ export default function App() {
             <Text style={styles.authTitle}>Account banned</Text>
             <Text style={styles.screenBody}>
               This account has been permanently banned from Annotary. Your
-              account still exists, but your shelf is no longer shown to other
-              readers and you cannot use the app.
+              shelf is no longer being shown to other readers and you cannot use
+              the app. You can delete your account or
+              review Annotary's policies.
+            </Text>
+            <Text style={styles.screenBody}>
+              If you think this is a mistake, email mimibrews@gmail.com.
             </Text>
             {authError && <Text style={styles.errorText}>{authError}</Text>}
             <View style={styles.settingsActions}>
               <Button variant="secondary" onPress={handleLogout}>
                 Log out
               </Button>
+              {deleteConfirming && (
+                <Button
+                  variant="secondary"
+                  disabled={deleteBusy}
+                  onPress={() => setDeleteConfirming(false)}
+                >
+                  Cancel
+                </Button>
+              )}
+              <Button
+                variant="danger"
+                disabled={deleteBusy}
+                onPress={handleDeleteAccount}
+              >
+                {deleteBusy
+                  ? "Deleting..."
+                  : deleteConfirming
+                    ? "Confirm delete"
+                    : "Delete account"}
+              </Button>
+            </View>
+            {deleteConfirming && (
+              <Text style={styles.errorText}>
+                This permanently deletes your account, shelf, and profile. A
+                limited hashed email record may be kept for moderation
+                enforcement.
+              </Text>
+            )}
+            <View style={styles.legalLinkRow}>
+              <Text
+                accessibilityRole="link"
+                onPress={() => openLegalPage("privacy", "about")}
+                style={styles.inlineLink}
+              >
+                Privacy Policy
+              </Text>
+              <Text
+                accessibilityRole="link"
+                onPress={() => openLegalPage("terms", "about")}
+                style={styles.inlineLink}
+              >
+                Terms of Service
+              </Text>
+              <Text
+                accessibilityRole="link"
+                onPress={() => openLegalPage("community", "about")}
+                style={styles.inlineLink}
+              >
+                Community Guidelines
+              </Text>
             </View>
           </View>
         </View>

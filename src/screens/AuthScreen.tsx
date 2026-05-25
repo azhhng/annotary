@@ -67,7 +67,9 @@ export function AuthScreen({
       }
     } catch (caughtError) {
       setError(
-        caughtError instanceof Error
+        isSignup
+          ? "We couldn't create this account. Email mimibrews@gmail.com if you think this is a mistake."
+          : caughtError instanceof Error
           ? caughtError.message
           : "Something went wrong. Please try again.",
       );

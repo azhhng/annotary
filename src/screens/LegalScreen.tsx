@@ -54,6 +54,7 @@ const legalContent: Record<LegalPage, LegalContent> = {
         title: "Deletion",
         body: [
           "You can request account deletion from Settings. Deletion removes your account, shelf, and profile. Anonymous reads you submitted may remain in aggregate results where they are no longer tied to your account.",
+          "If an account is banned for safety, abuse, or rule-enforcement reasons, Annotary may keep a limited hashed email record after deletion to prevent ban evasion. This record is used for moderation enforcement and is not used or served publicly within the site.",
         ],
       },
       {
