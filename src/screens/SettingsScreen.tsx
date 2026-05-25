@@ -1,12 +1,11 @@
-import { Image, Linking, Text, View } from "react-native";
+import { Linking, Text, View } from "react-native";
 
 import { Button } from "../components/Button";
+import { DeveloperCredit } from "../components/DeveloperCredit";
 import { ScreenHeader } from "../components/ScreenHeader";
 import { SectionHeader } from "../components/SectionHeader";
 import type { LegalPage } from "./LegalScreen";
 import { styles } from "../styles";
-
-const pompomeloLogo = require("../assets/pompomelo_no_border.png");
 
 export function SettingsScreen({
   accountLabel,
@@ -101,26 +100,7 @@ export function SettingsScreen({
           Community Guidelines
         </Text>
       </View>
-      <View style={styles.developerCredit}>
-        <Image
-          accessibilityIgnoresInvertColors
-          source={pompomeloLogo}
-          style={styles.developerLogo}
-        />
-        <View style={styles.developerCreditCopy}>
-          <Text style={styles.developerCreditText}>developed by</Text>
-          <Text
-            accessibilityRole="link"
-            style={styles.developerCreditPill}
-            onPress={() => Linking.openURL("https://pompomelo.dev/")}
-          >
-            pompomelo ↗
-          </Text>
-          <Text style={styles.developerCreditText}>
-            (me! a solo dev living in toronto)
-          </Text>
-        </View>
-      </View>
+      <DeveloperCredit />
     </View>
   );
 }

@@ -2,7 +2,6 @@ import { Pressable, Text, View } from "react-native";
 
 import { Button } from "../components/Button";
 import { ScreenHeader } from "../components/ScreenHeader";
-import { SectionHeader } from "../components/SectionHeader";
 import { styles } from "../styles";
 
 export type LegalPage = "privacy" | "terms" | "community";
@@ -25,25 +24,25 @@ const lastUpdated = "May 25, 2026";
 const legalContent: Record<LegalPage, LegalContent> = {
   privacy: {
     title: "Privacy Policy",
-    body: "how Annotary collects, uses, and protects account and profile information",
+    body: "how your account information is collected, used, and protected",
     updated: lastUpdated,
     sections: [
       {
-        title: "Information We Collect",
+        title: "Information we collect",
         body: [
           "When you create an account, Annotary collects your email address, username, password credentials handled by Supabase Auth, bookshelf entries, profile answers, selected adjectives, profile reports, skips, removals, and account status information.",
           "Other users may see your bookshelf entries and may submit anonymous impressions about your shelf. Your email address and password are not shown to other users.",
         ],
       },
       {
-        title: "How We Use Information",
+        title: "How we use information",
         body: [
           "We use your information to create and secure your account, show your shelf to other users, let users describe shelves, display aggregate impressions, moderate abuse, respond to reports, and operate the app.",
           "We do not sell your personal information.",
         ],
       },
       {
-        title: "Service Providers",
+        title: "Service providers",
         body: [
           "Annotary uses Supabase for authentication, database hosting, account management, and related infrastructure. Supabase processes data needed to provide those services.",
         ],
@@ -55,7 +54,7 @@ const legalContent: Record<LegalPage, LegalContent> = {
         ],
       },
       {
-        title: "Age Requirement",
+        title: "Age requirement",
         body: [
           "Annotary is intended for people who are at least 16 years old. Do not create an account if you are under 16.",
         ],
@@ -81,13 +80,13 @@ const legalContent: Record<LegalPage, LegalContent> = {
         ],
       },
       {
-        title: "Your Account",
+        title: "Your account",
         body: [
-          "You are responsible for the information you submit and for keeping your login details secure. You may not impersonate another person, create misleading usernames, or use Annotary to harm others.",
+          "You are responsible for the information you submit and for keeping your login details secure. You may not use Annotary to harm others.",
         ],
       },
       {
-        title: "Your Content",
+        title: "Your content",
         body: [
           "You keep ownership of the shelf entries, notes, answers, and descriptions you submit. You give Annotary permission to store, display, moderate, and use that content to operate the app.",
           "Do not submit content you do not have the right to share.",
@@ -100,9 +99,9 @@ const legalContent: Record<LegalPage, LegalContent> = {
         ],
       },
       {
-        title: "No Professional Advice",
+        title: "No professional advice",
         body: [
-          "Annotary is for entertainment and social reading. Impressions from other users are subjective and should not be treated as professional, medical, psychological, legal, or financial advice.",
+          "Annotary is for entertainment and social reading. Impressions from other users are subjective and should not be treated as any sort of professional advice or diagnosis.",
         ],
       },
       {
@@ -119,37 +118,37 @@ const legalContent: Record<LegalPage, LegalContent> = {
   },
   community: {
     title: "Community Guidelines",
-    body: "what is and is not allowed in shelves, usernames, and descriptions",
+    body: "what is not allowed in shelves, usernames, and descriptions",
     updated: lastUpdated,
     sections: [
       {
-        title: "Be Honest, Not Cruel",
+        title: "Be honest but not cruel",
         body: [
-          "Negative opinions are allowed, but harassment, slurs, threats, targeted abuse, and excessive hate are not allowed.",
+          "Negative opinions are allowed, but harassment, slurs, threats, targeted abuse, and excessive hate are not.",
         ],
       },
       {
-        title: "Keep It Appropriate",
+        title: "Keep it appropriate",
         body: [
-          "Do not post adult content, graphic sexual content, explicit solicitation, or content that makes the app unsafe for younger users.",
+          "Do not post adult content, graphic content, explicit solicitation, or content that makes the app unsafe for younger users.",
         ],
       },
       {
-        title: "No Spam",
+        title: "No spam",
         body: [
           "Do not use usernames, shelf notes, or descriptions for excessive self-promotion, scams, spam, or solicitation.",
         ],
       },
       {
-        title: "No Plot Spoilers",
+        title: "No plot spoilers",
         body: [
-          "Do not include plot spoilers in shelf notes or descriptions. Annotary works better when people can browse books without having stories spoiled.",
+          "Do not include plot spoilers in shelf notes or descriptions so users can use the site without having stories spoiled.",
         ],
       },
       {
         title: "Reporting",
         body: [
-          "Use the report feature when a profile breaks these guidelines. Reports help keep Annotary usable and may lead to moderation action.",
+          "Use the report feature when a profile breaks these guidelines. Reports help me moderate the site and may lead to moderation action.",
         ],
       },
       {
@@ -175,14 +174,19 @@ export function LegalScreen({
 
   return (
     <View style={styles.screen}>
-      {onBack && (
-        <View style={styles.backActionRow}>
-          <Button variant="secondary" onPress={onBack}>
-            Back
-          </Button>
-        </View>
-      )}
-      <ScreenHeader title={content.title} body={content.body} />
+      <ScreenHeader
+        title={content.title}
+        body={content.body}
+        accessory={
+          <View style={styles.headerActionSlot}>
+            {onBack && (
+              <Button variant="secondary" onPress={onBack}>
+                Back
+              </Button>
+            )}
+          </View>
+        }
+      />
       <Text style={styles.helperText}>Last updated: {content.updated}</Text>
       <View style={styles.legalLinkRow}>
         {(["privacy", "terms", "community"] as LegalPage[]).map((item) => (
@@ -205,18 +209,23 @@ export function LegalScreen({
           </Pressable>
         ))}
       </View>
-      {content.sections.map((section) => (
-        <View key={section.title} style={styles.section}>
-          <SectionHeader title={section.title} />
-          <View style={styles.legalSectionBody}>
-            {section.body.map((paragraph) => (
-              <Text key={paragraph} style={styles.sectionSubtitle}>
-                {paragraph}
-              </Text>
-            ))}
-          </View>
+      <View style={styles.section}>
+        <View style={styles.legalCompactList}>
+          {content.sections.map((section, index) => (
+            <View key={section.title} style={styles.legalCompactRow}>
+              <Text style={styles.instructionsNumber}>{index + 1}.</Text>
+              <View style={styles.legalCompactCopy}>
+                <Text style={styles.legalCompactTitle}>{section.title}</Text>
+                {section.body.map((paragraph) => (
+                  <Text key={paragraph} style={styles.legalParagraph}>
+                    {paragraph}
+                  </Text>
+                ))}
+              </View>
+            </View>
+          ))}
         </View>
-      ))}
+      </View>
     </View>
   );
 }

@@ -427,9 +427,30 @@ export const styles = StyleSheet.create({
   legalLinkPillTextActive: {
     color: colors.accent,
   },
-  legalSectionBody: {
-    marginTop: 12,
-    gap: 10,
+  legalCompactList: {
+    gap: 14,
+  },
+  legalCompactRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 8,
+  },
+  legalCompactCopy: {
+    flex: 1,
+    gap: 5,
+  },
+  legalCompactTitle: {
+    fontFamily: fonts.app,
+    color: colors.ink,
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: "600",
+  },
+  legalParagraph: {
+    fontFamily: fonts.app,
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 19,
   },
   instructionsList: {
     marginTop: 16,
