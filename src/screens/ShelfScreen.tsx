@@ -12,10 +12,7 @@ import {
   tintedPillStyle,
   tintedTextStyle,
 } from "../constants/personalityColors";
-import {
-  hasAllTraitAnswers,
-  traitQuestions,
-} from "../constants/traits";
+import { hasAllTraitAnswers, traitQuestions } from "../constants/traits";
 import { formatTraitValue } from "../lib/formatTraitValue";
 import {
   getMySelfProfile,
@@ -316,45 +313,51 @@ export function ShelfScreen({
               </View>
             </>
           ) : (
-            <>
-              <View style={[styles.chipRow, styles.sectionContent]}>
-                {traitQuestions
-                  .map((question) => ({
-                    key: question.key,
-                    value: selfAnswers?.[question.key],
-                  }))
-                  .filter(
-                    (item): item is { key: typeof item.key; value: string } =>
-                      Boolean(item.value),
-                  )
-                  .map(({ key, value }) => (
+            <View style={[styles.essenceSummary, styles.sectionContent]}>
+              <View style={styles.essenceGroup}>
+                <Text style={styles.rowPrompt}>Your traits</Text>
+                <View style={styles.chipRow}>
+                  {traitQuestions
+                    .map((question) => ({
+                      key: question.key,
+                      value: selfAnswers?.[question.key],
+                    }))
+                    .filter(
+                      (item): item is { key: typeof item.key; value: string } =>
+                        Boolean(item.value),
+                    )
+                    .map(({ key, value }) => (
+                      <Text
+                        key={key}
+                        style={[
+                          styles.chipStrong,
+                          tintedPillStyle(value),
+                          tintedTextStyle(value),
+                        ]}
+                      >
+                        {formatTraitValue(key, value)}
+                      </Text>
+                    ))}
+                </View>
+              </View>
+              <View style={styles.essenceGroup}>
+                <Text style={styles.rowPrompt}>Your words</Text>
+                <View style={styles.chipRow}>
+                  {selfAdjectives.map((word) => (
                     <Text
-                      key={key}
+                      key={word}
                       style={[
                         styles.chipStrong,
-                        tintedPillStyle(value),
-                        tintedTextStyle(value),
+                        tintedPillStyle(word),
+                        tintedTextStyle(word),
                       ]}
                     >
-                      {formatTraitValue(key, value)}
+                      {word}
                     </Text>
                   ))}
+                </View>
               </View>
-              <View style={[styles.chipRow, styles.relatedChipRow]}>
-                {selfAdjectives.map((word) => (
-                  <Text
-                    key={word}
-                    style={[
-                      styles.chipStrong,
-                      tintedPillStyle(word),
-                      tintedTextStyle(word),
-                    ]}
-                  >
-                    {word}
-                  </Text>
-                ))}
-              </View>
-            </>
+            </View>
           )}
         </View>
       )}

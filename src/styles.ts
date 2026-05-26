@@ -660,6 +660,12 @@ export const styles = StyleSheet.create({
   relatedChipRow: {
     marginTop: 10,
   },
+  essenceSummary: {
+    gap: 18,
+  },
+  essenceGroup: {
+    gap: 8,
+  },
   chip: {
     fontFamily: fonts.app,
     overflow: "hidden",
