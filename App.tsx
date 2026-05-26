@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Image,
   Pressable,
@@ -117,8 +117,33 @@ export default function App() {
   ]);
   const [personalityLabel, setPersonalityLabel] = useState<string | null>(null);
   const [labelRefreshToken, setLabelRefreshToken] = useState(0);
+  const contentScrollRef = useRef<ScrollView>(null);
   const previousUserIdRef = useRef<string | null>(null);
   const userId = session?.user.id ?? null;
+
+  const scrollContentToTop = useCallback(() => {
+    const scroll = () => {
+      contentScrollRef.current?.scrollTo({ y: 0, animated: true });
+
+      if (typeof document !== "undefined") {
+        document
+          .getElementById("app-scroll")
+          ?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      if (typeof window !== "undefined") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    };
+
+    scroll();
+
+    if (typeof requestAnimationFrame !== "undefined") {
+      requestAnimationFrame(scroll);
+    }
+
+    setTimeout(scroll, 50);
+  }, []);
 
   useEffect(() => {
     if (typeof document === "undefined") {
@@ -345,6 +370,7 @@ export default function App() {
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="dark" />
         <ScrollView
+          ref={contentScrollRef}
           nativeID="app-scroll"
           style={styles.content}
           contentContainerStyle={styles.contentInner}
@@ -550,6 +576,7 @@ export default function App() {
                 userId={userId}
                 selected={selectedAdjectives}
                 onToggle={setSelectedAdjectives}
+                onScrollToTop={scrollContentToTop}
               />
             ) : (
               <View style={styles.screen}>

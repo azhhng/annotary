@@ -53,10 +53,12 @@ export function DailyScreen({
   userId,
   selected,
   onToggle,
+  onScrollToTop,
 }: {
   userId: string | null;
   selected: string[];
   onToggle: (next: string[]) => void;
+  onScrollToTop: () => void;
 }) {
   const [profile, setProfile] = useState<ProfileToDescribe | null>(null);
   const [loading, setLoading] = useState(true);
@@ -125,6 +127,7 @@ export function DailyScreen({
           onToggle={onToggle}
           onDone={loadProfile}
           onComparisonChange={setShowingComparison}
+          onScrollToTop={onScrollToTop}
         />
       )}
     </View>
@@ -138,6 +141,7 @@ function DescribePanel({
   onToggle,
   onDone,
   onComparisonChange,
+  onScrollToTop,
 }: {
   profileId: string;
   selected: string[];
@@ -145,6 +149,7 @@ function DescribePanel({
   onToggle: (next: string[]) => void;
   onDone: () => Promise<void>;
   onComparisonChange: (showing: boolean) => void;
+  onScrollToTop: () => void;
 }) {
   const [traitAnswers, setTraitAnswers] = useState(emptyTraitAnswers);
   const allTraitsAnswered = hasAllTraitAnswers(
@@ -181,11 +186,13 @@ function DescribePanel({
 
   useEffect(() => {
     resetForm();
-  }, [profileId]);
+    onScrollToTop();
+  }, [profileId, onScrollToTop]);
 
   useEffect(() => {
     onComparisonChange(comparison !== null);
-  }, [comparison, onComparisonChange]);
+    onScrollToTop();
+  }, [comparison, onComparisonChange, onScrollToTop]);
 
   const handleSkip = async () => {
     if (!skipConfirming) {
@@ -203,6 +210,7 @@ function DescribePanel({
       await skipProfile(profileId, userId);
       resetForm();
       await onDone();
+      onScrollToTop();
     } catch (caughtError) {
       setError(
         caughtError instanceof Error ? caughtError.message : "Could not skip.",
@@ -228,6 +236,7 @@ function DescribePanel({
       await removeProfile(profileId, userId);
       resetForm();
       await onDone();
+      onScrollToTop();
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -258,6 +267,7 @@ function DescribePanel({
       await reportProfile(profileId, userId, reportReason, reportExplanation);
       resetForm();
       await onDone();
+      onScrollToTop();
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -294,6 +304,7 @@ function DescribePanel({
         },
         actual,
       });
+      onScrollToTop();
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -318,6 +329,7 @@ function DescribePanel({
           try {
             resetForm();
             await onDone();
+            onScrollToTop();
           } catch (caughtError) {
             setError(
               caughtError instanceof Error
@@ -550,7 +562,7 @@ function RevealComparison({
                     tintedTextStyle(submittedAnswer),
                   ]}
                 >
-                  {formatTraitValue(question.key, submittedAnswer)}
+                  {submittedAnswer}
                 </Text>
               </View>
               <View style={styles.resultRow}>
@@ -562,9 +574,7 @@ function RevealComparison({
                     tintedTextStyle(actualAnswer),
                   ]}
                 >
-                  {actualAnswer
-                    ? formatTraitValue(question.key, actualAnswer)
-                    : "Not answered"}
+                  {actualAnswer ? actualAnswer : "Not answered"}
                 </Text>
               </View>
             </View>
