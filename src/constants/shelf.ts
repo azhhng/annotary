@@ -1,1 +1,1 @@
-export const shelfDescriptionMaxLength = 150;
+export const shelfDescriptionMaxLength = 250;

@@ -13,7 +13,7 @@ export function AdjectivePicker({
   selected,
   onChange,
   max = 3,
-  title = "Pick three adjectives",
+  title = "Your essence in three words",
 }: {
   selected: string[];
   onChange: (next: string[]) => void;
