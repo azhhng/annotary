@@ -99,73 +99,73 @@ export function ShelfSetupScreen({
 
   const content = (
     <>
-        <ScreenHeader
-          title="Start with your shelf"
-          body="Add six books and do a quick questionnaire so other readers have something real to compare their impressions against."
+      <ScreenHeader
+        title="Start with your shelf"
+        body="Add six books and do a quick questionnaire so other readers have something real to compare their impressions against."
+      />
+
+      <View style={styles.disclaimerBanner}>
+        <Text style={styles.disclaimerText}>
+          Do not include important plot spoilers in your notes, it may result in
+          an account ban.
+        </Text>
+      </View>
+
+      <View style={styles.list}>
+        {books.map((book) => (
+          <BookEditRow
+            key={book.slot}
+            book={book}
+            prompt={bookQuestions[book.slot]}
+            onChange={(field, value) => updateBook(book.slot, field, value)}
+          />
+        ))}
+      </View>
+
+      <View style={styles.section}>
+        <SectionHeader
+          title="Your self portrait"
+          body="These are your answers. Later, the Essence tab compares them with what strangers guessed from your shelf."
         />
-
-        <View style={styles.disclaimerBanner}>
-          <Text style={styles.disclaimerText}>
-            Do not include important plot spoilers in your notes, it may result
-            in an account ban.
-          </Text>
-        </View>
-
-        <View style={styles.list}>
-          {books.map((book) => (
-            <BookEditRow
-              key={book.slot}
-              book={book}
-              prompt={bookQuestions[book.slot]}
-              onChange={(field, value) => updateBook(book.slot, field, value)}
+        <View style={[styles.formPanel, styles.sectionContent]}>
+          {traitQuestions.map((question) => (
+            <SegmentQuestion
+              key={question.key}
+              title={question.selfTitle ?? question.title}
+              options={question.options}
+              active={traitAnswers[question.key]}
+              wide={question.wide}
+              onSelect={(answer) =>
+                setTraitAnswers({
+                  ...traitAnswers,
+                  [question.key]: answer,
+                })
+              }
             />
           ))}
         </View>
+      </View>
 
-        <View style={styles.section}>
-          <SectionHeader
-            title="Your self portrait"
-            body="These are your answers. Later, the Essence tab compares them with what strangers guessed from your shelf."
-          />
-          <View style={[styles.formPanel, styles.sectionContent]}>
-            {traitQuestions.map((question) => (
-              <SegmentQuestion
-                key={question.key}
-                title={question.selfTitle ?? question.title}
-                options={question.options}
-                active={traitAnswers[question.key]}
-                wide={question.wide}
-                onSelect={(answer) =>
-                  setTraitAnswers({
-                    ...traitAnswers,
-                    [question.key]: answer,
-                  })
-                }
-              />
-            ))}
-          </View>
-        </View>
+      <View style={styles.section}>
+        <AdjectivePicker
+          selected={selectedAdjectives}
+          onChange={setSelectedAdjectives}
+        />
+      </View>
 
-        <View style={styles.section}>
-          <AdjectivePicker
-            selected={selectedAdjectives}
-            onChange={setSelectedAdjectives}
-          />
-        </View>
+      <View style={styles.disclaimerBanner}>
+        <Text style={styles.disclaimerText}>
+          Once you submit your answers, your shelf will be sent out into the
+          world for strangers to read.
+        </Text>
+      </View>
 
-        <View style={styles.disclaimerBanner}>
-          <Text style={styles.disclaimerText}>
-            Once you submit your answers, your shelf will be sent out into the
-            world for strangers to review.
-          </Text>
-        </View>
-
-        <View style={styles.readFooterActions}>
-          {error && <Text style={styles.errorText}>{error}</Text>}
-          <Button disabled={!canSubmit} onPress={handleSave}>
-            {busy ? "Saving..." : "Save shelf"}
-          </Button>
-        </View>
+      <View style={styles.readFooterActions}>
+        {error && <Text style={styles.errorText}>{error}</Text>}
+        <Button disabled={!canSubmit} onPress={handleSave}>
+          {busy ? "Saving..." : "Save shelf"}
+        </Button>
+      </View>
     </>
   );
 

@@ -9,7 +9,7 @@ import { styles } from "../styles";
 const instructions = [
   "Curate your shelf and identify your essence in the Self tab.",
   "Read others in the Strangers tab.",
-  "Skip profiles you do not want to review right now, and remove profiles you never want to see again.",
+  "Skip profiles you do not want to read right now, and remove profiles you never want to see again.",
   "View how others have read you in the Essence tab.",
 ];
 
