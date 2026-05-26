@@ -36,7 +36,7 @@ const personalityColors = {
 } satisfies Record<string, PersonalityColor>;
 
 const colorByWord: Record<string, PersonalityColor> = {
-  Spring: personalityColors.blush,
+  Spring: personalityColors.sage,
   Summer: personalityColors.sun,
   Autumn: personalityColors.ember,
   Winter: personalityColors.frost,
@@ -86,10 +86,6 @@ const colorByWord: Record<string, PersonalityColor> = {
   Philosophical: personalityColors.lilac,
   Academic: personalityColors.slate,
   Analytical: personalityColors.frost,
-  Only: personalityColors.lilac,
-  Youngest: personalityColors.sun,
-  Middle: personalityColors.sage,
-  Eldest: personalityColors.slate,
 };
 
 export function getPersonalityColor(word: string) {
