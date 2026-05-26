@@ -86,7 +86,10 @@ export const styles = StyleSheet.create({
   },
   personalityLabel: {
     fontFamily: fonts.app,
+    flexBasis: 0,
+    flexGrow: 1,
     flexShrink: 1,
+    minWidth: 0,
     color: colors.muted,
     fontSize: 12,
     lineHeight: 17,

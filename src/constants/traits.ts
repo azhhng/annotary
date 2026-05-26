@@ -46,7 +46,7 @@ export const traitQuestions: TraitQuestion[] = [
   {
     key: "outsidePreference",
     title: "Preferred destination",
-    options: ["City", "Beach", "Mountains"],
+    options: ["City", "Beach", "Mountain"],
   },
   {
     key: "tastePreference",
