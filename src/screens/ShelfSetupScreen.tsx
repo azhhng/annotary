@@ -9,7 +9,7 @@ import { ScreenHeader } from "../components/ScreenHeader";
 import { SectionHeader } from "../components/SectionHeader";
 import { SegmentQuestion } from "../components/SegmentQuestion";
 import { bookQuestions } from "../constants/books";
-import { traitQuestions } from "../constants/traits";
+import { hasAllTraitAnswers, traitQuestions } from "../constants/traits";
 import { saveMyShelf } from "../data/annotaryRepository";
 import { styles } from "../styles";
 import type { BookSlot, ShelfBookInput, TraitAnswers } from "../types";
@@ -53,7 +53,7 @@ export function ShelfSetupScreen({
           book.author.trim().length > 0 &&
           book.why.trim().length > 0,
       ) &&
-      traitQuestions.every((question) => traitAnswers[question.key]) &&
+      hasAllTraitAnswers(traitAnswers) &&
       selectedAdjectives.length === 3 &&
       !busy,
     [books, selectedAdjectives.length, traitAnswers, busy],

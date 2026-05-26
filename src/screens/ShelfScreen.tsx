@@ -12,7 +12,10 @@ import {
   tintedPillStyle,
   tintedTextStyle,
 } from "../constants/personalityColors";
-import { traitQuestions } from "../constants/traits";
+import {
+  hasAllTraitAnswers,
+  traitQuestions,
+} from "../constants/traits";
 import { formatTraitValue } from "../lib/formatTraitValue";
 import {
   getMySelfProfile,
@@ -111,7 +114,10 @@ export function ShelfScreen({
   };
 
   const canSaveSelf =
-    draftAnswers !== null && draftAdjectives.length === 3 && !savingSelf;
+    draftAnswers !== null &&
+    hasAllTraitAnswers(draftAnswers) &&
+    draftAdjectives.length === 3 &&
+    !savingSelf;
 
   const saveSelf = async () => {
     if (!canSaveSelf || !userId || !draftAnswers) {

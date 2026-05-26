@@ -1,15 +1,6 @@
-import type { TraitAnswerKey, TraitAnswers } from "../types";
+import { traitQuestions } from "../constants/traits";
+import type { TraitAnswers } from "../types";
 import { formatTraitValue } from "./formatTraitValue";
-
-const traitOrder: TraitAnswerKey[] = [
-  "socialEnergy",
-  "lifePerspective",
-  "birthOrder",
-  "reasoningStyle",
-  "personalityType",
-  "favoriteSeason",
-  "zodiacSign",
-];
 
 function slugify(value: string) {
   return value.trim().toLowerCase().replace(/\s+/g, "-");
@@ -33,11 +24,11 @@ export function buildPersonalityLabel(
 ): string | null {
   if (!answers) return null;
 
-  const slugs = traitOrder
-    .map((key) => {
-      const value = answers[key];
+  const slugs = traitQuestions
+    .map((question) => {
+      const value = answers[question.key];
       if (!value || !value.trim()) return null;
-      return slugify(formatTraitValue(key, value));
+      return slugify(formatTraitValue(question.key, value));
     })
     .filter((slug): slug is string => slug !== null);
 

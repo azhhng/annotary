@@ -35,14 +35,7 @@ export type ShelfSetupInput = {
   selfAdjectives: string[];
 };
 
-export type TraitAnswerKey =
-  | "socialEnergy"
-  | "lifePerspective"
-  | "birthOrder"
-  | "reasoningStyle"
-  | "personalityType"
-  | "favoriteSeason"
-  | "zodiacSign";
+export type TraitAnswerKey = string;
 
 export type TraitAnswers = Record<TraitAnswerKey, string>;
 

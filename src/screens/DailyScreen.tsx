@@ -13,7 +13,11 @@ import {
   tintedTextStyle,
 } from "../constants/personalityColors";
 import { emptyOthersQuotes } from "../constants/quotes";
-import { othersTraitQuestions } from "../constants/traits";
+import {
+  createEmptyTraitAnswers,
+  hasAllTraitAnswers,
+  othersTraitQuestions,
+} from "../constants/traits";
 import { formatTraitValue } from "../lib/formatTraitValue";
 import {
   getProfileReveal,
@@ -43,15 +47,7 @@ const reportReasons: Array<{ label: string; value: ReportReason }> = [
 const reportExplanationLimit = 250;
 const reportExplanationMinimum = 50;
 
-const emptyTraitAnswers: TraitAnswers = {
-  socialEnergy: "",
-  lifePerspective: "",
-  birthOrder: "",
-  reasoningStyle: "",
-  personalityType: "",
-  favoriteSeason: "",
-  zodiacSign: "",
-};
+const emptyTraitAnswers = createEmptyTraitAnswers(othersTraitQuestions);
 
 export function DailyScreen({
   userId,
@@ -151,8 +147,9 @@ function DescribePanel({
   onComparisonChange: (showing: boolean) => void;
 }) {
   const [traitAnswers, setTraitAnswers] = useState(emptyTraitAnswers);
-  const allTraitsAnswered = othersTraitQuestions.every(
-    (question) => traitAnswers[question.key] !== "",
+  const allTraitsAnswered = hasAllTraitAnswers(
+    traitAnswers,
+    othersTraitQuestions,
   );
   const canSubmit = selected.length === 3 && allTraitsAnswered;
   const [busy, setBusy] = useState(false);
@@ -266,7 +263,7 @@ function DescribePanel({
         caughtError instanceof Error
           ? caughtError.message
           : "Could not report this shelf.",
-        );
+      );
     } finally {
       setBusy(false);
     }
@@ -491,7 +488,11 @@ function ReportProfileModal({
             <Button variant="secondary" disabled={busy} onPress={onCancel}>
               Cancel
             </Button>
-            <Button variant="danger" disabled={!canSubmitReport} onPress={onSubmit}>
+            <Button
+              variant="danger"
+              disabled={!canSubmitReport}
+              onPress={onSubmit}
+            >
               {busy ? "Reporting..." : "Submit report"}
             </Button>
           </View>
@@ -519,13 +520,15 @@ function RevealComparison({
     <>
       <ScreenHeader
         title="How your read compared"
-        body="Your judgement is saved. Here is what they said about themself."
+        body="your judgement is saved, here is what they said about themself."
       />
       <View style={styles.list}>
         {othersTraitQuestions.map((question) => {
-          const submittedAnswer = submitted.answers[question.key];
-          const actualAnswer = actual.answers[question.key];
-          const matched = submittedAnswer === actualAnswer;
+          const submittedAnswer = submitted.answers[question.key] ?? "";
+          const actualAnswer = actual.answers[question.key] ?? "";
+          const matched =
+            submittedAnswer.trim().length > 0 &&
+            submittedAnswer === actualAnswer;
 
           return (
             <View
@@ -559,7 +562,9 @@ function RevealComparison({
                     tintedTextStyle(actualAnswer),
                   ]}
                 >
-                  {formatTraitValue(question.key, actualAnswer)}
+                  {actualAnswer
+                    ? formatTraitValue(question.key, actualAnswer)
+                    : "Not answered"}
                 </Text>
               </View>
             </View>

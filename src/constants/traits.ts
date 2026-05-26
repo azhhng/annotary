@@ -1,4 +1,4 @@
-import type { TraitAnswerKey, TraitQuestion } from "../types";
+import type { TraitAnswers, TraitQuestion } from "../types";
 
 export const zodiacSigns = [
   "Aries",
@@ -58,19 +58,23 @@ export const traitQuestions: TraitQuestion[] = [
   },
 ];
 
-// The Others tab leads with life perspective rather than social energy so the
-// describer starts with something inferrable from book choices instead of a
-// trait that requires meeting the person. Keep both orderings co-located.
-const othersTraitOrder: TraitAnswerKey[] = [
-  "lifePerspective",
-  "birthOrder",
-  "reasoningStyle",
-  "personalityType",
-  "socialEnergy",
-  "favoriteSeason",
-  "zodiacSign",
-];
+export const othersTraitQuestions: TraitQuestion[] = traitQuestions;
 
-export const othersTraitQuestions: TraitQuestion[] = othersTraitOrder
-  .map((key) => traitQuestions.find((question) => question.key === key))
-  .filter((question): question is TraitQuestion => question !== undefined);
+export function createEmptyTraitAnswers(
+  questions: TraitQuestion[] = traitQuestions,
+): TraitAnswers {
+  return Object.fromEntries(
+    questions.map((question) => [question.key, ""]),
+  ) as TraitAnswers;
+}
+
+export function hasAllTraitAnswers(
+  answers: Partial<TraitAnswers> | null | undefined,
+  questions: TraitQuestion[] = traitQuestions,
+) {
+  return questions.every((question) => {
+    const answer = answers?.[question.key];
+
+    return typeof answer === "string" && answer.trim().length > 0;
+  });
+}
