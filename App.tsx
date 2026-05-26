@@ -41,10 +41,10 @@ const screens: Array<{ id: Screen; label: string }> = [
 ];
 
 const gearIcon = require("./src/emoji-assets/gear.svg");
-const orangeBook = require("./src/emoji-assets/orange_book.svg");
+const aboutIcon = require("./src/emoji-assets/blue_book.svg");
 
 const iconScreens: Partial<Record<Screen, number>> = {
-  about: orangeBook,
+  about: aboutIcon,
   settings: gearIcon,
 };
 
@@ -397,10 +397,9 @@ export default function App() {
             <BrandLogo />
             <Text style={styles.authTitle}>Account banned</Text>
             <Text style={styles.screenBody}>
-              This account has been permanently banned from Annotary. Your
-              shelf is no longer being shown to other readers and you cannot use
-              the app. You can delete your account or
-              review Annotary's policies.
+              This account has been permanently banned from Annotary. Your shelf
+              is no longer being shown to other readers and you cannot use the
+              app. You can delete your account or review Annotary's policies.
             </Text>
             <Text style={styles.screenBody}>
               If you think this is a mistake, email mimibrews@gmail.com.

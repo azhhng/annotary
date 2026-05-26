@@ -111,6 +111,12 @@ const legalContent: Record<LegalPage, LegalContent> = {
         ],
       },
       {
+        title: "Third-party assets",
+        body: [
+          "Annotary uses Twemoji graphics. Twemoji graphics are copyright 2019 Twitter, Inc. and other contributors, and are licensed under CC-BY 4.0: https://creativecommons.org/licenses/by/4.0/. Twemoji code is licensed under the MIT License: http://opensource.org/licenses/MIT.",
+        ],
+      },
+      {
         title: "Changes",
         body: [
           "We may update these terms as the app changes. Continued use after an update means you accept the updated terms.",
