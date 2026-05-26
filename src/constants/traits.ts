@@ -44,6 +44,18 @@ export const traitQuestions: TraitQuestion[] = [
     options: ["Type A", "Type B"],
   },
   {
+    key: "outsidePreference",
+    title: "Preferred destination",
+    options: ["City", "Beach", "Mountains"],
+  },
+  {
+    key: "tastePreference",
+    title: "Preferred taste",
+    selfTitle: "What taste do you prefer?",
+    othersTitle: "Preferred taste",
+    options: ["Sweet", "Savory", "Sour"],
+  },
+  {
     key: "favoriteSeason",
     title: "Favorite season",
     options: ["Spring", "Summer", "Autumn", "Winter"],
