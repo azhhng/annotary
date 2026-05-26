@@ -534,7 +534,10 @@ export async function getEssenceResults(
   const { data: traitCounts, error: traitCountsError } = await supabase
     .from("trait_answer_counts")
     .select("trait_key,answer,count")
-    .eq("profile_id", userId);
+    .eq("profile_id", userId)
+    .order("trait_key", { ascending: true })
+    .order("count", { ascending: false })
+    .order("answer", { ascending: true });
 
   if (traitCountsError) {
     throw traitCountsError;
@@ -554,7 +557,9 @@ export async function getEssenceResults(
   const { data: adjectiveCounts, error: adjectiveCountsError } = await supabase
     .from("adjective_counts")
     .select("adjective,count")
-    .eq("profile_id", userId);
+    .eq("profile_id", userId)
+    .order("count", { ascending: false })
+    .order("adjective", { ascending: true });
 
   if (adjectiveCountsError) {
     throw adjectiveCountsError;

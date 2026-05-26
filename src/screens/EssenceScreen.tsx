@@ -74,14 +74,7 @@ export function EssenceScreen({ userId }: EssenceScreenProps) {
   }, [userId]);
 
   const answers = results?.answers ?? [];
-  const strangerAdjectives = useMemo(
-    () =>
-      [...(results?.strangerAdjectives ?? [])].sort(
-        (first, second) =>
-          second.count - first.count || first.word.localeCompare(second.word),
-      ),
-    [results],
-  );
+  const strangerAdjectives = results?.strangerAdjectives ?? [];
   const visibleStrangerAdjectives = useMemo(
     () =>
       showAllWords
