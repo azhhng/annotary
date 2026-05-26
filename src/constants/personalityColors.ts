@@ -24,15 +24,16 @@ function createPersonalityColor(tint: string, text: string): PersonalityColor {
 }
 
 const personalityColors = {
-  blush: createPersonalityColor("#ff7aa8", "#c43a6b"),
-  sun: createPersonalityColor("#efbe4a", "#db960b"),
-  ember: createPersonalityColor("#dc8d68", "#c44510"),
-  frost: createPersonalityColor("#4cb8e6", "#1f6e96"),
-  sage: createPersonalityColor("#6dd158", "#3a8530"),
-  lilac: createPersonalityColor("#ffbe96", "#c9684a"),
-  rose: createPersonalityColor("#ff5e7e", "#c43350"),
-  slate: createPersonalityColor("#8aa6c2", "#4a5f7a"),
-  basic: createPersonalityColor("#856172", "#562a44"),
+  blush: createPersonalityColor("#ffb3c9", "#d8588a"),
+  sun: createPersonalityColor("#ffd966", "#d49a1a"),
+  ember: createPersonalityColor("#ffae7a", "#d96a2c"),
+  frost: createPersonalityColor("#9bd5f0", "#3a8ab8"),
+  sage: createPersonalityColor("#a8e0a0", "#52a548"),
+  violet: createPersonalityColor("#c8a8e8", "#7a52b8"),
+  rose: createPersonalityColor("#f56565", "#c0292e"),
+  slate: createPersonalityColor("#8aacd0", "#3f5f85"),
+  onyx: createPersonalityColor("#8a8aa0", "#3a3a4a"),
+  basic: createPersonalityColor("#c8a8b8", "#7a4a62"),
 } satisfies Record<string, PersonalityColor>;
 
 const colorByWord: Record<string, PersonalityColor> = {
@@ -40,52 +41,68 @@ const colorByWord: Record<string, PersonalityColor> = {
   Summer: personalityColors.sun,
   Autumn: personalityColors.ember,
   Winter: personalityColors.frost,
-  Nostalgic: personalityColors.blush,
-  Melancholic: personalityColors.frost,
-  Sentimental: personalityColors.blush,
-  Passionate: personalityColors.ember,
-  Fierce: personalityColors.ember,
-  Obsessive: personalityColors.rose,
-  Restless: personalityColors.sun,
-  Whimsical: personalityColors.lilac,
-  Chaotic: personalityColors.ember,
+
+  // LIGHT BLUE
+  Calm: personalityColors.frost,
+  Quiet: personalityColors.frost,
+  Gentle: personalityColors.frost,
+  Empathetic: personalityColors.frost,
+  Loyal: personalityColors.frost,
+  Reliable: personalityColors.frost,
+
+  // ORANGE
+  Nurturing: personalityColors.ember,
+  Sensitive: personalityColors.ember,
+  Sentimental: personalityColors.ember,
+  Nostalgic: personalityColors.ember,
+  Melancholic: personalityColors.ember,
+
+  // RED
+  Tortured: personalityColors.rose,
+  Anxious: personalityColors.rose,
+  Restless: personalityColors.rose,
+  Scattered: personalityColors.rose,
+  Indecisive: personalityColors.rose,
+  Avoidant: personalityColors.rose,
+  Defensive: personalityColors.rose,
+  Fierce: personalityColors.rose,
+  Passionate: personalityColors.rose,
+
+  // PURPLE
+  Dramatic: personalityColors.violet,
+  Obsessive: personalityColors.violet,
+  Ambitious: personalityColors.violet,
+  Daring: personalityColors.violet,
+  Adventurous: personalityColors.violet,
+  Chaotic: personalityColors.violet,
+  Mischievous: personalityColors.violet,
+  Rebellious: personalityColors.violet,
+  Independent: personalityColors.violet,
+
+  // BLACK
+  Stubborn: personalityColors.onyx,
+  Selective: personalityColors.onyx,
+  Pretentious: personalityColors.onyx,
+  Contrarian: personalityColors.onyx,
+
+  // DARK BLUE
+  Analytical: personalityColors.slate,
+  Predictable: personalityColors.slate,
+  Practical: personalityColors.slate,
+  Academic: personalityColors.slate,
+  Philosophical: personalityColors.slate,
+  Perceptive: personalityColors.slate,
+
+  // YELLOW
+  Curious: personalityColors.sun,
+  Whimsical: personalityColors.sun,
   Silly: personalityColors.sun,
   Spontaneous: personalityColors.sun,
-  Mischievous: personalityColors.rose,
-  Practical: personalityColors.sage,
-  Calm: personalityColors.frost,
-  Reliable: personalityColors.sage,
-  Rebellious: personalityColors.ember,
-  Daring: personalityColors.ember,
-  Contrarian: personalityColors.slate,
-  Gentle: personalityColors.sage,
-  Empathetic: personalityColors.blush,
-  Nurturing: personalityColors.sage,
-  Witty: personalityColors.sun,
-  Perceptive: personalityColors.frost,
-  Curious: personalityColors.lilac,
-  Adventurous: personalityColors.sun,
-  Sensitive: personalityColors.blush,
-  Ambitious: personalityColors.ember,
-  Stubborn: personalityColors.slate,
-  Loyal: personalityColors.sage,
-  Anxious: personalityColors.frost,
-  Dramatic: personalityColors.rose,
-  Quiet: personalityColors.frost,
-  Independent: personalityColors.slate,
-  Pretentious: personalityColors.lilac,
-  Predictable: personalityColors.sage,
-  Indecisive: personalityColors.lilac,
-  Avoidant: personalityColors.slate,
-  Scattered: personalityColors.sun,
-  Selective: personalityColors.slate,
-  Defensive: personalityColors.ember,
-  Tortured: personalityColors.slate,
-  Charming: personalityColors.blush,
   Carefree: personalityColors.sun,
-  Philosophical: personalityColors.lilac,
-  Academic: personalityColors.slate,
-  Analytical: personalityColors.frost,
+
+  // PINK
+  Charming: personalityColors.blush,
+  Witty: personalityColors.blush,
 };
 
 export function getPersonalityColor(word: string) {

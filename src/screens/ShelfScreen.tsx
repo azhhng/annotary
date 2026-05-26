@@ -330,7 +330,7 @@ export function ShelfScreen({
                       <Text
                         key={key}
                         style={[
-                          styles.chipStrong,
+                          styles.chip,
                           tintedPillStyle(value),
                           tintedTextStyle(value),
                         ]}
@@ -347,7 +347,7 @@ export function ShelfScreen({
                     <Text
                       key={word}
                       style={[
-                        styles.chipStrong,
+                        styles.chip,
                         tintedPillStyle(word),
                         tintedTextStyle(word),
                       ]}
