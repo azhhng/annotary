@@ -291,7 +291,9 @@ export function LandingScreen({
               Community Guidelines
             </Text>
           </View>
-          <DeveloperCredit />
+          <View style={{ alignSelf: "center" }}>
+            <DeveloperCredit />
+          </View>
         </View>
       </ScrollView>
     </View>
