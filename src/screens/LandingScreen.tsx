@@ -131,7 +131,7 @@ export function LandingScreen({
     <View style={styles.appShell}>
       <View style={styles.topBar}>
         <View style={styles.landingTopBarRow}>
-          <View style={[styles.brandRow, { flex: 1, minWidth: 0 }]}>
+          <View style={styles.brandRow}>
             <BrandLogo />
             <Text style={styles.tagline}>
               what do six books say about a person?

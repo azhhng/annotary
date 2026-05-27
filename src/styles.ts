@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
   brandRow: {
     flexDirection: "row",
     alignItems: "flex-end",
+    flexShrink: 1,
     gap: 10,
     flexWrap: "wrap",
   },
