@@ -19,6 +19,7 @@ import { AboutScreen } from "./src/screens/AboutScreen";
 import { AuthScreen } from "./src/screens/AuthScreen";
 import { DailyScreen } from "./src/screens/DailyScreen";
 import { EssenceScreen } from "./src/screens/EssenceScreen";
+import { LandingScreen } from "./src/screens/LandingScreen";
 import { LegalScreen, type LegalPage } from "./src/screens/LegalScreen";
 import { SettingsScreen } from "./src/screens/SettingsScreen";
 import { ShelfSetupScreen } from "./src/screens/ShelfSetupScreen";
@@ -102,6 +103,7 @@ export default function App() {
     getCurrentLegalPage,
   );
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [showAuth, setShowAuth] = useState(false);
   const [legalReturnScreen, setLegalReturnScreen] = useState<Screen>("about");
   const [session, setSession] = useState<Session | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -220,6 +222,7 @@ export default function App() {
 
       if (previousUserIdRef.current !== nextUserId) {
         setScreen("shelf");
+        setShowAuth(false);
       }
 
       previousUserIdRef.current = nextUserId;
@@ -397,6 +400,25 @@ export default function App() {
   }
 
   if (!session) {
+    if (!showAuth) {
+      return (
+        <SafeAreaView style={styles.safeArea}>
+          <StatusBar style="dark" />
+          <LandingScreen
+            onCreateAccount={() => {
+              setAuthMode("signup");
+              setShowAuth(true);
+            }}
+            onLogIn={() => {
+              setAuthMode("login");
+              setShowAuth(true);
+            }}
+            onOpenLegalPage={(page) => openLegalPage(page, "about")}
+          />
+        </SafeAreaView>
+      );
+    }
+
     return (
       <SafeAreaView style={styles.safeArea}>
         <StatusBar style="dark" />
@@ -404,6 +426,7 @@ export default function App() {
           mode={authMode}
           onModeChange={setAuthMode}
           onOpenLegalPage={(page) => openLegalPage(page, "about")}
+          onBack={() => setShowAuth(false)}
         />
       </SafeAreaView>
     );

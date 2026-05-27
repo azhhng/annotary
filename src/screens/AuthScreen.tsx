@@ -13,10 +13,12 @@ export function AuthScreen({
   mode,
   onModeChange,
   onOpenLegalPage,
+  onBack,
 }: {
   mode: AuthMode;
   onModeChange: (mode: AuthMode) => void;
   onOpenLegalPage: (page: LegalPage) => void;
+  onBack?: () => void;
 }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -90,6 +92,15 @@ export function AuthScreen({
   return (
     <View style={styles.authShell}>
       <View style={styles.authPanel}>
+        {onBack && (
+          <Pressable
+            accessibilityRole="link"
+            onPress={onBack}
+            style={styles.authBackLink}
+          >
+            <Text style={styles.authBackLinkText}>← Back</Text>
+          </Pressable>
+        )}
         <BrandLogo />
         <Text style={styles.authTitle}>
           {isSignup ? "Create your account" : "Log in to your account"}
