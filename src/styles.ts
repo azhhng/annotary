@@ -62,6 +62,7 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.2,
   },
   tagline: {
+    flexShrink: 1,
     color: colors.muted,
     fontSize: 13,
     lineHeight: 18,

@@ -131,10 +131,10 @@ export function LandingScreen({
     <View style={styles.appShell}>
       <View style={styles.topBar}>
         <View style={styles.landingTopBarRow}>
-          <View style={styles.brandRow}>
+          <View style={[styles.brandRow, { flex: 1, minWidth: 0 }]}>
             <BrandLogo />
             <Text style={styles.tagline}>
-              What do six books say about a person?
+              what do six books say about a person?
             </Text>
           </View>
           <View style={styles.landingActions}>
